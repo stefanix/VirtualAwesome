@@ -1,13 +1,25 @@
-Welcome to the VirtualAwesome library.
+Welcome to the VirtualAwesome framework.
 
-_va_ is a cross-platform library that is continuously tested on Xcode (OSX),
+_va_ is a cross-platform framework that is continuously tested on Xcode (OSX),
 bode::blocks (Linux), Visual Studio 9 (Windows), and Makefiles (OSX, Linux). 
-The Source code comes with all necessary dependencies and is
-easy to build. If this is not the case and you run into issues please let us know on the discussion list: http://groups.google.com/group/va-users
+Each release comes with all necessary dependencies and is easy to build. If
+this is not the case and you run into issues please let us know on the
+discussion list: http://groups.google.com/group/va-users
 
-The project files for the preferred build system/IDE can be generated 
-with cmake. On all supported platforms you can download the graphical 
-cmake utility (cmake-gui) and do this with a few clicks. For details check the documentation wiki: http://code.google.com/p/virtualawesome/wiki/GettingStarted
+The project files for the preferred build system/IDE can be generated with
+cmake. On all supported platforms you can download the graphical cmake utility
+(cmake-gui) and do this with a few clicks. For details check the documentation
+wiki: http://code.google.com/p/virtualawesome/wiki/GettingStarted
+
+If you are on the bleeding edge and want to work directly with the git/svn
+files make sure you also get all the support libraries. Precompiled drop-in
+packages can copied from the release package. Hit the discussion list if you
+have questions.
+
+Linux: osg-linux, opencv-linux, dc1394-linux, ...
+OSX: freetype-osx, osg-osx, opencv-osx, dc1394-osx, ...
+Windows: freetype-win32, jpeg-win32, osg-win32, png-win32, 
+         zlib-win32, opencv-win32, flyCapture-win32, ...
 
 ---
 
