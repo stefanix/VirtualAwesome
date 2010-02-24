@@ -1,0 +1,44 @@
+
+
+
+.*
+!.gitignore
+
+
+### XCode stuff
+#
+build
+*.xcodeproj
+
+### CMake stuff
+#
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+cmake_install.cmake
+
+
+### VirtualAwesome related
+#
+bin
+touchkit-drag
+
+# osx libs
+freetype-osx
+osg-osx
+opencv-osx
+dc1394-osx
+
+# windows libs
+freetype-win32
+jpeg-win32
+osg-win32
+png-win32
+zlib-win32
+opencv-win32
+flyCapture-win32
+
+# linux libs
+osg-linux
+opencv-linux
+dc1394-linux
