@@ -342,6 +342,11 @@ IF( BUILD_ADDON_VA_MICE )
 	ADD_SUBDIRECTORY( addons/vaMice )
 ENDIF()
 
+OPTION( BUILD_ADDON_VA_TWEEN "Build the vaTween addon." ON)
+IF( BUILD_ADDON_VA_TWEEN )
+	ADD_SUBDIRECTORY( addons/vaTween )
+ENDIF()
+
 OPTION( BUILD_ADDON_VA_SOUND "Build the vaSound addon." ON)
 IF( BUILD_ADDON_VA_SOUND )
 	ADD_SUBDIRECTORY( addons/vaSound )
@@ -369,6 +374,10 @@ IF( BUILD_EXAMPLES )
 	IF( BUILD_ADDON_VA_SOUND )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundSine )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundInstrument )
+	ENDIF()
+
+	IF( BUILD_ADDON_VA_TWEEN )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleTween )
 	ENDIF()
 		
 	ADD_SUBDIRECTORY( apps/examples/exampleKeymouse )
