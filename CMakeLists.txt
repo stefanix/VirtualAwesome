@@ -347,6 +347,11 @@ IF( BUILD_ADDON_VA_SOUND )
 	ADD_SUBDIRECTORY( addons/vaSound )
 ENDIF()
 
+OPTION( BUILD_ADDON_VA_NETWORK "Build the vaNetwork addon." ON)
+IF( BUILD_ADDON_VA_NETWORK )
+	ADD_SUBDIRECTORY( addons/vaNetwork )
+ENDIF()
+
 
 ###########################################
 # EXAMPLES
@@ -370,6 +375,10 @@ IF( BUILD_EXAMPLES )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundSine )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundInstrument )
 	ENDIF()
+	
+	IF( BUILD_ADDON_VA_NETWORK )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleTcpServer )
+	ENDIF()	
 		
 	ADD_SUBDIRECTORY( apps/examples/exampleKeymouse )
 	ADD_SUBDIRECTORY( apps/examples/exampleShapes )
