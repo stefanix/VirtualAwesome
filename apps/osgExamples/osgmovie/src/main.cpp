@@ -746,7 +746,6 @@ USE_OSGPLUGIN(freetype)
 
 #if defined( TARGET_OSX )
 USE_OSGPLUGIN(quicktime)
-USE_OSGPLUGIN(ffmpeg)
 USE_OSGPLUGIN(bmp)
 USE_OSGPLUGIN(osg)
 USE_OSGPLUGIN(obj)
@@ -771,8 +770,4 @@ USE_OSGPLUGIN(stl)
 #endif
 
 // include the platform specific GraphicsWindow implementation.
-#if defined(__APPLE__) 
-USE_GRAPICSWINDOW_IMPLEMENTATION(Cocoa) 
-#else 
 USE_GRAPHICSWINDOW() 
-#endif 

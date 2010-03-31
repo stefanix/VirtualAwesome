@@ -109,14 +109,7 @@ IF(APPLE)
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgDB.a 
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgUtil.a 
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosg.a 
-		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libOpenThreads.a		
-
-		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgdb_ffmpeg.a 
-		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavcodec.a	
-		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavdevice.a	
-		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavformat.a	
-		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavutil.a	
-		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libswscale.a	
+		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libOpenThreads.a	
 	)
 
 
