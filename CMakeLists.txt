@@ -50,6 +50,7 @@ IF(APPLE)
 	FIND_LIBRARY(AGL_LIBRARY AGL)
 	FIND_LIBRARY(APP_SERVICES_LIBRARY ApplicationServices )
 	FIND_LIBRARY(ATBOX_LIBRARY AudioToolbox)
+	FIND_LIBRARY(COCOA_LIBRARY Cocoa)
 	FIND_LIBRARY(CARBON_LIBRARY Carbon)
 	FIND_LIBRARY(CAUDIO_LIBRARY CoreAudio)
 	FIND_LIBRARY(CFOUNDATION_LIBRARY CoreFoundation)
@@ -61,6 +62,7 @@ IF(APPLE)
 	MARK_AS_ADVANCED (AGL_LIBRARY
 			 APP_SERVICES_LIBRARY
 			 ATBOX_LIBRARY
+			 COCOA_LIBRARY
 			 CARBON_LIBRARY
 			 CAUDIO_LIBRARY
 			 CFOUNDATION_LIBRARY
@@ -71,6 +73,7 @@ IF(APPLE)
 	SET(OSX_FRAMEWORKS ${AGL_LIBRARY} 
 	                   ${APP_SERVICES_LIBRARY} 
 	                   ${ATBOX_LIBRARY} 
+	                   ${COCOA_LIBRARY} 
 	                   ${CARBON_LIBRARY} 
 	                   ${CAUDIO_LIBRARY} 
 	                   ${CFOUNDATION_LIBRARY} 
@@ -91,7 +94,7 @@ IF(APPLE)
 	#
 	SET( VA_LINK_LIBRARIES
 		${OSX_FRAMEWORKS}
-		${PROJECT_SOURCE_DIR}/libs/freetype-osx/lib/freetype.a	
+		${PROJECT_SOURCE_DIR}/libs/freetype-osx/lib/libfreetype.a	
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgViewer.a 
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgdb_freetype.a 
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgdb_qt.a 
@@ -107,6 +110,13 @@ IF(APPLE)
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgUtil.a 
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosg.a 
 		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libOpenThreads.a		
+
+		${PROJECT_SOURCE_DIR}/libs/osg-osx/lib/libosgdb_ffmpeg.a 
+		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavcodec.a	
+		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavdevice.a	
+		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavformat.a	
+		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libavutil.a	
+		${PROJECT_SOURCE_DIR}/libs/ffmpeg-osx/lib/libswscale.a	
 	)
 
 
@@ -357,8 +367,13 @@ ENDIF()
 # EXAMPLES
 ###########################################
 
-OPTION( BUILD_EXAMPLES "Build the stock examples." ON)
-IF( BUILD_EXAMPLES )
+OPTION( BUILD_OSG_EXAMPLES "Build the OSG (only) stock examples." OFF)
+IF( BUILD_OSG_EXAMPLES )
+	ADD_SUBDIRECTORY( apps/osgExamples/osgmovie )
+ENDIF()	
+	
+OPTION( BUILD_VA_EXAMPLES "Build the VirtualAwesome stock examples." ON)
+IF( BUILD_VA_EXAMPLES )	
 	IF( BUILD_ADDON_VA_TOUCHKIT )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleTouchkitSimple )
 	ENDIF()

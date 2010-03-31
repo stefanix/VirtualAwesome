@@ -54,7 +54,6 @@ USE_OSGPLUGIN(quicktime)
 USE_OSGPLUGIN(bmp)
 USE_OSGPLUGIN(osg)
 USE_OSGPLUGIN(obj)
-USE_OSGPLUGIN(3ds)
 USE_OSGPLUGIN(dxf)
 USE_OSGPLUGIN(stl)
 #elif defined( TARGET_LINUX )
@@ -63,7 +62,6 @@ USE_OSGPLUGIN(jpeg)
 USE_OSGPLUGIN(bmp)
 USE_OSGPLUGIN(osg)
 USE_OSGPLUGIN(obj)
-USE_OSGPLUGIN(3ds)
 USE_OSGPLUGIN(dxf)
 USE_OSGPLUGIN(stl)
 #elif defined( TARGET_WIN32 )
@@ -72,12 +70,12 @@ USE_OSGPLUGIN(jpeg)
 USE_OSGPLUGIN(bmp)
 USE_OSGPLUGIN(osg)
 USE_OSGPLUGIN(obj)
-USE_OSGPLUGIN(3ds)
 USE_OSGPLUGIN(dxf)
 USE_OSGPLUGIN(stl)
 #endif
 
 // include the platform specific GraphicsWindow implementation.
-USE_GRAPHICSWINDOW()
+USE_GRAPHICSWINDOW() 
+
 
 #endif
