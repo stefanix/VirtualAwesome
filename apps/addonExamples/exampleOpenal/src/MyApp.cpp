@@ -5,81 +5,59 @@
 
 MyApp::MyApp(){
     
-    // load mono sound
-    sound = new vaOpenal::SoundPlayer("fx1.wav");
-    sound->setPan(0);
-    sound->setVolume(0.4);
-    sound->play();
-    
-    // load stereo sound
-    drums = new vaOpenal::SoundPlayer("drumloop.wav");
-    drums->setLoop(true);
-    drums->setPan(0);
-    drums->setVolume(1.0f);
+    //long sound, stream
+    beat = new vaOpenal::SoundPlayer("savannadrum.ogg",true);
+    beat->setLoop(true);
+    beat->play();
 
-    // load stream
-    music = new vaOpenal::SoundPlayer("bells.ogg",true);
-    music->setLoop(true);
-    music->play();
+	//stereo sound
+    swosh = new vaOpenal::SoundPlayer("swosh_stereo.wav");
+	swosh->setVolume(0.8f); 
 
-	//load one-shot
-    gunshot = new vaOpenal::SoundPlayer("gunshot.wav");
-	gunshot->setVolume(0.7f);
-
-    // load mono sound, set multi-play (only works on mono sounds)
-    multiplay = new vaOpenal::SoundPlayer("drumloop_mono.wav");
-    multiplay->setMultiPlay(true);    
+    //mono sound and multiplay
+    //can be triggered multiple times simultaneously
+    //works only with mono sounds
+    sonar = new vaOpenal::SoundPlayer("sonar_mono.aiff");
+    sonar->setMultiPlay(true);    
 
     
     // setup some widgets
     //
-    panel1 = new va::PanelWidget(300,200);
-    panel1->setLabel("MyPanel");
-    panel1->setPosition(200,500);
-    panel1->setPivot(150,100,0);
-    scene->addChild(panel1);
-
-    va::ButtonWidget* button1 = new va::ButtonWidget(200,40);
-    button1->setLabel("Reset Rotation");
-    button1->setPivot(100,25,0);
-    button1->setPosition(150,50);
-    button1->addEventHandler(this);
-    panel1->addChild(button1);
-
-    slider1 = new va::SliderWidget(240,40);
-    slider1->setLabel("Rotation");
-    slider1->setPosition(30,100);
-    slider1->setValueMin(-va::PI);
-    slider1->setValueMax(va::PI);
-    slider1->addEventHandler(this);
-    panel1->addChild(slider1); 
-
-    slider2 = new va::SliderWidget(400,40);
-    slider2->setLabel("Scale");
-    slider2->setPivot(200,20,0);
-    slider2->setPosition(450,500);
-    slider2->addRotationZ(va::PI/2);
-    slider2->setValueMin(0.0f);
-    slider2->setValueMax(2.0f);
-    slider2->addEventHandler(this);
-    scene->addChild(slider2); 
-
-    panel2 = new va::PanelWidget(300,140);
-    panel2->setPivot(150,70,0);
-    panel2->setPosition(700,500,0);
-    scene->addChild(panel2);
+    float widthHalf = 0.5*scene->getWidth();
     
-    textbox1 = new va::TextShape(300,140);
-    textbox1->setName("MyTextfield");
-    textbox1->setText("This example is written for multitouch pads typically found in Apple notebooks. The regular mouse pointer is deactivated and each touch on the pad becomes a pointer of its own. ");
-    textbox1->setPadding(20.0f);
-    panel2->addChild(textbox1);
+    sliderFreq = new va::SliderWidget(300,40);
+    sliderFreq->setLabel("Speed");
+    sliderFreq->setPivot(150,20,0);    
+    sliderFreq->setPosition(widthHalf,500);
+    sliderFreq->setValueMin(0.5);
+    sliderFreq->setValueMax(1.5);
+    sliderFreq->setValue(1.0);
+    sliderFreq->addEventHandler(this);
+    scene->addChild(sliderFreq); 
+
+    sliderVol = new va::SliderWidget(300,40);
+    sliderVol->setLabel("Volume");
+    sliderVol->setPivot(150,20,0);
+    sliderVol->setPosition(widthHalf,440);
+    sliderVol->setValueMin(0.0);
+    sliderVol->setValueMax(1.0);
+    sliderVol->addEventHandler(this);
+    sliderVol->setValue(0.5);    
+    scene->addChild(sliderVol); 
     
-    toggle1 = new va::ToggleWidget(180,40);
-    toggle1->setLabel("Make Text Red");
-    toggle1->setPosition(0,-50);
-    toggle1->addEventHandler(this);
-    panel2->addChild(toggle1);  
+    va::ButtonWidget* buttonSwosh = new va::ButtonWidget(200,40);
+    buttonSwosh->setLabel("Swosh!");
+    buttonSwosh->setPivot(100,25,0);
+    buttonSwosh->setPosition(widthHalf,380);
+    buttonSwosh->addEventHandler(this);
+    scene->addChild(buttonSwosh);
+
+    va::ButtonWidget* buttonSonar = new va::ButtonWidget(200,40);
+    buttonSonar->setLabel("Ping!");
+    buttonSonar->setPivot(100,25,0);
+    buttonSonar->setPosition(widthHalf,320);
+    buttonSonar->addEventHandler(this);
+    scene->addChild(buttonSonar);    
 }
 
 MyApp::~MyApp(){}
@@ -88,29 +66,20 @@ void MyApp::update() {}
 
 
 void MyApp::widget( va::ButtonWidget& button ) {
-    if (button.getLabel() == "Reset Rotation") {  //match by label
-        slider1->setValue(0.0f);
-        sound->play();
+    if (button.getLabel() == "Swosh!") {  //match by label
+        swosh->play();
+    } else if (button.getLabel() == "Ping!") {
+        sonar->play();
     }
 }
 void MyApp::widget( va::SliderWidget& slider ) {
-    if (&slider == slider1) {        //match by pointer
-        panel2->resetRotation();
-        panel2->addRotationZ(-slider.getValue());
-    } else if (&slider == slider2) {
-        panel1->setScale(slider.getValue());  
-        panel2->setScale(slider.getValue());    
+    if (&slider == sliderFreq) {        //match by pointer
+		beat->setSpeed(slider.getValue());
+    } else if (&slider == sliderVol) {
+		beat->setVolume(slider.getValue());
     }
 }
-void MyApp::widget( va::ToggleWidget& toggle ) {
-    if (&toggle == toggle1) {    //match by pointer
-        if( toggle.getValue() ) {
-            textbox1->setColor(1.0f, 0.0f, 0.0f, 1.0f);
-        } else {
-            textbox1->setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        }
-    }
-}
+
 
 
 

@@ -7,7 +7,6 @@
 #define VA_MYAPP
 
 #include <va/Main.h>
-#include <osgDB/WriteFile>
 #include <vaOpenal/SoundPlayer.h>
 
 
@@ -22,21 +21,13 @@ class MyApp : public va::App {
         
         void widget( va::ButtonWidget& button );
         void widget( va::SliderWidget& slider );
-        void widget( va::ToggleWidget& toggle );
         
-        vaOpenal::SoundPlayer* sound;
-        vaOpenal::SoundPlayer* drums;
-        vaOpenal::SoundPlayer* music;
-        vaOpenal::SoundPlayer* gunshot;
-        vaOpenal::SoundPlayer* multiplay;
+        vaOpenal::SoundPlayer* swosh;
+        vaOpenal::SoundPlayer* sonar;
+        vaOpenal::SoundPlayer* beat;
                 
-        va::PanelWidget* panel1;
-        va::SliderWidget* slider1;
-        va::SliderWidget* slider2;
-        va::PanelWidget* panel2;
-        va::TextShape* textbox1;
-        va::ToggleWidget* toggle1;
-
+        va::SliderWidget* sliderFreq;
+        va::SliderWidget* sliderVol;
 };
 
 #endif

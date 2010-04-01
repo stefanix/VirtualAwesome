@@ -18,23 +18,6 @@
 using namespace vaOpenal;
 
 
-/*
-void SoundStopAll()
-{
-    Listener::StopAllSounds();
-    Listener::StopAllStreams();
-}
-
-void SoundSetVolume(float vol)
-{
-
-    vol = ofClamp(vol,0,1);
-    Listener::SetGlobalVolume(vol*100);
-}
-*/
-
-
-
 SoundPlayer::SoundPlayer( std::string fileName, bool bIsStream)
 	: _bIsStereo(false),
       _buffer(0), 
