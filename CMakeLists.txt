@@ -355,17 +355,21 @@ IF( BUILD_ADDON_VA_NETWORK )
 	ADD_SUBDIRECTORY( addons/vaNetwork )
 ENDIF()
 
+OPTION( BUILD_ADDON_VA_OPENAL "Build the vaOpenal addon." ON)
+IF( BUILD_ADDON_VA_OPENAL )
+	ADD_SUBDIRECTORY( addons/vaOpenal )
+ENDIF()
 
 ###########################################
 # EXAMPLES
 ###########################################
 
-OPTION( BUILD_OSG_EXAMPLES "Build the OSG (only) stock examples." OFF)
+OPTION( BUILD_OSG_EXAMPLES "Build the vanilla OSG examples." OFF)
 IF( BUILD_OSG_EXAMPLES )
 	ADD_SUBDIRECTORY( apps/osgExamples/osgmovie )
 ENDIF()	
 	
-OPTION( BUILD_VA_EXAMPLES "Build the VirtualAwesome stock examples." ON)
+OPTION( BUILD_VA_EXAMPLES "Build the VirtualAwesome examples." ON)
 IF( BUILD_VA_EXAMPLES )	
 	IF( BUILD_ADDON_VA_TOUCHKIT )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleTouchkitSimple )
@@ -388,6 +392,10 @@ IF( BUILD_VA_EXAMPLES )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleTcpServer )
 	ENDIF()	
 		
+	IF( BUILD_ADDON_VA_OPENAL )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleOpenal )
+	ENDIF()	
+			
 	ADD_SUBDIRECTORY( apps/examples/exampleKeymouse )
 	ADD_SUBDIRECTORY( apps/examples/exampleShapes )
 	ADD_SUBDIRECTORY( apps/examples/exampleWidget )
