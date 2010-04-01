@@ -25,7 +25,10 @@ class MyApp : public va::App {
         void widget( va::ToggleWidget& toggle );
         
         vaOpenal::SoundPlayer* sound;
+        vaOpenal::SoundPlayer* drums;
         vaOpenal::SoundPlayer* music;
+        vaOpenal::SoundPlayer* gunshot;
+        vaOpenal::SoundPlayer* multiplay;
                 
         va::PanelWidget* panel1;
         va::SliderWidget* slider1;

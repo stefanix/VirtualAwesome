@@ -6,17 +6,29 @@
 MyApp::MyApp(){
     
     // load mono sound
-    sound = new vaOpenal::SoundPlayer();
-    sound->loadSound("/Users/noema/Development/git/VirtualAwesome/apps/addonExamples/exampleOpenal/data/fx1.wav");
+    sound = new vaOpenal::SoundPlayer("fx1.wav");
     sound->setPan(0);
     sound->setVolume(0.4);
     sound->play();
     
+    // load stereo sound
+    drums = new vaOpenal::SoundPlayer("drumloop.wav");
+    drums->setLoop(true);
+    drums->setPan(0);
+    drums->setVolume(1.0f);
+
     // load stream
-    music = new vaOpenal::SoundPlayer();    
-    music->loadSound("/Users/noema/Development/git/VirtualAwesome/apps/addonExamples/exampleOpenal/data/bells.ogg",true);
+    music = new vaOpenal::SoundPlayer("bells.ogg",true);
     music->setLoop(true);
-    music->play();    
+    music->play();
+
+	//load one-shot
+    gunshot = new vaOpenal::SoundPlayer("gunshot.wav");
+	gunshot->setVolume(0.7f);
+
+    // load mono sound, set multi-play (only works on mono sounds)
+    multiplay = new vaOpenal::SoundPlayer("drumloop_mono.wav");
+    multiplay->setMultiPlay(true);    
 
     
     // setup some widgets

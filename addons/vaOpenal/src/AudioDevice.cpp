@@ -159,7 +159,6 @@ void AudioDevice::AddReference()
 
     // Increase the references count
     ourInstance->myRefCount++;
-    std::cout << "ref count = " << ourInstance->myRefCount << std::endl;
 }
 
 
