@@ -17,8 +17,8 @@ MyApp::MyApp(){
     //mono sound and multiplay
     //can be triggered multiple times simultaneously
     //works only with mono sounds
-    sonar = new vaOpenal::SoundPlayer("sonar_mono.aiff");
-    sonar->setMultiPlay(true);    
+    ping = new vaOpenal::SoundPlayer("sonar_mono.aiff");
+    ping->setMultiPlay(true);    
 
     
     // setup some widgets
@@ -52,12 +52,12 @@ MyApp::MyApp(){
     buttonSwosh->addEventHandler(this);
     scene->addChild(buttonSwosh);
 
-    va::ButtonWidget* buttonSonar = new va::ButtonWidget(200,40);
-    buttonSonar->setLabel("Ping!");
-    buttonSonar->setPivot(100,25,0);
-    buttonSonar->setPosition(widthHalf,320);
-    buttonSonar->addEventHandler(this);
-    scene->addChild(buttonSonar);    
+    va::ButtonWidget* buttonPing = new va::ButtonWidget(200,40);
+    buttonPing->setLabel("Ping!");
+    buttonPing->setPivot(100,25,0);
+    buttonPing->setPosition(widthHalf,320);
+    buttonPing->addEventHandler(this);
+    scene->addChild(buttonPing);    
 }
 
 MyApp::~MyApp(){}
@@ -69,7 +69,7 @@ void MyApp::widget( va::ButtonWidget& button ) {
     if (button.getLabel() == "Swosh!") {  //match by label
         swosh->play();
     } else if (button.getLabel() == "Ping!") {
-        sonar->play();
+        ping->play();
     }
 }
 void MyApp::widget( va::SliderWidget& slider ) {

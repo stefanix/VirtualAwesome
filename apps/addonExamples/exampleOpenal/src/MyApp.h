@@ -23,7 +23,7 @@ class MyApp : public va::App {
         void widget( va::SliderWidget& slider );
         
         vaOpenal::SoundPlayer* swosh;
-        vaOpenal::SoundPlayer* sonar;
+        vaOpenal::SoundPlayer* ping;
         vaOpenal::SoundPlayer* beat;
                 
         va::SliderWidget* sliderFreq;
