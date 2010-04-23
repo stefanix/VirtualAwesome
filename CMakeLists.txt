@@ -360,6 +360,11 @@ IF( BUILD_ADDON_VA_OPENAL )
 	ADD_SUBDIRECTORY( addons/vaOpenal )
 ENDIF()
 
+OPTION( BUILD_ADDON_VA_OSC "Build the vaOsc addon." ON)
+IF( BUILD_ADDON_VA_OSC )
+	ADD_SUBDIRECTORY( addons/vaOsc )
+ENDIF()
+
 ###########################################
 # EXAMPLES
 ###########################################
