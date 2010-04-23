@@ -10,7 +10,7 @@ SET( VA_NETWORK_INCLUDES  ${VA_NETWORK_ROOT}/include  PARENT_SCOPE )
 INCLUDE_DIRECTORIES( ${VA_NETWORK_INCLUDES} )
 	
 ADD_LIBRARY( vaNetwork STATIC
-	${VA_NETWORK_ROOT}/include/vaNetwork/Network.h
+	${VA_NETWORK_ROOT}/include/vaNetwork/Main.h
 	${VA_NETWORK_ROOT}/include/vaNetwork/TCPClient.h
 	${VA_NETWORK_ROOT}/include/vaNetwork/TCPManager.h
 	${VA_NETWORK_ROOT}/include/vaNetwork/TCPServer.h

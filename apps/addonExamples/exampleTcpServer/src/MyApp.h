@@ -7,8 +7,7 @@
 #define VA_MYAPP
 
 #include <va/Main.h>
-#include <osgDB/WriteFile>
-#include <vaNetwork/Network.h>
+#include <vaNetwork/Main.h>
 
 
 class MyApp : public va::App {
@@ -19,19 +18,12 @@ class MyApp : public va::App {
     	~MyApp();
 
 		void update();
-        
         void widget( va::ButtonWidget& button );
-        void widget( va::SliderWidget& slider );
-        void widget( va::ToggleWidget& toggle );
         
         vaNetwork::TCPServer server;
         
-        va::PanelWidget* panel1;
-        va::SliderWidget* slider1;
-        va::SliderWidget* slider2;
-        va::PanelWidget* panel2;
-        va::TextShape* textbox1;
-        va::ToggleWidget* toggle1;
+        va::PanelWidget* panel;
+        va::TextShape* textbox;
 
 };
 
