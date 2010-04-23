@@ -77,7 +77,7 @@ NetworkInitializer::~NetworkInitializer()
 }
 
 
-unsigned long GetHostByName( const char *name )
+unsigned long GetHostByNameFunc( const char *name )
 {
     NetworkInitializer networkInitializer;
 

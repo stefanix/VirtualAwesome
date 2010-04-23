@@ -36,7 +36,7 @@ using namespace osc;
 
 unsigned long IpEndpointName::GetHostByName( const char *s )
 {
-	return ::GetHostByName(s);
+	return GetHostByNameFunc(s);
 }
 
 

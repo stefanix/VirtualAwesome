@@ -47,7 +47,7 @@ NetworkInitializer::NetworkInitializer() {}
 NetworkInitializer::~NetworkInitializer() {}
 
 
-unsigned long GetHostByName( const char *name )
+unsigned long osc::GetHostByNameFunc( const char *name )
 {
     unsigned long result = 0;
 

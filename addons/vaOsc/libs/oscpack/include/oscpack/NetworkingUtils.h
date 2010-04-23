@@ -45,7 +45,7 @@ public:
 
 
 // return ip address of host name in host byte order
-unsigned long GetHostByName( const char *name );
+unsigned long GetHostByNameFunc( const char *name );
 
 
 }

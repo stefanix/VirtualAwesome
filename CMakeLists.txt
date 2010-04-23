@@ -400,7 +400,12 @@ IF( BUILD_VA_EXAMPLES )
 	IF( BUILD_ADDON_VA_OPENAL )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleOpenal )
 	ENDIF()	
-			
+
+	IF( BUILD_ADDON_VA_OSC )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscSender )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscReceiver )
+	ENDIF()	
+				
 	ADD_SUBDIRECTORY( apps/examples/exampleKeymouse )
 	ADD_SUBDIRECTORY( apps/examples/exampleShapes )
 	ADD_SUBDIRECTORY( apps/examples/exampleWidget )
