@@ -66,11 +66,11 @@ void Sender::appendBundle( Bundle& bundle, osc::OutboundPacketStream& p ) {
 void Sender::appendMessage( Message& message, osc::OutboundPacketStream& p ) {
     p << osc::BeginMessage( message.getAddress().c_str() );
 	for ( int i=0; i< message.getNumArgs(); ++i ) {
-		if ( message.getArgType(i) == OSC_TYPE_INT32 ) {
+		if ( message.getArgType(i) == TYPE_INT32 ) {
 			p << message.getArgAsInt32( i );
-		} else if ( message.getArgType( i ) == OSC_TYPE_FLOAT ) {
+		} else if ( message.getArgType( i ) == TYPE_FLOAT ) {
 			p << message.getArgAsFloat( i );
-		} else if ( message.getArgType( i ) == OSC_TYPE_STRING ) {
+		} else if ( message.getArgType( i ) == TYPE_STRING ) {
 			p << message.getArgAsString( i ).c_str();
 		} else {
 			assert( false && "bad argument type" );

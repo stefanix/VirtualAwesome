@@ -5,10 +5,8 @@
 
 MyApp::MyApp(){
     
-    int port = 4242;
-    receiver = new vaOsc::Receiver(port);
-    std::cout << "listening for osc on port " << port << std::endl;
-    
+    receiver = new vaOsc::Receiver(4242);
+    std::cout << "listening for osc on port 4242" << std::endl;
     
     // setup some widgets
     //
@@ -60,11 +58,11 @@ void MyApp::update() {
 				textbox->appendText(m.getArgTypeName(i));
 				textbox->appendText(":");
 				// display the argument - make sure we get the right type
-				if( m.getArgType( i ) == vaOsc::OSC_TYPE_INT32 )
+				if( m.getArgType( i ) == vaOsc::TYPE_INT32 )
 					textbox->appendText(m.getArgAsInt32(i));
-				else if( m.getArgType( i ) == vaOsc::OSC_TYPE_FLOAT )
+				else if( m.getArgType( i ) == vaOsc::TYPE_FLOAT )
 					textbox->appendText(m.getArgAsFloat(i));
-				else if( m.getArgType( i ) == vaOsc::OSC_TYPE_STRING )
+				else if( m.getArgType( i ) == vaOsc::TYPE_STRING )
 					textbox->appendText(m.getArgAsString(i));
 				else
 					textbox->appendText("unknown");

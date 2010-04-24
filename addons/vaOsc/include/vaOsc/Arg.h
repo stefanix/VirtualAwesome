@@ -21,13 +21,13 @@ namespace vaOsc {
 
 
 typedef enum _ArgType {
-	OSC_TYPE_NONE,
-	OSC_TYPE_INT32,
-	OSC_TYPE_FLOAT,
-	OSC_TYPE_STRING,
-	OSC_TYPE_BLOB,
-	OSC_TYPE_BUNDLE,
-	OSC_TYPE_INDEXOUTOFBOUNDS
+	TYPE_NONE,
+	TYPE_INT32,
+	TYPE_FLOAT,
+	TYPE_STRING,
+	TYPE_BLOB,
+	TYPE_BUNDLE,
+	TYPE_INDEXOUTOFBOUNDS
 } ArgType;
 
 
@@ -42,7 +42,7 @@ class Arg {
     Arg() {};
     virtual ~Arg() {};
 
-    virtual ArgType getType() { return OSC_TYPE_NONE; }
+    virtual ArgType getType() { return TYPE_NONE; }
     virtual std::string getTypeName() { return "none"; }
 };
 
@@ -52,7 +52,7 @@ class ArgInt32 : public Arg {
 	ArgInt32( int32_t _value ) {value = _value;}
 	~ArgInt32() {};
 
-	ArgType getType() {return OSC_TYPE_INT32;}
+	ArgType getType() {return TYPE_INT32;}
 	std::string getTypeName() {return "int32";}
 
 	int32_t get() const {return value;}
@@ -68,7 +68,7 @@ class ArgFloat : public Arg {
 	ArgFloat( float _value ) {value = _value;}
 	~ArgFloat() {};
 
-	ArgType getType() {return OSC_TYPE_FLOAT;}
+	ArgType getType() {return TYPE_FLOAT;}
 	std::string getTypeName() {return "float";}
 
 	float get() const {return value;}
@@ -84,7 +84,7 @@ class ArgString : public Arg {
 	ArgString( std::string _value ) {value = _value;}
 	~ArgString() {};
 
-	ArgType getType() {return OSC_TYPE_STRING;}
+	ArgType getType() {return TYPE_STRING;}
 	std::string getTypeName() {return "string";}
 
 	std::string get() const {return value;}

@@ -43,7 +43,7 @@ int Message::getNumArgs() const {
 ArgType Message::getArgType( int index ) const {
     if ( index >= (int)args.size() ) {
         fprintf(stderr,"Message::getArgType: index %d out of bounds\n", index );
-        return OSC_TYPE_INDEXOUTOFBOUNDS;
+        return TYPE_INDEXOUTOFBOUNDS;
     } else {
         return args[index]->getType();
     }
@@ -60,8 +60,8 @@ std::string Message::getArgTypeName( int index ) const {
 
 
 int32_t Message::getArgAsInt32( int index ) const {
-	if ( getArgType(index) != OSC_TYPE_INT32 ) {
-	    if ( getArgType( index ) == OSC_TYPE_FLOAT ) {
+	if ( getArgType(index) != TYPE_INT32 ) {
+	    if ( getArgType( index ) == TYPE_FLOAT ) {
             fprintf(stderr, "Message:getArgAsInt32: warning: converting int32 to float for argument %i\n", index );
             return ((ArgFloat*)args[index])->get();
         } else {
@@ -75,8 +75,8 @@ int32_t Message::getArgAsInt32( int index ) const {
 
 
 float Message::getArgAsFloat( int index ) const {
-	if ( getArgType(index) != OSC_TYPE_FLOAT ) {
-	    if ( getArgType( index ) == OSC_TYPE_INT32 ) {
+	if ( getArgType(index) != TYPE_FLOAT ) {
+	    if ( getArgType( index ) == TYPE_INT32 ) {
             fprintf(stderr, "Message:getArgAsFloat: warning: converting float to int32 for argument %i\n", index );
             return ((ArgInt32*)args[index])->get();
         } else {
@@ -90,13 +90,13 @@ float Message::getArgAsFloat( int index ) const {
 
 
 std::string Message::getArgAsString( int index ) const {
-    if ( getArgType(index) != OSC_TYPE_STRING ) {
-	    if ( getArgType( index ) == OSC_TYPE_FLOAT ) {
+    if ( getArgType(index) != TYPE_STRING ) {
+	    if ( getArgType( index ) == TYPE_FLOAT ) {
             char buf[1024];
             sprintf(buf,"%f",((ArgFloat*)args[index])->get() );
             fprintf(stderr, "Message:getArgAsString: warning: converting float to string for argument %i\n", index );
             return buf;
-        } else if ( getArgType( index ) == OSC_TYPE_INT32 ) {
+        } else if ( getArgType( index ) == TYPE_INT32 ) {
             char buf[1024];
             sprintf(buf,"%i",((ArgInt32*)args[index])->get() );
             fprintf(stderr, "Message:getArgAsString: warning: converting int32 to string for argument %i\n", index );
@@ -141,11 +141,11 @@ Message& Message::copy( const Message& other ) {
 	// copy arguments
 	for ( int i=0; i<(int)other.args.size(); ++i ) {
 		ArgType argType = other.getArgType( i );
-		if ( argType == OSC_TYPE_INT32 ) {
+		if ( argType == TYPE_INT32 ) {
 			args.push_back( new ArgInt32( other.getArgAsInt32( i ) ) );
-		} else if ( argType == OSC_TYPE_FLOAT ) {
+		} else if ( argType == TYPE_FLOAT ) {
 			args.push_back( new ArgFloat( other.getArgAsFloat( i ) ) );
-		} else if ( argType == OSC_TYPE_STRING ) {
+		} else if ( argType == TYPE_STRING ) {
 			args.push_back( new ArgString( other.getArgAsString( i ) ) );
 		} else {
 			assert( false && "bad argument type" );
