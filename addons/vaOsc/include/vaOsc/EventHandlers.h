@@ -23,7 +23,7 @@ namespace vaOsc {
 class OscHandler {
     public:
         virtual ~OscHandler() {}
-        virtual void oscReceive( Message& msg ) {}
+        virtual void oscReceive( Message message ) {}
 };
 
 

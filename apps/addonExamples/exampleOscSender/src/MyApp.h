@@ -19,10 +19,6 @@ class MyApp : public va::App {
         void widget( va::ButtonWidget& button );
         
         vaOsc::Sender* sender;
-        
-        va::PanelWidget* panel;
-        va::TextShape* textbox;
-
 };
 
 #endif

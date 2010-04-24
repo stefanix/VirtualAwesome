@@ -15,6 +15,7 @@
 #include <iostream>
 #include <assert.h>
 #include <vaOsc/Receiver.h>
+#include <vaOsc/EventHandlers.h>
 #include <OpenThreads/ScopedLock>
 
 using namespace vaOsc;
@@ -37,6 +38,9 @@ Receiver::~Receiver() {
 	}
 }
 
+void Receiver::addOscHandler( OscHandler* handler ){
+	_oscHandlers.push_back(handler);
+}
 
 void Receiver::run() {
 	// start the socket listener
@@ -45,16 +49,16 @@ void Receiver::run() {
 
 
 void Receiver::ProcessMessage( const osc::ReceivedMessage &m, const osc::IpEndpointName& remoteEndpoint ) {
-	// convert the m to a Message
-	Message* message = new Message();
+	// convert the m to a Message, return at the end to other main thread
+	Message message;
 
 	// set the address
-	message->setAddress( m.AddressPattern() );
+	message.setAddress( m.AddressPattern() );
 
 	// set the sender ip/host
 	char endpoint_host[ osc::IpEndpointName::ADDRESS_STRING_LENGTH ];
 	remoteEndpoint.AddressAsString( endpoint_host );
-    message->setRemoteEndpoint( endpoint_host, remoteEndpoint.port );
+    message.setRemoteEndpoint( endpoint_host, remoteEndpoint.port );
 
 	// transfer the arguments
 	for ( osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
@@ -62,43 +66,23 @@ void Receiver::ProcessMessage( const osc::ReceivedMessage &m, const osc::IpEndpo
 		  ++arg )
 	{
 		if ( arg->IsInt32() ) {
-			message->addIntArg( arg->AsInt32Unchecked() );
+			message.addIntArg( arg->AsInt32Unchecked() );
 		} else if ( arg->IsFloat() ) {
-			message->addFloatArg( arg->AsFloatUnchecked() );
+			message.addFloatArg( arg->AsFloatUnchecked() );
 		} else if ( arg->IsString() ) {
-			message->addStringArg( arg->AsStringUnchecked() );
+			message.addStringArg( arg->AsStringUnchecked() );
 		} else {
 			assert( false && "message argument is not int, float, or string" );
 		}
 	}
 
-	// now add to the queue
-	// at this point we are running inside the thread created by startThread,
-	// so anyone who calls hasWaitingMessages() or getNextMessage() is coming
-	// from a different thread
-	// so we have to practise shared memory management
+	// at this point we are running inside the thread created by start()
+	// since we are returning a copy no shared memory management
     
-	OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);
-	messages.push_back( message );
+    for(unsigned int i=0; i<_oscHandlers.size(); ++i) {
+        _oscHandlers[i]->oscReceive( message );
+    }    
 }
 
-
-bool Receiver::hasWaitingMessages() {
-	OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);
-	return messages.size() > 0;
-}
-
-
-Message Receiver::getNextMessage() {
-	OpenThreads::ScopedLock<OpenThreads::Mutex> lock(_mutex);
-	Message message;
-	if ( messages.size() > 0 ) {
-        Message* src_message = messages.front();
-        message.copy( *src_message );
-        delete src_message;
-        messages.pop_front();
-    }
-	return message;
-}
 
 

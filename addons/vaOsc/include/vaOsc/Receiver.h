@@ -25,21 +25,21 @@
 namespace vaOsc {
 
 
+class OscHandler;
+
 class Receiver : public osc::OscPacketListener, public OpenThreads::Thread {
   public:
   
 	Receiver( int listen_port );
 	~Receiver();
 
-	bool hasWaitingMessages();
-    Message getNextMessage();
+    void addOscHandler( OscHandler* handler );
 
 
   protected:
 
 	osc::UdpListeningReceiveSocket* listen_socket;
-	std::deque<Message*> messages;
-    OpenThreads::Mutex _mutex;
+    std::vector<OscHandler*> _oscHandlers;
 
 	/// process an incoming osc message and add it to the queue
 	virtual void ProcessMessage( const osc::ReceivedMessage &m, const osc::IpEndpointName& remoteEndpoint );

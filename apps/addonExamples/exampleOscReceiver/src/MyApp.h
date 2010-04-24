@@ -9,6 +9,7 @@
 #include <va/Main.h>
 #include <vaOsc/Receiver.h>
 #include <vaOsc/EventHandlers.h>
+#include <vaOsc/Message.h>
 
 
 class MyApp : public va::App, public vaOsc::OscHandler {
@@ -17,9 +18,8 @@ class MyApp : public va::App, public vaOsc::OscHandler {
     
     	MyApp();
     	~MyApp();
-        
-		void update();        
-        void widget( va::ButtonWidget& button );
+                
+        void oscReceive( vaOsc::Message message );
         
         vaOsc::Receiver* receiver;
         
