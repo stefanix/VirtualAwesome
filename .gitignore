@@ -28,6 +28,7 @@ freetype-osx
 osg-osx
 opencv-osx
 dc1394-osx
+sndfile-osx
 
 # windows libs
 freetype-win32
@@ -37,8 +38,11 @@ png-win32
 zlib-win32
 opencv-win32
 flyCapture-win32
+openal-win32
+sndfile-win32
 
 # linux libs
 osg-linux
 opencv-linux
 dc1394-linux
+openal-linux
