@@ -26,15 +26,17 @@ MyApp::~MyApp(){}
 void MyApp::oscReceive( vaOsc::Message message ) {
     // check for mouse moved message
     if ( message.getAddress() == "/mouse/position" ) {
-        textbox->setText("mouse positionX: ");
-        textbox->appendText(message.getArgAsInt(0));
-        textbox->appendText(" positionY: ");
-        textbox->appendText(message.getArgAsInt(1));        
+    	std::cout << "mouse positionX: "
+                  << message.getArgAsInt(0)
+                  << " positionY: "
+                  << message.getArgAsInt(1)
+                  << std::endl;
     }
     // check for mouse button message
     else if ( message.getAddress() == "/mouse/button" ) {
-        textbox->setText("mouse button: ");
-        textbox->appendText(message.getArgAsInt(0));
+    	std::cout << "mouse button: "
+                  << message.getArgAsInt(0)
+                  << std::endl;    
     }
     // unrecognized message
     else {
