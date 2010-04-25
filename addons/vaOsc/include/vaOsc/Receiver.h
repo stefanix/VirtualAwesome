@@ -8,6 +8,9 @@
 * the License, or (at your option) any later version. For details
 * see <http://www.gnu.org/licenses/>.
 *
+* Ported from Damian Stewart's ofxOsc library
+* Thanks Damian for open sourcing!
+*
 * * *
 *
 */

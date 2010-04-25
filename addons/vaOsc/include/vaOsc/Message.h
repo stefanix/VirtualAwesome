@@ -8,6 +8,9 @@
 * the License, or (at your option) any later version. For details
 * see <http://www.gnu.org/licenses/>.
 *
+* Ported from Damian Stewart's ofxOsc library
+* Thanks Damian for open sourcing!
+*
 * * *
 * 
 */
@@ -27,10 +30,9 @@ class Message {
   
 	Message() {}
 	~Message();
-	Message( const Message& other ) {copy( other );}
-	Message& operator= ( const Message& other ) {return copy( other );}
-	Message& copy( const Message& other );
-	void clear();
+	Message( const Message& other ) {copyFrom(other);}
+	Message& operator= ( const Message& other ) {return copyFrom(other);}
+	Message& copyFrom( const Message& other );
 
 	std::string getAddress() const {return address;}
 	std::string getRemoteIp() {return remote_host;}
@@ -40,23 +42,23 @@ class Message {
 	ArgType getArgType( int index ) const;
 	std::string getArgTypeName( int index ) const;
 
-	/// get the argument with the given index as an int, float, or string
-	/// ensure that the type matches what you're requesting
-	/// (eg for an int argument, getArgType(index)==OF_TYPE_INT32
-	/// or getArgTypeName(index)=="int32")
-	int32_t getArgAsInt32( int index ) const;
+    /// get argument by index
+    /// use getArgType(index) first to assure using correct function
+    /// (eg for an int argument, getArgType(index)==OF_TYPE_INT
+	/// or getArgTypeName(index)=="int")
+    long getArgAsInt( int index ) const;
 	float getArgAsFloat( int index ) const;
 	std::string getArgAsString( int index ) const;
 
 	/// message construction
 	void setAddress( std::string _address ) {address = _address;};
 	void setRemoteEndpoint( std::string host, int port ) {remote_host = host; remote_port = port;}
-	void addIntArg( int32_t argument );
+	void addIntArg( long argument );
 	void addFloatArg( float argument );
 	void addStringArg( std::string argument );
 
 
-private:
+  protected:
 
 	std::string address;
 	std::vector<Arg*> args;

@@ -61,10 +61,10 @@ void Receiver::ProcessMessage( const osc::ReceivedMessage &m, const osc::IpEndpo
     message.setRemoteEndpoint( endpoint_host, remoteEndpoint.port );
 
 	// transfer the arguments
-	for ( osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
-		  arg != m.ArgumentsEnd();
-		  ++arg )
-	{
+	for ( osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin(); 
+          arg != m.ArgumentsEnd(); 
+          ++arg )
+    {
 		if ( arg->IsInt32() ) {
 			message.addIntArg( arg->AsInt32Unchecked() );
 		} else if ( arg->IsFloat() ) {

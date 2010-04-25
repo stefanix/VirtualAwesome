@@ -17,7 +17,7 @@
 using namespace vaOsc;
 
 
-Bundle& Bundle::copy( const Bundle& other ) {
+Bundle& Bundle::copyFrom( const Bundle& other ) {
 	for ( unsigned int i=0; i<other.bundles.size(); i++ ) {
 		bundles.push_back( other.bundles[i] );
 	}

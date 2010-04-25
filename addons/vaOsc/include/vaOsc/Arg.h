@@ -8,6 +8,9 @@
 * the License, or (at your option) any later version. For details
 * see <http://www.gnu.org/licenses/>.
 *
+* Ported from Damian Stewart's ofxOsc library
+* Thanks Damian for open sourcing!
+*
 * * *
 * 
 */
@@ -20,15 +23,15 @@
 namespace vaOsc {
 
 
-typedef enum _ArgType {
-	TYPE_NONE,
-	TYPE_INT32,
+enum ArgType {
+	TYPE_NONE = 0,
+	TYPE_INT,
 	TYPE_FLOAT,
 	TYPE_STRING,
 	TYPE_BLOB,
 	TYPE_BUNDLE,
 	TYPE_INDEXOUTOFBOUNDS
-} ArgType;
+} ;
 
 
 #if defined TARGET_WIN32 && defined _MSC_VER
@@ -52,13 +55,13 @@ class ArgInt32 : public Arg {
 	ArgInt32( int32_t _value ) {value = _value;}
 	~ArgInt32() {};
 
-	ArgType getType() {return TYPE_INT32;}
-	std::string getTypeName() {return "int32";}
+	ArgType getType() {return TYPE_INT;}
+	std::string getTypeName() {return "int";}
 
 	int32_t get() const {return value;}
 	void set( int32_t _value ) {value = _value;}
 
-  private:
+  protected:
 	int32_t value;
 };
 
@@ -74,7 +77,7 @@ class ArgFloat : public Arg {
 	float get() const {return value;}
 	void set( float _value ) {value = _value;}
 
-  private:
+  protected:
     float value;
 };
 
@@ -90,7 +93,7 @@ class ArgString : public Arg {
 	std::string get() const {return value;}
 	void set( const char* _value ) {value = _value;}
 
-  private:
+  protected:
 	std::string value;
 };
 

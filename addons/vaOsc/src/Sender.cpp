@@ -66,8 +66,8 @@ void Sender::appendBundle( Bundle& bundle, osc::OutboundPacketStream& p ) {
 void Sender::appendMessage( Message& message, osc::OutboundPacketStream& p ) {
     p << osc::BeginMessage( message.getAddress().c_str() );
 	for ( int i=0; i< message.getNumArgs(); ++i ) {
-		if ( message.getArgType(i) == TYPE_INT32 ) {
-			p << message.getArgAsInt32( i );
+		if ( message.getArgType(i) == TYPE_INT ) {
+			p << message.getArgAsInt( i );
 		} else if ( message.getArgType( i ) == TYPE_FLOAT ) {
 			p << message.getArgAsFloat( i );
 		} else if ( message.getArgType( i ) == TYPE_STRING ) {

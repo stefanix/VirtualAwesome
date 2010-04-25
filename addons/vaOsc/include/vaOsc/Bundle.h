@@ -8,6 +8,9 @@
 * the License, or (at your option) any later version. For details
 * see <http://www.gnu.org/licenses/>.
 *
+* Ported from Damian Stewart's ofxOsc library
+* Thanks Damian for open sourcing!
+*
 * * *
 * 
 */
@@ -26,9 +29,9 @@ class Bundle {
   	
 	Bundle() {}
 	~Bundle() {}
-	Bundle( const Bundle& other ) {copy(other);}
-	Bundle& operator= ( const Bundle& other ) {return copy(other);}
-	Bundle& copy( const Bundle& other );
+	Bundle( const Bundle& other ) {copyFrom(other);}
+	Bundle& operator= ( const Bundle& other ) {return copyFrom(other);}
+	Bundle& copyFrom( const Bundle& other );
 	
 	void clear() {messages.clear(); bundles.clear();}
 
@@ -41,7 +44,7 @@ class Bundle {
 	Message& getMessageAt( int i ) {return messages[i];}
 	
     
-  private:
+  protected:
   
 	std::vector<Message> messages;
 	std::vector<Bundle> bundles;

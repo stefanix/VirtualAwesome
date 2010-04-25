@@ -16,9 +16,13 @@ class MyApp : public va::App {
     
     	MyApp();
     	~MyApp();
+        
+        void touchMove( va::Touch& touch );
+        void mouseButton( va::Mouse& mouse );
         void widget( va::ButtonWidget& button );
         
         vaOsc::Sender* sender;
+        va::ButtonWidget* buttonSend;
 };
 
 #endif

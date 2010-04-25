@@ -14,16 +14,13 @@
 
 #include <iostream>
 #include <assert.h>
+#include <osg/Notify>
 #include <vaOsc/Message.h>
 
 using namespace vaOsc;
 
 
 Message::~Message() {
-	clear();
-}
-
-void Message::clear() {
 	for ( unsigned int i=0; i<args.size(); ++i ) {
 		delete args[i];
     }
@@ -38,92 +35,57 @@ int Message::getNumArgs() const {
 
 
 
-
-
 ArgType Message::getArgType( int index ) const {
-    if ( index >= (int)args.size() ) {
-        fprintf(stderr,"Message::getArgType: index %d out of bounds\n", index );
-        return TYPE_INDEXOUTOFBOUNDS;
-    } else {
-        return args[index]->getType();
-    }
+    return args.at(index)->getType();
 }
 
 std::string Message::getArgTypeName( int index ) const {
-    if ( index >= (int)args.size() ) {
-        fprintf(stderr,"Message::getArgTypeName: index %d out of bounds\n", index );
-        return "INDEX OUT OF BOUNDS";
-    } else {
-        return args[index]->getTypeName();
-    }
+    return args.at(index)->getTypeName();
 }
 
 
-int32_t Message::getArgAsInt32( int index ) const {
-	if ( getArgType(index) != TYPE_INT32 ) {
-	    if ( getArgType( index ) == TYPE_FLOAT ) {
-            fprintf(stderr, "Message:getArgAsInt32: warning: converting int32 to float for argument %i\n", index );
-            return ((ArgFloat*)args[index])->get();
-        } else {
-            fprintf(stderr, "Message:getArgAsInt32: error: argument %i is not a number\n", index );
-            return 0;
-        }
+long Message::getArgAsInt( int index ) const {
+	if ( getArgType(index) == TYPE_INT ) {
+    	ArgInt32* argInt32 = dynamic_cast<ArgInt32*>(args.at(index));
+    	return static_cast<long>(argInt32->get());
 	} else {
-        return ((ArgInt32*)args[index])->get();
+        osg::notify(osg::WARN) << "in getArgAsInt(...), not a int" << std::endl;
+        return 0;
     }
 }
-
 
 float Message::getArgAsFloat( int index ) const {
-	if ( getArgType(index) != TYPE_FLOAT ) {
-	    if ( getArgType( index ) == TYPE_INT32 ) {
-            fprintf(stderr, "Message:getArgAsFloat: warning: converting float to int32 for argument %i\n", index );
-            return ((ArgInt32*)args[index])->get();
-        } else {
-            fprintf(stderr, "Message:getArgAsFloat: error: argument %i is not a number\n", index );
-            return 0;
-        }
+	if ( getArgType(index) == TYPE_FLOAT ) {
+    	ArgFloat* argFloat = dynamic_cast<ArgFloat*>(args.at(index));
+    	return argFloat->get();
 	} else {
-        return ((ArgFloat*)args[index])->get();
+        osg::notify(osg::WARN) << "in getArgAsFloat(...), not a float" << std::endl;
+        return 0.0f;
     }
 }
-
 
 std::string Message::getArgAsString( int index ) const {
-    if ( getArgType(index) != TYPE_STRING ) {
-	    if ( getArgType( index ) == TYPE_FLOAT ) {
-            char buf[1024];
-            sprintf(buf,"%f",((ArgFloat*)args[index])->get() );
-            fprintf(stderr, "Message:getArgAsString: warning: converting float to string for argument %i\n", index );
-            return buf;
-        } else if ( getArgType( index ) == TYPE_INT32 ) {
-            char buf[1024];
-            sprintf(buf,"%i",((ArgInt32*)args[index])->get() );
-            fprintf(stderr, "Message:getArgAsString: warning: converting int32 to string for argument %i\n", index );
-            return buf;
-        } else {
-            fprintf(stderr, "Message:getArgAsString: error: argument %i is not a string\n", index );
-            return "";
-        }
+	if ( getArgType(index) == TYPE_STRING ) {
+    	ArgString* argString = dynamic_cast<ArgString*>(args.at(index));
+    	return argString->get();
 	} else {
-        return ((ArgString*)args[index])->get();
+        osg::notify(osg::WARN) << "in getArgAsString(...), not a string" << std::endl;
+        return "";
     }
 }
 
 
 
-
-
-void Message::addIntArg( int32_t argument ) {
-	args.push_back( new ArgInt32( argument ) );
+void Message::addIntArg( long argument ) {
+	args.push_back(new ArgInt32(static_cast<int32_t>(argument)));
 }
 
 void Message::addFloatArg( float argument ) {
-	args.push_back( new ArgFloat( argument ) );
+	args.push_back(new ArgFloat(argument));
 }
 
 void Message::addStringArg( std::string argument ) {
-	args.push_back( new ArgString( argument ) );
+	args.push_back(new ArgString(argument));
 }
 
 
@@ -131,18 +93,15 @@ void Message::addStringArg( std::string argument ) {
 
 
 
-Message& Message::copy( const Message& other ) {
-	// copy address
+Message& Message::copyFrom( const Message& other ) {
 	address = other.address;
-
 	remote_host = other.remote_host;
 	remote_port = other.remote_port;
 
-	// copy arguments
 	for ( int i=0; i<(int)other.args.size(); ++i ) {
 		ArgType argType = other.getArgType( i );
-		if ( argType == TYPE_INT32 ) {
-			args.push_back( new ArgInt32( other.getArgAsInt32( i ) ) );
+		if ( argType == TYPE_INT ) {
+			args.push_back( new ArgInt32( other.getArgAsInt( i ) ) );
 		} else if ( argType == TYPE_FLOAT ) {
 			args.push_back( new ArgFloat( other.getArgAsFloat( i ) ) );
 		} else if ( argType == TYPE_STRING ) {
