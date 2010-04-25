@@ -31,7 +31,7 @@ enum ArgType {
 	TYPE_BLOB,
 	TYPE_BUNDLE,
 	TYPE_INDEXOUTOFBOUNDS
-} ;
+};
 
 
 #if defined TARGET_WIN32 && defined _MSC_VER
