@@ -27,3 +27,52 @@ Stefan Hechenberger
 Core Team
 24 February 2010
 
+
+
+
+h2. IDEAS
+
+* use switch nodes instead of cullcallback
+* normalize magnitude? say 1 = screen width
+* add tails to TouchShape's
+* onscreen keyboard
+* dual finger brush
+* resize for ImageShape
+* pickShape is an xform -> geode 
+  where geode uses the geometry of the background
+  via addDrawable
+
+
+
+h2. ISSUES
+
+* first multipad down does not work with widgets
+* key handler, scene should traverse up
+* adding nodes SetDataVariance issue
+* input addons consistency
+** make actually the addon draw the blobs? TouchesShape derived?
+* vaTouchkit
+** on windows, cannot build in debug, flycapture issue
+** setBrightness/Exposure/Shutter in Tracker
+** jpegTrackercrashes when images missing
+** live tracker garbled image when no cam connected
+
+
+h2. CHANGELOG
+
+
+h4. RELEASE 0.4.3
+* + vaOsc addon
+* + vaOpenal addon
+* + va::random(...), randomWidth(), randomHeight(), seedRandom(...)
+* - Rectangle class in Types.h
+
+
+h4. RELEASE 0.4.0
+
+Known Issues:
+* cursor hiding in miceExample on Windows missing
+* vaMice does not work on some Linux distros
+* Scrolling events do not work on some Linux distros
+* Pen events do not work on Linux
+* Running apps from Visual C++ causes heap warning pop-up

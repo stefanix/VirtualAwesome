@@ -15,33 +15,12 @@
 #ifndef VA_TYPES
 #define VA_TYPES
 
-
-#include <osgGA/GUIEventAdapter>
-
 namespace va {
 
 
 class Drawable: public osg::Referenced {
     public:
         virtual osg::ref_ptr<osg::Drawable>  getOsgDrawable() = 0;
-};
-
-
-class Rectangle {
-    public:
-        Rectangle(){ x = y = width = height = 0; };
-        Rectangle(float _x, float _y, float _w, float _h){
-            x = _x;
-            y = _y;
-            width = _w;
-            height = _h;
-        }
-
-        float x;
-        float y;
-        float width;
-        float height;
-
 };
 
 
