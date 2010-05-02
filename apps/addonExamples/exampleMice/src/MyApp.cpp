@@ -4,7 +4,7 @@
 
 
 MyApp::MyApp(){
-	
+    
     scene->hideCursor();
     scene->enableTouchVisuals();
     
@@ -99,7 +99,7 @@ void MyApp::widget( va::ButtonWidget& button ) {
     }
 }
 void MyApp::widget( va::SliderWidget& slider ) {
-	scene->setBackgroundColor( sliderR->getValue(), 
+    scene->setBackgroundColor( sliderR->getValue(), 
                                sliderG->getValue(), 
                                sliderB->getValue() );
 }

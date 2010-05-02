@@ -84,6 +84,8 @@ class Scene : public Node,
         //    
         int getWidth() { return _width; }
         int getHeight() { return _height; }
+        int getRandomWidth() { return va::random(0,_width); }
+        int getRandomHeight() { return va::random(0,_height); }
         void setBackgroundColor( const osg::Vec4& color );
         void setBackgroundColor( float r, float g, float b, float a=1.0f );
         const osg::Vec4& getBackgroundColor();
@@ -105,7 +107,7 @@ class Scene : public Node,
         void showCursor();
         void hideCursor();
         void enableTouchVisuals( int maxNum=25 );  //for multitouch
-		void disableTouchVisuals();                //for multitouch
+        void disableTouchVisuals();                //for multitouch
 
 
         // Inject Key Events
@@ -146,7 +148,7 @@ class Scene : public Node,
                 
     
     protected:
-    	friend class GuiEvents;
+        friend class GuiEvents;
         
         osg::ref_ptr<GuiEvents> _guiEvents;
                 

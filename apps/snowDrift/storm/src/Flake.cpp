@@ -10,9 +10,9 @@ Flake::Flake( Storm* storm ) {
     _trail->setMode(GL_TRIANGLE_STRIP);
     addChild(_trail);
     
-    setPosition(_storm->random(600,700), _storm->random(600,700),0);    
+    setPosition(va::random(600,700), va::random(600,700),0);    
     _loc = getPosition();
-    _vel.set(_storm->random(0.001,0.01), _storm->random(0.001,0.01),0);    
+    _vel.set(va::random(0.001,0.01), va::random(0.001,0.01),0);    
 	
     // adding 40 vertices
 	for (unsigned int i=0; i<20; ++i) {

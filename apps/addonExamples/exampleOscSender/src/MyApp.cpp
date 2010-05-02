@@ -23,7 +23,7 @@ void MyApp::touchMove( va::Touch& touch ) {
     m.setAddress( "/mouse/position" );
     m.addIntArg(touch.getX());
     m.addIntArg(touch.getY());
-    sender->sendMessage( m );	
+    sender->sendMessage( m );   
 }
 
 void MyApp::mouseButton( va::Mouse& mouse ) {
@@ -35,13 +35,13 @@ void MyApp::mouseButton( va::Mouse& mouse ) {
 
 void MyApp::widget( va::ButtonWidget& button ) {
     if (&button == buttonSend) {
-		vaOsc::Message m;
-		m.setAddress( "/someAddress" );
-		m.addIntArg( 23 );
-		m.addFloatArg( 4.3f );
-		m.addStringArg( "someString" );
-		m.addFloatArg( scene->getSimulationTime() );
-		sender->sendMessage( m );
+        vaOsc::Message m;
+        m.setAddress( "/someAddress" );
+        m.addIntArg( 23 );
+        m.addFloatArg( 4.3f );
+        m.addStringArg( "someString" );
+        m.addFloatArg( scene->getSimulationTime() );
+        sender->sendMessage( m );
     }
 }
 

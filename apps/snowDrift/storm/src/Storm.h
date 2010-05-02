@@ -21,11 +21,6 @@ class Storm : public va::Node {
     	friend class Flake;
     	std::vector<Flake*> flakes;
         osg::BoundingBox bounds;
-        
-        void seedRandom();
-        void seedRandom( long seed );
-        float random( float min, float max );
-        
     
 };
 

@@ -201,15 +201,15 @@ class Key {
                       
                   
         Key()
-    	  : _key(0),
-    	    _time(0.0)
+          : _key(0),
+            _time(0.0)
         {}
         
         int getKey() { return _key; }
         double getTime() {return _time;}
                 
     protected:
-    	friend class GuiEvents;
+        friend class GuiEvents;
         int _key;
         double _time;
 };

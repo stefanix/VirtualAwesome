@@ -10,9 +10,9 @@ MyApp::MyApp(){
     beat->setLoop(true);
     beat->play();
 
-	//stereo sound
+    //stereo sound
     swosh = new vaOpenal::SoundPlayer("swosh_stereo.wav");
-	swosh->setVolume(0.8f); 
+    swosh->setVolume(0.8f); 
 
     //mono sound and multiplay
     //can be triggered multiple times simultaneously
@@ -74,9 +74,9 @@ void MyApp::widget( va::ButtonWidget& button ) {
 }
 void MyApp::widget( va::SliderWidget& slider ) {
     if (&slider == sliderFreq) {        //match by pointer
-		beat->setSpeed(slider.getValue());
+        beat->setSpeed(slider.getValue());
     } else if (&slider == sliderVol) {
-		beat->setVolume(slider.getValue());
+        beat->setVolume(slider.getValue());
     }
 }
 

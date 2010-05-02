@@ -13,7 +13,7 @@
 */
 
 #ifndef VA_PANELWIDGET
-#define VA_PANELWIDGET	
+#define VA_PANELWIDGET  
 
 #include <va/Widget.h>
 #include <va/VertexGeometry.h>

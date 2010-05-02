@@ -41,10 +41,10 @@ class Touch {
         
         Touch( int id, float x, float y, float magnitude )
           : _id(id),
-        	_position(x,y,0.0f),
-        	_prevPosition(x,y,0.0f),
-        	_screenPosition(x,y),
-        	_prevScreenPosition(x,y),
+            _position(x,y,0.0f),
+            _prevPosition(x,y,0.0f),
+            _screenPosition(x,y),
+            _prevScreenPosition(x,y),
             _magnitude(magnitude),
             _widget(NULL),
             _scene(NULL),
@@ -83,7 +83,7 @@ class Touch {
                 
    
     protected:
-    	friend class Scene;
+        friend class Scene;
         int _id;
         osg::Vec3 _position;
         osg::Vec3 _prevPosition;        
@@ -108,20 +108,20 @@ class TouchAsync {
         
         TouchAsync( int id, float x, float y, float magnitude, Type type )
           : _id(id),
-        	_x(x),
-        	_y(y),
+            _x(x),
+            _y(y),
             _magnitude(magnitude),
             _type(type)
         {}
         
    
     protected:
-    	friend class Scene;
+        friend class Scene;
         int _id;
         float _x;
         float _y;
         float _magnitude;
-		Type _type;
+        Type _type;
 };
 
 
@@ -132,7 +132,7 @@ class TouchHit {
     public:
         
         TouchHit( Widget* widget, 
-        		  osg::Vec2 screenPosition,
+                  osg::Vec2 screenPosition,
                   osg::Vec3 localPosition,
                   osg::Vec3 worldPosition
                 )
@@ -143,7 +143,7 @@ class TouchHit {
         {}
             
     protected:
-    	friend class Scene;
+        friend class Scene;
         Widget*   _widget;
         osg::Vec2 _screenPosition;
         osg::Vec3 _position;

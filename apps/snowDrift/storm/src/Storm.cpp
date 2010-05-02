@@ -18,7 +18,7 @@ Storm::Storm() {
     disableLighting();
     enableBlending();
     
-    seedRandom();
+    va::seedRandom();
     
 }
 
@@ -34,16 +34,3 @@ void Storm::setBounds( float xMin, float yMin, float zMin, float xMax, float yMa
 	bounds.set(xMin, yMin, zMin, xMax, yMax, zMax);
 }
 
-
-
-void Storm::seedRandom(){
-	seedRandom(time(NULL));
-}
-
-void Storm::seedRandom( long seed ){
-	std::srand(seed);
-}
-
-float Storm::random(float min, float max){
-	return min + ((max-min) * std::rand()/(RAND_MAX + 1.0));
-}

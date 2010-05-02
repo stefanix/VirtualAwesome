@@ -68,7 +68,7 @@ class Pen {
         double getTime() {return _time;}
         
     protected:
-    	friend class GuiEvents;
+        friend class GuiEvents;
         float _x;
         float _y;    
         float _pressure;

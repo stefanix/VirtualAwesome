@@ -26,7 +26,7 @@ class CircleShape : public Shape {
 
     public:
 
-		CircleShape();
+        CircleShape();
         CircleShape( float radius, int resolution=40 );
         void reshape( float radius, int resolution=40 );        
         void reshape();
@@ -49,7 +49,7 @@ class CircleShape : public Shape {
         int _resolution;
         osg::ref_ptr<VertexGeometry> _verts;
     
-    	void init( float radius, int resolution );
+        void init( float radius, int resolution );
 };
 
 

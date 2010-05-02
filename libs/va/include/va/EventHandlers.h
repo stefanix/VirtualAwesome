@@ -39,21 +39,21 @@ class FirstKeyHandler {
         // FirstKeyHandler::get()
         // FirstKeyHandler::set(handler)
         static KeyHandler* get() {
-        	return getManagerInstance()._firstKeyHandler;
+            return getManagerInstance()._firstKeyHandler;
         }
         static void set( KeyHandler* handler ) {
-        	getManagerInstance()._firstKeyHandler = handler;
+            getManagerInstance()._firstKeyHandler = handler;
         }
         
     private:
-    	KeyHandler* _firstKeyHandler;
+        KeyHandler* _firstKeyHandler;
         
-    	FirstKeyHandler() 
+        FirstKeyHandler() 
           : _firstKeyHandler(NULL)
         {}
         
-    	static FirstKeyHandler& getManagerInstance() {
-        	static FirstKeyHandler instance;
+        static FirstKeyHandler& getManagerInstance() {
+            static FirstKeyHandler instance;
             return instance;
         }
 };
@@ -61,12 +61,12 @@ class FirstKeyHandler {
 class Key;
 class KeyHandler {
     public:
-    	KeyHandler() 
+        KeyHandler() 
           : _consumeKeyEvents(false)  //by default do not consume events
         {}
         virtual ~KeyHandler() {
-        	// check if this key handler is currently focused
-        	if (FirstKeyHandler::get() == this) {
+            // check if this key handler is currently focused
+            if (FirstKeyHandler::get() == this) {
                 FirstKeyHandler::set(NULL);
             }
         }
@@ -75,14 +75,14 @@ class KeyHandler {
         virtual void keyRelease( Key& key ){}
         
         virtual bool getConsumeKeyEvents() {
-        	return _consumeKeyEvents;
+            return _consumeKeyEvents;
         }
         virtual void setConsumeKeyEvents( bool bConsume ) {
-        	_consumeKeyEvents = bConsume;
+            _consumeKeyEvents = bConsume;
         }        
         
     private:
-    	bool _consumeKeyEvents;
+        bool _consumeKeyEvents;
 };
 
 

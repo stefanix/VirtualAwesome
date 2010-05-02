@@ -33,7 +33,7 @@ MyApp::MyApp(){
 MyApp::~MyApp(){}
 
 void MyApp::update() {
-	for (int i=0; i<server.getNumClients(); i++) {
+    for (int i=0; i<server.getNumClients(); i++) {
         server.TCPConnections[i];
     }
 

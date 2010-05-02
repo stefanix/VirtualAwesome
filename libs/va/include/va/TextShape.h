@@ -73,7 +73,7 @@ class TextShape : public Shape {
         }                
         template <class T>
         TextShape& setText(const T& x) {
-        	_ss.str("");
+            _ss.str("");
             _ss << x;
             _text->setText(_ss.str());
             return *this;
@@ -96,7 +96,7 @@ class TextShape : public Shape {
         float _characterSize;
         float _paddingLeft, _paddingRight, _paddingTop, _paddingBottom;
     
-    	void init( float w, float h );
+        void init( float w, float h );
 };
 
 

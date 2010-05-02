@@ -7,7 +7,7 @@ MyApp::MyApp(){
 
     sound = new vaSound::Sound();  //default is stereo out at 44100Hz
     sound->setEventHandler(this);
-	
+    
     pan = 0.5f;
     bNoise = false;
     sine1 = new stk::SineWave();
@@ -62,22 +62,22 @@ void MyApp::soundRequest( vaSound::SoundBuffer& buffer ) {
     int bufferSize = buffer.getBufferSize();
     int nChannels = buffer.getNumChannels();
     
-	if (bNoise){
-		for (int i = 0; i < bufferSize; i++){
-        	const float random = std::rand()/float(RAND_MAX);
+    if (bNoise){
+        for (int i = 0; i < bufferSize; i++){
+            const float random = std::rand()/float(RAND_MAX);
             // write to two interleaves output channels
             // panning accordingly
-			output[i*nChannels  ] = random * (1 - pan);
-			output[i*nChannels+1] = random * pan;
-		}
-	} else {
+            output[i*nChannels  ] = random * (1 - pan);
+            output[i*nChannels+1] = random * pan;
+        }
+    } else {
         for (int i=0; i<bufferSize; i++) {
             // write to two interleaves output channels
             // summing up the two sines and paning accordingly
             output[i*nChannels  ] = (0.5*sine1->tick() + 0.5*sine2->tick()) * (1 - pan);    
             output[i*nChannels+1] = (0.5*sine1->lastOut() + 0.5*sine2->lastOut()) * pan;  
         }
-	}
+    }
 }
 
 
@@ -95,8 +95,8 @@ void MyApp::widget( va::ButtonWidget& button ) {
 
 
 void MyApp::widget( va::SliderWidget& slider ) {
-	if (&slider == sliderPan) {
-    	pan = sliderPan->getValue();
+    if (&slider == sliderPan) {
+        pan = sliderPan->getValue();
     } else if (&slider == sliderFrq) {
         sine1->setFrequency(sliderFrq->getValue());  
     }

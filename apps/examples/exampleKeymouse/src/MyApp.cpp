@@ -4,7 +4,7 @@
 
 
 MyApp::MyApp(){
-	rect = new va::RectangleShape(200,100);
+    rect = new va::RectangleShape(200,100);
     rect->setPivot(100,50,0);
     rect->setPosition(scene->getWidth()*0.5, scene->getHeight()*0.5, 0.0);
     rect->setColor(0.6, 0.1, 0.3, 1.0);
@@ -25,7 +25,7 @@ MyApp::~MyApp(){}
 
 
 void MyApp::keyPress( va::Key& key ){
-	if (key.getKey() == 'r') {
+    if (key.getKey() == 'r') {
         rect->setColor(1,0,0,0);
     } else if (key.getKey() == 'g') {
         rect->setColor(0,1,0,0);
@@ -41,35 +41,35 @@ void MyApp::keyRelease( va::Key& key ){}
 
 
 void MyApp::touchDown( va::Touch& touch ){
-	rect->setScale(2);
+    rect->setScale(2);
 }
 
 void MyApp::touchMove( va::Touch& touch ){}
 
 void MyApp::touchUp( va::Touch& touch ){
-	rect->setScale(1);
+    rect->setScale(1);
 }
 
 
 
 void MyApp::mouseButton( va::Mouse& mouse ){
-	// The mouse button event is only of interest when it's
+    // The mouse button event is only of interest when it's
     // neccessary to distingush between left, middle, right button
     // otherwise simply use touchDown, touchUp
     // They are the universals for all pointing devices.
     
-	if (mouse.getButtonDirection() == va::Mouse::RELEASE) {
+    if (mouse.getButtonDirection() == va::Mouse::RELEASE) {
         if (mouse.getButton() == va::Mouse::MIDDLE_BUTTON) {
             rect->setColor(0,1,1,0);
         } else if (mouse.getButton() == va::Mouse::RIGHT_BUTTON) {
             rect->setColor(1,0,1,0);
         }
-	}
+    }
 }
 
 void MyApp::mouseScroll( va::Mouse& mouse ){
-	rect->addRotationY(-mouse.getScrollingDeltaX()*0.01);
-	rect->addRotationX(-mouse.getScrollingDeltaY()*0.01);
+    rect->addRotationY(-mouse.getScrollingDeltaX()*0.01);
+    rect->addRotationX(-mouse.getScrollingDeltaY()*0.01);
 }
 
 

@@ -29,16 +29,16 @@
 //  find the system type --------
 //-------------------------------
 
-// 		helpful:
-// 		http://www.ogre3d.org/docs/api/html/OgrePlatform_8h-source.html
+//      helpful:
+//      http://www.ogre3d.org/docs/api/html/OgrePlatform_8h-source.html
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
-	#define TARGET_WIN32
+    #define TARGET_WIN32
 #elif defined( __APPLE_CC__)
-	#include <TargetConditionals.h>
+    #include <TargetConditionals.h>
     #define TARGET_OSX
 #else
-	#define TARGET_LINUX
+    #define TARGET_LINUX
 #endif
 //-------------------------------
 
@@ -54,26 +54,17 @@ const double LN_2 = 0.69314718055994530942;
 const double INVLN_2 = 1.0 / LN_2;    
 
 
-//inline std::ostream& always(){
-//    return osg::notify(osg::ALWAYS);
-//}
-//
-//inline std::ostream& fatal(){
-//    return osg::notify(osg::FATAL);
-//}
-//
-//inline std::ostream& warn(){
-//    return osg::notify(osg::WARN);
-//}
-//
-//inline std::ostream& notice(){
-//    return osg::notify(osg::NOTICE);
-//}
-//
-//inline std::ostream& info(){
-//    return osg::notify(osg::INFO);
-//}
-//
+std::ostream& always();
+std::ostream& fatal();
+std::ostream& warn();
+std::ostream& notice();
+std::ostream& info();
+
+
+void seedRandom();
+void seedRandom( long seed );
+float random( float min, float max );
+
 
 }
 #endif

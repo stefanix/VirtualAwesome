@@ -292,6 +292,7 @@ ADD_LIBRARY( va STATIC
     ${VA_SOURCE_DIRECTORY}/App.cpp
     ${VA_SOURCE_DIRECTORY}/ButtonWidget.cpp
     ${VA_SOURCE_DIRECTORY}/CircleShape.cpp
+    ${VA_SOURCE_DIRECTORY}/Constants.cpp
     ${VA_SOURCE_DIRECTORY}/EllipseShape.cpp
     ${VA_SOURCE_DIRECTORY}/GuiEvents.cpp
     ${VA_SOURCE_DIRECTORY}/ImageShape.cpp
@@ -327,10 +328,9 @@ SET_TARGET_PROPERTIES( va PROPERTIES
 # ADDONS
 ###########################################
 
-OPTION( BUILD_ADDON_VA_TOUCHKIT "Build the vaTouchkit addon." ON)
-IF( BUILD_ADDON_VA_TOUCHKIT )
-	ADD_SUBDIRECTORY( addons/vaOpencv )
-	ADD_SUBDIRECTORY( addons/vaTouchkit )
+OPTION( BUILD_ADDON_VA_MICE "Build the vaMice addon." ON)
+IF( BUILD_ADDON_VA_MICE )
+	ADD_SUBDIRECTORY( addons/vaMice )
 ENDIF()
 
 IF(APPLE)
@@ -338,16 +338,6 @@ IF(APPLE)
 	IF( BUILD_ADDON_VA_MULTIPAD )
 		ADD_SUBDIRECTORY( addons/vaMultipad )
 	ENDIF()
-ENDIF()
-
-OPTION( BUILD_ADDON_VA_MICE "Build the vaMice addon." ON)
-IF( BUILD_ADDON_VA_MICE )
-	ADD_SUBDIRECTORY( addons/vaMice )
-ENDIF()
-
-OPTION( BUILD_ADDON_VA_SOUND "Build the vaSound addon." ON)
-IF( BUILD_ADDON_VA_SOUND )
-	ADD_SUBDIRECTORY( addons/vaSound )
 ENDIF()
 
 OPTION( BUILD_ADDON_VA_NETWORK "Build the vaNetwork addon." ON)
@@ -365,6 +355,18 @@ IF( BUILD_ADDON_VA_OSC )
 	ADD_SUBDIRECTORY( addons/vaOsc )
 ENDIF()
 
+OPTION( BUILD_ADDON_VA_SOUND "Build the vaSound addon." ON)
+IF( BUILD_ADDON_VA_SOUND )
+	ADD_SUBDIRECTORY( addons/vaSound )
+ENDIF()
+
+OPTION( BUILD_ADDON_VA_TOUCHKIT "Build the vaTouchkit addon." ON)
+IF( BUILD_ADDON_VA_TOUCHKIT )
+	ADD_SUBDIRECTORY( addons/vaOpencv )
+	ADD_SUBDIRECTORY( addons/vaTouchkit )
+ENDIF()
+
+
 ###########################################
 # EXAMPLES
 ###########################################
@@ -376,17 +378,26 @@ ENDIF()
 	
 OPTION( BUILD_VA_EXAMPLES "Build the VirtualAwesome examples." ON)
 IF( BUILD_VA_EXAMPLES )	
-	IF( BUILD_ADDON_VA_TOUCHKIT )
-		ADD_SUBDIRECTORY( apps/addonExamples/exampleTouchkitSimple )
+	ADD_SUBDIRECTORY( apps/examples/exampleKeymouse )
+	ADD_SUBDIRECTORY( apps/examples/exampleShapes )
+	ADD_SUBDIRECTORY( apps/examples/exampleWidget )
+	
+	IF( BUILD_ADDON_VA_MICE )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleMice )
 	ENDIF()
-
+		
 	IF( BUILD_ADDON_VA_MULTIPAD )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipad )
 	ENDIF()
 
-	IF( BUILD_ADDON_VA_MICE )
-		ADD_SUBDIRECTORY( apps/addonExamples/exampleMice )
-	ENDIF()
+	IF( BUILD_ADDON_VA_OPENAL )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleOpenal )
+	ENDIF()	
+	
+	IF( BUILD_ADDON_VA_OSC )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscSender )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscReceiver )
+	ENDIF()		
 
 	IF( BUILD_ADDON_VA_SOUND )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundSine )
@@ -397,18 +408,9 @@ IF( BUILD_VA_EXAMPLES )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleTcpServer )
 	ENDIF()	
 		
-	IF( BUILD_ADDON_VA_OPENAL )
-		ADD_SUBDIRECTORY( apps/addonExamples/exampleOpenal )
+	IF( BUILD_ADDON_VA_TOUCHKIT )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleTouchkitSimple )
 	ENDIF()	
-
-	IF( BUILD_ADDON_VA_OSC )
-		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscSender )
-		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscReceiver )
-	ENDIF()	
-				
-	ADD_SUBDIRECTORY( apps/examples/exampleKeymouse )
-	ADD_SUBDIRECTORY( apps/examples/exampleShapes )
-	ADD_SUBDIRECTORY( apps/examples/exampleWidget )
 ENDIF()
 
 

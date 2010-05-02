@@ -35,7 +35,7 @@ class Scene;
 class GuiEvents : public osgGA::GUIEventHandler {
     public:
     
-    	GuiEvents();
+        GuiEvents();
         void addUpdateHandler( UpdateHandler* handler );      
         void addResizeHandler( ResizeHandler* handler );      
         void addKeyHandler( KeyHandler* handler );
@@ -55,9 +55,9 @@ class GuiEvents : public osgGA::GUIEventHandler {
             
         std::vector<UpdateHandler*> _updateHandlers;
         std::vector<ResizeHandler*> _resizeHandlers;            
-    	std::vector<KeyHandler*>    _keyHandlers; 
-    	std::vector<MouseHandler*>  _mouseHandlers; 
-    	std::vector<PenHandler*>    _penHandlers;
+        std::vector<KeyHandler*>    _keyHandlers; 
+        std::vector<MouseHandler*>  _mouseHandlers; 
+        std::vector<PenHandler*>    _penHandlers;
 };
 
 

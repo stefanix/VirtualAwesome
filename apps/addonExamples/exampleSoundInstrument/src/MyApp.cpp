@@ -7,8 +7,8 @@ MyApp::MyApp(){
     
     sound = new vaSound::Sound();  //default is stereo out at 44100Hz
     sound->setEventHandler(this);
-	
-	bNoteOn = true;
+    
+    bNoteOn = true;
     instrument = new stk::Saxofony(100.0);
     instrument->noteOn(500.0f, 0.5); 
     

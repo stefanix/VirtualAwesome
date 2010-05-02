@@ -40,7 +40,7 @@ class ToggleNob : public Widget {
         void touchUp( Touch& touch ){}
         
     protected:
-    	friend class ToggleWidget;
+        friend class ToggleWidget;
         osg::ref_ptr<VertexGeometry> _toggleshape;        
         bool _bToggled;        
         osg::ref_ptr<ToggleWidget> _toggle;

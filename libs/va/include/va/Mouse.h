@@ -71,8 +71,8 @@ class Mouse {
         double getTime() {return _time;}
 
     protected:
-    	friend class GuiEvents;
-    	friend class Scene;
+        friend class GuiEvents;
+        friend class Scene;
         int _id;
         float _x;
         float _y;

@@ -49,7 +49,7 @@ class WidgetFocusVisitor : public osg::NodeVisitor {
         virtual void apply( osg::PositionAttitudeTransform& group );
         
     protected:
-    	bool _bKeyboardFocusAssigned;
+        bool _bKeyboardFocusAssigned;
 };
 
 

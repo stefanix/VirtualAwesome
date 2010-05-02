@@ -23,7 +23,7 @@ namespace va {
 
 
 class TouchShape : public Node {
-	public:
+    public:
 
         TouchShape();        
         void setText( const std::string& text );
@@ -34,17 +34,17 @@ class TouchShape : public Node {
         // appendText("Number is: ").appendText(42)
         template <class T>
         TouchShape& setText(const T& x) {
-        	_textShape->setText(x);
+            _textShape->setText(x);
             return *this;
         }
         template <class T>
         TouchShape& appendText(const T& x) {
-        	_textShape->appendText(x);
+            _textShape->appendText(x);
             return *this;
         }  
                         
     protected:
-    	float _radius;
+        float _radius;
         osg::ref_ptr<CircleShape> _circleShape;
         osg::ref_ptr<CircleShape> _circleLineShape;
         osg::ref_ptr<TextShape> _textShape;

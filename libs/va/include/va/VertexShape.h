@@ -54,9 +54,9 @@ class VertexShape : public Shape {
         void clearVertices();
 
 
-		// Vertex Colors
+        // Vertex Colors
         //
-		// one color for all vertices
+        // one color for all vertices
         void setColor( float r, float g, float b, float a );
         void setColor( const osg::Vec4& color );
         const osg::Vec4& getColor();
@@ -68,9 +68,9 @@ class VertexShape : public Shape {
         void clearVertexColors();
 
 
-		// Vertex Normals
+        // Vertex Normals
         //
-		// one normal for all vertices
+        // one normal for all vertices
         void setNormal( float x, float y, float z );
         void setNormal( const osg::Vec3& color );
         const osg::Vec3& getNormal();

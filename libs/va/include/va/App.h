@@ -27,7 +27,7 @@ class Scene;
 
 
 class App : public osg::Referenced,
-			public UpdateHandler, 
+            public UpdateHandler, 
             public ResizeHandler,
             public KeyHandler, 
             public TouchHandler, 

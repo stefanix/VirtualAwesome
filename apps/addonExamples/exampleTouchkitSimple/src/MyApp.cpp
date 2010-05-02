@@ -15,8 +15,8 @@ MyApp::MyApp(){
     if (bLiveVideo) {
         //tracker->listDevices();
         tracker->selectDevice(0);
-	} else {
-    	// run tracking from jpeg sequence
+    } else {
+        // run tracking from jpeg sequence
         // parameters are: name of first image, number of digits
         // for the incementing number, first frame, last frame
         //
@@ -24,18 +24,18 @@ MyApp::MyApp(){
         tracker->selectJpegs("touchkit-drag/touchkit-drag 0001.jpg", 4, 1, 1014);
         //tracker->selectJpegs("touchkit-pinch/touchkit-pinch 0001.jpg", 4, 1, 1100);
         //tracker->selectJpegs("touchkit-pinchrotate/touchkit-pinchrotate 001.jpg", 3, 1, 860);
-	}
+    }
 }
 
 MyApp::~MyApp(){}
 
 
 void MyApp::keyPress( va::Key& key ){
-	if (key.getKey() == 's') {
-    	// toggle setup mode
+    if (key.getKey() == 's') {
+        // toggle setup mode
         tracker->setSetupMode(!tracker->getSetupMode());
     } else if (key.getKey() == '?') {
-    	// toggle rendering stats
+        // toggle rendering stats
         scene->toggleStats();
     }
 

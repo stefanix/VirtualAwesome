@@ -25,7 +25,7 @@ class EllipseShape : public Shape {
 
     public:
 
-		EllipseShape();
+        EllipseShape();
         EllipseShape( float w, float h, int resolution=40 );
         void reshape( float w, float h, int resolution=40 );        
         void reshape();        
@@ -51,7 +51,7 @@ class EllipseShape : public Shape {
         int _resolution;
         osg::ref_ptr<VertexGeometry> _verts;        
     
-    	void init( float w, float h, int resolution );
+        void init( float w, float h, int resolution );
 };
 
 

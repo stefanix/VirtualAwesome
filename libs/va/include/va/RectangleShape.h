@@ -27,7 +27,7 @@ class RectangleShape : public Shape {
 
         RectangleShape();
         RectangleShape( float w, float h );   
-        void reshape( float w, float h );        	     
+        void reshape( float w, float h );                
         void reshape();
         
         void setWidth( float w );
@@ -48,7 +48,7 @@ class RectangleShape : public Shape {
         float _height;
         osg::ref_ptr<VertexGeometry> _verts;        
     
-    	void init( float w, float h );
+        void init( float w, float h );
 };
 
 

@@ -204,7 +204,7 @@ class Node: public osg::NodeCallback {
         osg::ref_ptr<osg::PositionAttitudeTransform> _xform;
         osg::ref_ptr<osg::Geode> _geode;
         
-    	WidgetTouchEventVisitor _widgetTouchEventVisitor;
+        WidgetTouchEventVisitor _widgetTouchEventVisitor;
 };
 
 

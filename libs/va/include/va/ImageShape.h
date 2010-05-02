@@ -50,7 +50,7 @@ class ImageShape : public Shape {
                 
 
     protected:
-    	float _width;
+        float _width;
         float _height;
         osg::ref_ptr<osg::Image>      _image;
         osg::ref_ptr<TextureGeometry> _texture;

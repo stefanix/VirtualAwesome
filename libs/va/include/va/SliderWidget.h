@@ -43,7 +43,7 @@ class SliderNob: public Widget {
 
 
     protected:
-    	friend class SliderWidget; 
+        friend class SliderWidget; 
         osg::ref_ptr<SliderWidget>  _slider;
         std::string  _defaultTypeface;
         osg::ref_ptr<osgText::Text>  _label;

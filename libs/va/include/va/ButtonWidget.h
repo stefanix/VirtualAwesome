@@ -50,7 +50,7 @@ class ButtonWidget:  public Widget {
         osg::Vec4 _buttonPressBorderColor;
         osg::Vec4 _buttonPressBorderColorTemp;
     
-    	void init( float w, float h );
+        void init( float w, float h );
 };
 
 

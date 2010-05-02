@@ -1,6 +1,6 @@
 /* * *
 * MyApp can handle many events: mouse, key, pen, touch ...
-* http://code.google.com/p/virtualawesome/wiki/EventHandlers
+* http://labs.nortd.com/va/docs/reference#allHandlers
 */
 
 #ifndef VA_MYAPP
@@ -13,11 +13,11 @@
 
 
 class MyApp : public va::App, public vaSound::SoundHandler {
-	
-	public:
     
-    	MyApp();
-    	~MyApp();
+    public:
+    
+        MyApp();
+        ~MyApp();
 
         void update();
         void soundRequest( vaSound::SoundBuffer& buffer );
@@ -37,4 +37,4 @@ class MyApp : public va::App, public vaSound::SoundHandler {
 };
 
 #endif
-	
+    

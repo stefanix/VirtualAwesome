@@ -96,7 +96,7 @@ class Widget : public Node,
                         
       
     protected:
-      	friend class Scene;
+        friend class Scene;
         friend class WidgetTouchEventVisitor;
         
         osg::ref_ptr<VertexGeometry> _background;
