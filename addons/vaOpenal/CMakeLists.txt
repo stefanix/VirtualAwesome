@@ -77,6 +77,8 @@ ELSE()
 	# set target link libs for addon
 	SET( VA_OPENAL_LINK_LIBRARIES
 		asound
+		openal
+		sndfile
 	)
 	SET( VA_OPENAL_LINK_LIBRARIES  ${VA_OPENAL_LINK_LIBRARIES}  PARENT_SCOPE )	
 	

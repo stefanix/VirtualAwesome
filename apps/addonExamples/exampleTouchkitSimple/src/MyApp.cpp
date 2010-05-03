@@ -11,7 +11,7 @@ MyApp::MyApp(){
     tracker->setPosition(100, scene->getHeight()-580, 0);
     scene->addChild(tracker);
 
-    bool bLiveVideo = true;
+    bool bLiveVideo = false;
     if (bLiveVideo) {
         //tracker->listDevices();
         tracker->selectDevice(0);
