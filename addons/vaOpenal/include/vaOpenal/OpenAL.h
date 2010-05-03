@@ -38,7 +38,7 @@
 #else
 #include <AL/al.h>
 #include <AL/alc.h>
-#include <AL/alext.h>
+//#include <AL/alext.h>
 #endif
 
 #include <iostream>

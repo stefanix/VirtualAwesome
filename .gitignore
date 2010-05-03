@@ -31,9 +31,9 @@ virtualAwesome.layout
 *.vcproj
 *.vcproj.*
 *.dir
-virtualAwesome.ncb
-virtualAwesome.sln
-virtualAwesome.suo
+*.ncb
+*.sln
+*.suo
 
 
 ### VirtualAwesome related

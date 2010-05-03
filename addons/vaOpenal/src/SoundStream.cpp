@@ -115,9 +115,11 @@ void SoundStream::Play()
 ////////////////////////////////////////////////////////////
 void SoundStream::Stop()
 {
-    // Wait for the thread to terminate
-    myIsStreaming = false;
-    join();  //waitForThread();
+    if (myIsStreaming) {  // stefan patch, check if actually streaming
+        // Wait for the thread to terminate
+        myIsStreaming = false;
+        join();  //waitForThread();
+    }
 }
 
 

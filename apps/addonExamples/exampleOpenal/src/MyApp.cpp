@@ -6,7 +6,7 @@
 MyApp::MyApp(){
     
     //long sound, stream
-    beat = new vaOpenal::SoundPlayer("savannadrum.ogg",true);
+    beat = new vaOpenal::SoundPlayer("savannadrum.ogg", true);
     beat->setLoop(true);
     beat->play();
 

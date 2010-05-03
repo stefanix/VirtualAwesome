@@ -408,12 +408,12 @@ void SoundPlayer::play() {
             Sound::SoundStatus status = _sound->GetStatus();
             if( status == Sound::Playing) {
                 std::vector<Sound*>::iterator itr;
-                for(itr = _multiSounds.begin(); itr < _multiSounds.end();itr++) {
+                for(itr = _multiSounds.begin(); itr != _multiSounds.end();itr++) {
                     status = (*itr)->GetStatus();
                     if(status != Sound::Playing) {
                         (*itr)->Play();
                         hasPlayed = true;
-                        itr = _multiSounds.end();
+                        break;
                     }
                 }
                 

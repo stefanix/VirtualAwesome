@@ -69,12 +69,13 @@ bool Music::OpenFromFile(const std::string& Filename)
     // Create the sound file implementation, and open it in read mode
     delete myFile;
     myFile = SoundFile::CreateRead(Filename);
+
     if (!myFile)
     {
         std::cerr << "Failed to open \"" << Filename << "\" for reading" << std::endl;
         return false;
     }
-
+    
     // Compute the duration
     myDuration = static_cast<float>(myFile->GetSamplesCount()) / myFile->GetSampleRate() / myFile->GetChannelsCount();
 

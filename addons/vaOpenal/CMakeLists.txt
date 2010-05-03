@@ -88,6 +88,7 @@ IF(WIN32)
 	# include directories for vaOpenal
 	SET( VA_OPENAL_INCLUDES
 	  ${VA_OPENAL_ROOT}/include
+	  ${VA_OPENAL_ROOT}/libs/openal-win32/include 
 	  ${VA_OPENAL_ROOT}/libs/sndfile-win32/include 
 	)
 	SET( VA_OPENAL_INCLUDES  ${VA_OPENAL_INCLUDES}  PARENT_SCOPE )
@@ -95,10 +96,9 @@ IF(WIN32)
 		
 	# set target link libs for addon
 	SET( VA_OPENAL_LINK_LIBRARIES
-		optimized  dsound.lib	
-		optimized  winmm.lib	
-		debug  dsoundd.lib	
-		debug  winmmd.lib	
+		winmm.lib	
+		${VA_OPENAL_ROOT}/libs/openal-win32/lib/OpenAL32.lib
+		${VA_OPENAL_ROOT}/libs/sndfile-win32/lib/libsndfile-1.lib
 	)
 	SET( VA_OPENAL_LINK_LIBRARIES  ${VA_OPENAL_LINK_LIBRARIES}  PARENT_SCOPE )	
 	
