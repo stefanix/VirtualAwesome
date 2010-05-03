@@ -355,6 +355,11 @@ IF( BUILD_ADDON_VA_OSC )
 	ADD_SUBDIRECTORY( addons/vaOsc )
 ENDIF()
 
+OPTION( BUILD_ADDON_VA_SOUND "Build the vaSound addon." ON)
+IF( BUILD_ADDON_VA_SOUND )
+	ADD_SUBDIRECTORY( addons/vaSound )
+ENDIF()
+
 OPTION( BUILD_ADDON_VA_TOUCHKIT "Build the vaTouchkit addon." ON)
 IF( BUILD_ADDON_VA_TOUCHKIT )
 	ADD_SUBDIRECTORY( addons/vaTouchkit )
@@ -392,7 +397,12 @@ IF( BUILD_VA_EXAMPLES )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscSender )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleOscReceiver )
 	ENDIF()		
-		
+
+	IF( BUILD_ADDON_VA_SOUND )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundSine )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundInstrument )
+	ENDIF()
+	
 	IF( BUILD_ADDON_VA_TOUCHKIT )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleTouchkitSimple )
 	ENDIF()	
