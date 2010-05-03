@@ -13,6 +13,7 @@
 */
 
 #include <va/Constants.h>
+#include <cstdlib>
 
 using namespace va;
 

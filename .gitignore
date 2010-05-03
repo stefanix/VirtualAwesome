@@ -21,6 +21,7 @@ cmake_install.cmake
 #
 Makefile
 virtualAwesome.cbp
+virtualAwesome.layout
 
 
 ### VirtualAwesome related
