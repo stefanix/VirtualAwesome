@@ -12,6 +12,7 @@
 *
 */
 
+#include <memory.h>
 #include <vaSound/Sound.h>
 #include <stk/Stk.h>
 
@@ -40,7 +41,7 @@ void Sound::init( int nOutputs, int nInputs, int sampleRate, int bufferSize, int
 
 	_nInputChannels = nInputs;
 	_nOutputChannels = nOutputs;
-	
+
 	int rval = 1;
 	while (rval<bufferSize) { rval<<=1; }  // get next pow2
     bufferSize = rval;                     // must be pow2
@@ -75,13 +76,13 @@ void Sound::init( int nOutputs, int nInputs, int sampleRate, int bufferSize, int
 	options.priority = 1;
 
 	try {
-		_audio->openStream( outputParameters, inputParameters, 
-		                    RTAUDIO_FLOAT32, sampleRate, 
-		                    &bufferFrames, &callback, 
+		_audio->openStream( outputParameters, inputParameters,
+		                    RTAUDIO_FLOAT32, sampleRate,
+		                    &bufferFrames, &callback,
 		                    this, &options );
 		// Reminder: make sure stk::StkFloat is actually defined as float
 		//           otherwise if double use RTAUDIO_FLOAT64
-		
+
 		_audio->startStream();
 	} catch (RtError &error) {
 		error.printMessage();
@@ -97,7 +98,7 @@ Sound::~Sound() {
   	} catch (RtError &error) {
    		error.printMessage();
  	}
- 	
+
     delete _audio;
 }
 
@@ -137,8 +138,8 @@ void Sound::listDevices() {
 
 
 
-int Sound::callback( void* outputBuffer, void* inputBuffer, 
-                     unsigned int bufferSize, double streamTime, 
+int Sound::callback( void* outputBuffer, void* inputBuffer,
+                     unsigned int bufferSize, double streamTime,
                      RtAudioStreamStatus status, void* data ) {
 
 	if ( status ) std::cout << "Stream over/underflow detected." << std::endl;
@@ -169,7 +170,7 @@ int Sound::callback( void* outputBuffer, void* inputBuffer,
 	if (instance->_nOutputChannels > 0) {
         instance->_bufferArg._buffer = fPtrOut;
         instance->_bufferArg._bufferSize = bufferSize;
-        instance->_bufferArg._nChannels = instance->_nOutputChannels;	    
+        instance->_bufferArg._nChannels = instance->_nOutputChannels;
 		instance->_soundHandler->soundRequest(instance->_bufferArg);
 	}
 

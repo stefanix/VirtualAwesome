@@ -17,6 +17,11 @@ CMakeFiles
 CMakeScripts
 cmake_install.cmake
 
+### CodeBlocks stuff
+#
+Makefile
+virtualAwesome.cbp
+
 
 ### VirtualAwesome related
 #
