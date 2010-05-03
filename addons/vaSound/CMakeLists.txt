@@ -246,12 +246,7 @@ IF(WIN32)
 		
 	# set target link libs for addon
 	SET( VA_SOUND_LINK_LIBRARIES
-		optimized  dsound.lib	
-		optimized  winmm.lib	
-		optimized  Wsock32.lib	
-		debug  dsoundd.lib	
-		debug  winmmd.lib	
-		debug  Wsock32d.lib	
+		ws2_32.lib winmm.lib	
 	)
 	SET( VA_SOUND_LINK_LIBRARIES  ${VA_SOUND_LINK_LIBRARIES}  PARENT_SCOPE )	
 	

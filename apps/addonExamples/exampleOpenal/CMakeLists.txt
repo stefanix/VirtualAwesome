@@ -36,3 +36,17 @@ TARGET_LINK_LIBRARIES( ${EXAMPLE_NAME}
 SET_TARGET_PROPERTIES( ${EXAMPLE_NAME} PROPERTIES 
 	RUNTIME_OUTPUT_DIRECTORY  ${EXAMPLE_ROOT}/bin
 )
+
+
+# Copy some files to the path of the executable after building
+# This is useful to place dynamic libraries where the
+# executable can find it. 
+#
+IF( WIN32 )
+	POST_BUILD_COPY_FILE( ${OPENAL_DLL_RUNTIME}  ${EXAMPLE_ROOT}/bin/Debug )
+	POST_BUILD_COPY_FILE( ${WRAPOAL_DLL_RUNTIME}  ${EXAMPLE_ROOT}/bin/Debug )
+	POST_BUILD_COPY_FILE( ${SNDFILE_DLL_RUNTIME}  ${EXAMPLE_ROOT}/bin/Debug )
+	POST_BUILD_COPY_FILE( ${OPENAL_DLL_RUNTIME}  ${EXAMPLE_ROOT}/bin/Release )
+	POST_BUILD_COPY_FILE( ${WRAPOAL_DLL_RUNTIME}  ${EXAMPLE_ROOT}/bin/Release )
+	POST_BUILD_COPY_FILE( ${SNDFILE_DLL_RUNTIME}  ${EXAMPLE_ROOT}/bin/Release )
+ENDIF()

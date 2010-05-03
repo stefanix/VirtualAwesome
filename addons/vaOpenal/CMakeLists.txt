@@ -100,7 +100,11 @@ IF(WIN32)
 		${VA_OPENAL_ROOT}/libs/openal-win32/lib/OpenAL32.lib
 		${VA_OPENAL_ROOT}/libs/sndfile-win32/lib/libsndfile-1.lib
 	)
-	SET( VA_OPENAL_LINK_LIBRARIES  ${VA_OPENAL_LINK_LIBRARIES}  PARENT_SCOPE )	
+	SET( VA_OPENAL_LINK_LIBRARIES  ${VA_OPENAL_LINK_LIBRARIES}  PARENT_SCOPE )
+
+	SET( OPENAL_DLL_RUNTIME  ${VA_OPENAL_ROOT}/libs/openal-win32/bin/OpenAL32.dll  PARENT_SCOPE )
+	SET( WRAPOAL_DLL_RUNTIME  ${VA_OPENAL_ROOT}/libs/openal-win32/bin/wrap_oal.dll  PARENT_SCOPE )
+	SET( SNDFILE_DLL_RUNTIME  ${VA_OPENAL_ROOT}/libs/sndfile-win32/bin/libsndfile-1.dll  PARENT_SCOPE )
 	
 ENDIF()
 # -----</ Platform specifics>
