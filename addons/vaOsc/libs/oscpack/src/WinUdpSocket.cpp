@@ -28,6 +28,9 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+
+#include <va/Constants.h>
+
 #ifdef TARGET_WIN32
 
 

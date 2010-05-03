@@ -5,11 +5,6 @@
 !.gitignore
 
 
-### XCode stuff
-#
-build
-*.xcodeproj
-
 ### CMake stuff
 #
 CMakeCache.txt
@@ -17,11 +12,28 @@ CMakeFiles
 CMakeScripts
 cmake_install.cmake
 
+
+### XCode stuff
+#
+build
+*.xcodeproj
+
+
 ### CodeBlocks stuff
 #
 Makefile
 virtualAwesome.cbp
 virtualAwesome.layout
+
+
+### VisualStudio stuff
+#
+*.vcproj
+*.vcproj.*
+*.dir
+virtualAwesome.ncb
+virtualAwesome.sln
+virtualAwesome.suo
 
 
 ### VirtualAwesome related

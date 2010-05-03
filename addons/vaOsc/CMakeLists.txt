@@ -74,8 +74,7 @@ IF(WIN32)
 	# Windows
 
 	SET( VA_OSC_LINK_LIBRARIES
-		optimized  Wsock32.lib	
-		debug  Wsock32d.lib	
+        ws2_32.lib winmm.lib
 	)
 	SET( VA_OSC_LINK_LIBRARIES  ${VA_OSC_LINK_LIBRARIES}  PARENT_SCOPE )	
 	
