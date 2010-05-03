@@ -14,6 +14,7 @@
 
 #include <va/Constants.h>
 #include <cstdlib>
+#include <ctime>
 
 using namespace va;
 
