@@ -50,7 +50,7 @@ bool JpegGrabber::selectJpegs( const std::string& fistJpeg, int numDigits, int s
 
         osg::ref_ptr<osg::Image> image= osgDB::readImageFile(filename);
 
-        if (image->valid()) {
+        if (image.valid()) {
         	/*if ( !(image->getPixelFormat() == GL_RGBA || image->getPixelFormat() == GL_LUMINANCE)
                  || !(image->getDataType() == GL_UNSIGNED_BYTE)
                  || !(image->getPacking() == 1) )

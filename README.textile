@@ -46,6 +46,7 @@ h4. RELEASE 0.4.0
   via addDrawable
 
 Known Issues:
+* sound on linux is not well tested
 * cursor hiding in miceExample on Windows missing
 * vaMice does not work on some Linux distros
 * Scrolling events do not work on some Linux distros
