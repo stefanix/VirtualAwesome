@@ -28,6 +28,8 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <va/Constants.h>
+
 #ifdef TARGET_WIN32
 
 
@@ -77,7 +79,7 @@ NetworkInitializer::~NetworkInitializer()
 }
 
 
-unsigned long GetHostByNameFunc( const char *name )
+unsigned long osc::GetHostByNameFunc( const char *name )
 {
     NetworkInitializer networkInitializer;
 

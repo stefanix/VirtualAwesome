@@ -19,6 +19,7 @@
 #define VAOSC_ARG
 
 #include <string>
+#include <va/Constants.h>
 
 namespace vaOsc {
 
