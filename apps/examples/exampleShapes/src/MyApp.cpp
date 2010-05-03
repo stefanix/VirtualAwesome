@@ -15,7 +15,7 @@ MyApp::MyApp(){
     myTri->setPivot(20,15,0);
     myTri->setColor(1.0, 0.19, 0.14, 1.0);
     scene->addChild(myTri);
-        
+
     va::RectangleShape* myRect = new va::RectangleShape(50, 20);
     myRect->setPosition(200, 630, 0);
     myRect->setPivot(25,10,0);
@@ -40,41 +40,41 @@ MyApp::MyApp(){
     myLine->setLineWidth(2.0);
     myLine->setColor(1.0, 0.19, 0.14, 1.0);
     scene->addChild(myLine);
-    
+
     va::MonsterShape* myMonster = new va::MonsterShape();
     myMonster->setPosition(500, 580, 0);
     myMonster->setScale(0.5);
     myMonster->setColor(1.0, 0.19, 0.14, 1.0);
     scene->addChild(myMonster);
 
-    
+
     // Images
     //
-    
+
     imagepng = new va::ImageShape("image.png");
-    imagepng->setPivot(0.5*imagepng->getWidth(), 0.0f, 0.0f);    
+    imagepng->setPivot(0.5*imagepng->getWidth(), 0.0f, 0.0f);
     imagepng->setPosition(200,400,0);
     imagepng->setScale(0.5);
-    scene->addChild(imagepng);    
+    scene->addChild(imagepng);
 
     imagejpg = new va::ImageShape("image.jpg");
     imagejpg->setPivot(0.5*imagejpg->getWidth(), 0.0f, 0.0f);
     imagejpg->setPosition(420,400,0);
     imagejpg->setScale(0.3);
-    imagejpg->setColor(1.0, 0.0, 0.0, 1.0);    
+    imagejpg->setColor(1.0, 0.0, 0.0, 1.0);
     scene->addChild(imagejpg);
 
     imagebmp = new va::ImageShape("image.bmp");
-    imagebmp->setPivot(0.5*imagebmp->getWidth(), 0.0f, 0.0f);        
+    imagebmp->setPivot(0.5*imagebmp->getWidth(), 0.0f, 0.0f);
     imagebmp->setPosition(600,400,0);
     imagebmp->setScale(0.6f);
-    imagebmp->setColor(1.0, 0.0, 0.3, 1.0);        
+    imagebmp->setColor(1.0, 0.0, 0.3, 1.0);
     scene->addChild(imagebmp);
-    
-    
+
+
     // Models
-    // 
-        
+    //
+
     spaceship = new va::Model();
     spaceship->loadModel("spaceship.osg");
     spaceship->setPosition(200,200,0);
@@ -116,7 +116,7 @@ void MyApp::widget( va::SliderWidget& slider ) {
 
     // make objects respond to slider
     //
-    
+
     imagepng->setRotation(-6*slider.getValue(), 0.0f, 1.0f, 0.0f);
     imagejpg->setRotation(6*slider.getValue(), 0.0f, 1.0f, 0.0f);
     imagebmp->setRotation(-6*slider.getValue(), 0.0f, 1.0f, 0.0f);
