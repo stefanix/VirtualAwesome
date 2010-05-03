@@ -340,11 +340,6 @@ IF(APPLE)
 	ENDIF()
 ENDIF()
 
-OPTION( BUILD_ADDON_VA_NETWORK "Build the vaNetwork addon." ON)
-IF( BUILD_ADDON_VA_NETWORK )
-	ADD_SUBDIRECTORY( addons/vaNetwork )
-ENDIF()
-
 OPTION( BUILD_ADDON_VA_OPENAL "Build the vaOpenal addon." ON)
 IF( BUILD_ADDON_VA_OPENAL )
 	ADD_SUBDIRECTORY( addons/vaOpenal )
@@ -403,10 +398,6 @@ IF( BUILD_VA_EXAMPLES )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundSine )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleSoundInstrument )
 	ENDIF()
-	
-	IF( BUILD_ADDON_VA_NETWORK )
-		ADD_SUBDIRECTORY( apps/addonExamples/exampleTcpServer )
-	ENDIF()	
 		
 	IF( BUILD_ADDON_VA_TOUCHKIT )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleTouchkitSimple )
@@ -419,6 +410,5 @@ ENDIF()
 # APPS
 ###########################################
 
-ADD_SUBDIRECTORY( apps/snowDrift/storm )
 
 
