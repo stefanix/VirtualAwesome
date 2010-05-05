@@ -4,10 +4,10 @@
 
 MyApp::MyApp(){
 
-    panel1 = new va::PanelWidget(300,200);
-    panel1->setLabel("MyPanel");
+    panel1 = new va::PanelWidget(300,400);
+    panel1->setLabel("Text Rotation");
     panel1->setPosition(200,500);
-    panel1->setPivot(150,100,0);
+    panel1->setPivot(150,200,0);
     scene->addChild(panel1);
 
     va::ButtonWidget* button1 = new va::ButtonWidget(200,40);
@@ -19,8 +19,9 @@ MyApp::MyApp(){
     panel1->addChild(button1);
 
     slider1 = new va::SliderWidget(240,40);
-    slider1->setLabel("Rotation");
-    slider1->setPosition(30,100);
+    slider1->setLabel("Z Axis");
+    slider1->setPivot(120,20,0);    
+    slider1->setPosition(150,340);
     slider1->setValueMin(-va::PI);
     slider1->setValueMax(va::PI);
     slider1->addEventHandler(this);
@@ -36,6 +37,17 @@ MyApp::MyApp(){
     slider2->addEventHandler(this);
     scene->addChild(slider2); 
 
+    slider3 = new va::Slider2DWidget(200,200);
+    slider3->setLabel("XY Axis");
+    slider3->setPivot(100,100,0);
+    slider3->setPosition(150,200);
+    slider3->setValueXMin(-0.2*va::PI);
+    slider3->setValueXMax(0.2*va::PI);
+    slider3->setValueYMin(-0.2*va::PI);
+    slider3->setValueYMax(0.2*va::PI);
+    slider3->addEventHandler(this);
+    panel1->addChild(slider3); 
+    
     panel2 = new va::PanelWidget(300,300);
     panel2->setPivot(150,150,0);
     panel2->setPosition(700,500,0);
@@ -62,15 +74,27 @@ MyApp::~MyApp(){}
 void MyApp::widget( va::ButtonWidget& button ) {
     if (button.getName() == "Reset") {  //match by name
         slider1->setValue(0.0f);
+        slider3->setValueX(0.0f);
+        slider3->setValueY(0.0f);
     }
 }
 void MyApp::widget( va::SliderWidget& slider ) {
     if (&slider == slider1) {        //match by pointer
         panel2->resetRotation();
-        panel2->addRotationZ(-slider.getValue());
+        panel2->addRotationX(-slider3->getValueY());
+        panel2->addRotationY(slider3->getValueX());        
+        panel2->addRotationZ(-slider1->getValue());
     } else if (&slider == slider2) {
         panel1->setScale(slider.getValue());  
         panel2->setScale(slider.getValue());    
+    }
+}
+void MyApp::widget( va::Slider2DWidget& slider ) {
+    if (&slider == slider3) {
+        panel2->resetRotation();
+        panel2->addRotationX(-slider3->getValueY());
+        panel2->addRotationY(slider3->getValueX());
+        panel2->addRotationZ(-slider1->getValue());
     }
 }
 void MyApp::widget( va::ToggleWidget& toggle ) {

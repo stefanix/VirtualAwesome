@@ -456,8 +456,8 @@ void Scene::rawTouchEnter( int id, int x, int y, float magnitude ) {
     } else {
         // create touch
         Touch* touch = new Touch(id, x, y, magnitude);
-        touch->_screenPosition.set(x,y);
-        touch->_prevScreenPosition.set(x,y);
+        //touch->_screenPosition.set(x,y);
+        //touch->_prevScreenPosition.set(x,y);
         touch->_time = getSimulationTime();
         _activeTouches[id] = touch;
         touch->_scene = this;

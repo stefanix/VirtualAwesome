@@ -60,7 +60,10 @@ class Widget : public Node,
         virtual const osg::Vec4& getBackgroundColor();
         virtual void setBorderColor( float r, float g, float b, float a );
         virtual void setBorderColor( const osg::Vec4& color );
-        virtual const osg::Vec4& getBorderColor();         
+        virtual const osg::Vec4& getBorderColor();  
+        
+        virtual void setCornerRadius( float r ) {_cornerRadius=r; reshape();}
+        virtual float getCornerRadius() {return _cornerRadius;}                      
             
         virtual void setXY( const osg::Vec3& pnt ); // convinience method for setting pos in the x,y plane
         virtual void addXY( const osg::Vec3& pnt ); // convinience method for adding to pos in the x,y plane      
@@ -107,6 +110,7 @@ class Widget : public Node,
         // reshape() determines how to interpret them
         float _width;
         float _height;
+        float _cornerRadius;
 
         long _zIndex;
         std::map<int,Touch*>  _activeTouches;

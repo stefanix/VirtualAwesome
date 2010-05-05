@@ -65,6 +65,8 @@ void seedRandom();
 void seedRandom( long seed );
 float random( float min, float max );
 
+float rangemap(float r1val, float r1min, float r1max, float r2min, float r2max);
+
 
 }
 #endif

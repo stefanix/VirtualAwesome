@@ -34,6 +34,7 @@ class App : public osg::Referenced,
             public MouseHandler,
             public PenHandler,
             public ButtonHandler,
+            public Slider2DHandler,
             public SliderHandler,
             public ToggleHandler {
 

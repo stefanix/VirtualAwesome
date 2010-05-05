@@ -121,6 +121,12 @@ int Multipad::callback(int device, Finger *data, int nFingers,
 }
 
 
+void Multipad::setScale( float x, float y ) {
+	_scaleX = x;
+    _scaleY = y;
+}
+
+
 void Multipad::addEventHandler( va::RawTouchHandler* handler ) {
     _eventHandlers.push_back(handler);
 }

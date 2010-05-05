@@ -84,6 +84,8 @@ class VertexShape : public Shape {
         
         void tesselate();
         
+        void addRoundedRect( float x, float y, float w, float h, float r );
+        
         // OSG stuff
         void setOsgGeometry( osg::Geometry* geometry );
         osg::ref_ptr<osg::Geometry> getOsgGeometry();

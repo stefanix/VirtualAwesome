@@ -82,7 +82,7 @@ class Touch {
 
                 
    
-    protected:
+    //protected:  //FIXME, GamepadWidget
         friend class Scene;
         int _id;
         osg::Vec3 _position;
@@ -113,6 +113,12 @@ class TouchAsync {
             _magnitude(magnitude),
             _type(type)
         {}
+        
+        int getId() {return _id;}
+        float getX() {return _x;}
+        float getY() {return _y;}          
+        float getMagnitude() {return _magnitude;}          
+        Type getType() {return _type;}
         
    
     protected:

@@ -33,8 +33,8 @@ class ButtonWidget:  public Widget {
         std::string getLabel();
         void setLabelColor( float r, float g, float b, float a ); 
         void setLabelColor( const osg::Vec4& color );
-        const osg::Vec4& getLabelColor(); 
-                      
+        const osg::Vec4& getLabelColor();
+                              
         void addEventHandler( ButtonHandler* handler );
         std::vector<ButtonHandler*>&  getEventHandlers();               
         
@@ -49,7 +49,7 @@ class ButtonWidget:  public Widget {
         std::vector<ButtonHandler*> _handlers;
         osg::Vec4 _buttonPressBorderColor;
         osg::Vec4 _buttonPressBorderColorTemp;
-    
+            
         void init( float w, float h );
 };
 

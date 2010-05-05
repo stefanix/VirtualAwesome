@@ -142,6 +142,13 @@ class ButtonHandler {
         virtual void widget( ButtonWidget& button ){}
 };
 
+class Slider2DWidget;
+class Slider2DHandler {
+    public:
+        virtual ~Slider2DHandler() {}    
+        virtual void widget( Slider2DWidget& slider ){}
+};
+
 class SliderWidget;
 class SliderHandler {
     public:

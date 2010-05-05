@@ -107,6 +107,7 @@ const osg::Vec3& VertexGeometry::getVertex( unsigned int index ){
 }
 void VertexGeometry::clearVertices() {
     _vertices->clear();
+    _geometry->dirtyDisplayList();
 }
 
 

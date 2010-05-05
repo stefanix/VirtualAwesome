@@ -18,11 +18,13 @@ class MyApp : public va::App {
         
         void widget( va::ButtonWidget& button );
         void widget( va::SliderWidget& slider );
+        void widget( va::Slider2DWidget& slider );
         void widget( va::ToggleWidget& toggle );
         
         va::PanelWidget* panel1;
         va::SliderWidget* slider1;
         va::SliderWidget* slider2;
+        va::Slider2DWidget* slider3;
         va::PanelWidget* panel2;
         va::TextShape* textbox1;
         va::ToggleWidget* toggle1;

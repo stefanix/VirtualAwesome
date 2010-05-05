@@ -126,6 +126,11 @@ void VertexShape::tesselate() {
 
 
 
+void VertexShape::addRoundedRect( float x, float y, float w, float h, float r ) {
+    _verts->addRoundedRect(x,y,w,h,r);
+}
+
+
 // OSG stuff
 //
 

@@ -38,6 +38,7 @@ void ButtonWidget::init( float w, float h ) {
 
     _width = w;
     _height = h;
+    _cornerRadius = 0.48*_height;
     reshape();
 }
 
@@ -45,7 +46,7 @@ void ButtonWidget::init( float w, float h ) {
 void ButtonWidget::reshape() {
     // define geometry
     _background->clearVertices();
-    _background->addRoundedRect(0.0f, 0.0f, _width, _height, 0.48*_height);
+    _background->addRoundedRect(0.0f, 0.0f, _width, _height, _cornerRadius);
     _border->setOsgVertexCount(_background->getOsgVertexCount());
     
     //label

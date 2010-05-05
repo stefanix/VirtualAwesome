@@ -107,6 +107,7 @@ class Multipad {
         static int callback(int device, Finger *data, int nFingers,
                         double timestamp, int frame);
         
+        void setScale( float x, float y );  //by default, touches scale to screen
         void addEventHandler( va::RawTouchHandler* handler );
     	
         void triggerTouchEnter( int id, float x, float y, float size );

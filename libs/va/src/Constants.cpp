@@ -53,3 +53,16 @@ void va::seedRandom( long seed ){
 float va::random(float min, float max){
 	return min + ((max-min) * std::rand()/(RAND_MAX + 1.0));
 }
+
+
+float va::rangemap(float r1val, float r1min, float r1max, float r2min, float r2max) {
+    /**
+    *                     r1val
+    *    |- - - - -|--------x----|
+    *    0       r1min       \  r1max
+    *                         \
+    *    |- - - - - -|---------x-------|
+    *    0         r2min      return  r2max
+    */
+    return (r1val - r1min) * ((r2max - r2min)/(r1max - r1min)) + r2min;
+}

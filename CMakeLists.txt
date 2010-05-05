@@ -276,6 +276,7 @@ ADD_LIBRARY( va STATIC
     ${VA_HEADER_DIRECTORY}/va/RectangleShape.h
     ${VA_HEADER_DIRECTORY}/va/Scene.h
     ${VA_HEADER_DIRECTORY}/va/Shape.h
+    ${VA_HEADER_DIRECTORY}/va/Slider2DWidget.h
     ${VA_HEADER_DIRECTORY}/va/SliderWidget.h
     ${VA_HEADER_DIRECTORY}/va/TextShape.h
     ${VA_HEADER_DIRECTORY}/va/TextureGeometry.h
@@ -303,6 +304,7 @@ ADD_LIBRARY( va STATIC
     ${VA_SOURCE_DIRECTORY}/PanelWidget.cpp
     ${VA_SOURCE_DIRECTORY}/RectangleShape.cpp
     ${VA_SOURCE_DIRECTORY}/Scene.cpp
+    ${VA_SOURCE_DIRECTORY}/Slider2DWidget.cpp
     ${VA_SOURCE_DIRECTORY}/SliderWidget.cpp
     ${VA_SOURCE_DIRECTORY}/TextShape.cpp
     ${VA_SOURCE_DIRECTORY}/TextureGeometry.cpp
@@ -387,6 +389,7 @@ IF( BUILD_VA_EXAMPLES )
 		
 	IF( BUILD_ADDON_VA_MULTIPAD )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipad )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipadGamepad )
 	ENDIF()
 
 	IF( BUILD_ADDON_VA_OPENAL )
@@ -414,5 +417,6 @@ ENDIF()
 # APPS
 ###########################################
 
-
+ADD_SUBDIRECTORY( apps/myApps/storm )
+ADD_SUBDIRECTORY( apps/myApps/gridderTest )
 

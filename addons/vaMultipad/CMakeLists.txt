@@ -11,7 +11,9 @@ INCLUDE_DIRECTORIES( ${VA_MULTIPAD_INCLUDES} )
 	
 ADD_LIBRARY( vaMultipad STATIC
 	${VA_MULTIPAD_ROOT}/include/vaMultipad/Multipad.h
+	${VA_MULTIPAD_ROOT}/include/vaMultipad/GamepadWidget.h
 	${VA_MULTIPAD_ROOT}/src/Multipad.cpp
+	${VA_MULTIPAD_ROOT}/src/GamepadWidget.cpp
 )
 
 # Find osx frameworks

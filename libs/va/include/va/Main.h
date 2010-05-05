@@ -41,6 +41,7 @@
 #include <va/Widget.h>
 #include <va/PanelWidget.h>
 #include <va/ButtonWidget.h>
+#include <va/Slider2DWidget.h>
 #include <va/SliderWidget.h>
 #include <va/ToggleWidget.h>
 
