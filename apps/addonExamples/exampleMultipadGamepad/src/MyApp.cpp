@@ -5,7 +5,6 @@
 
 MyApp::MyApp(){
 
-    scene->enableTouchVisuals();
     scene->hideCursor();
     
     
@@ -34,8 +33,12 @@ MyApp::~MyApp(){}
 
 
 void MyApp::widget( vaMultipad::GamepadWidget& gamepad ) {
-	std::cout << "gamepad event" << std::endl;
     if (gamepad.isStick1Event()) {
+    	//not smoothed, direct
+		//spaceship->setX(gamepad.getStick1()[0]*400);
+		//spaceship->setY(gamepad.getStick1()[1]*200);
+        
+        //0.8 to 0.2 smoothed
 		spaceship->setX(0.8*spaceship->getX()+0.2*(gamepad.getStick1()[0]*400));
 		spaceship->setY(0.8*spaceship->getY()+0.2*(gamepad.getStick1()[1]*200));
     }
