@@ -390,6 +390,7 @@ IF( BUILD_VA_EXAMPLES )
 	IF( BUILD_ADDON_VA_MULTIPAD )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipad )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipadGamepad )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipadGesture )
 	ENDIF()
 
 	IF( BUILD_ADDON_VA_OPENAL )

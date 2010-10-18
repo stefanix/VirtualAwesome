@@ -113,9 +113,10 @@ class Widget : public Node,
         float _cornerRadius;
 
         long _zIndex;
-        std::map<int,Touch*>  _activeTouches;
-        std::map<Touch*,osg::Vec3>  _touchDownLocalPosition;  //keep track where the touch came
-        std::map<Touch*,osg::Vec3>  _lastLocalPosition;       //keep track of previous hits, by touch
+        std::vector<Touch*>  _activeTouches;
+        std::map<Touch*,osg::Vec3>  _touchDownPosition;  //keep track where the touch first came down
+        std::map<Touch*,osg::Vec3>  _touchDownWorldPosition;  //keep track where the touch first came down, in parent coords
+        std::map<Touch*,osg::Vec2>  _touchDownScreenPosition;  //keep track where the touch first came down, in screen coords
         
         osg::Vec3 _dragDelta;
         osg::Vec3 _worldDragDelta;

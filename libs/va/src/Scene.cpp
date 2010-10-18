@@ -538,6 +538,13 @@ void Scene::touchDown( Touch* touch ) {
         // If the widget is configured to not handle touch 
         // events the second widget hit gets notified.
         if( touch->_widget->getTouchEventsEnabled()) {
+            // for convenience, also store touch position in relation to the
+            // widget's world coordinates (this is the parent space)
+            touch->_worldPosition = 
+                osg::Matrixd::transform3x3(touch->_position, 
+                                           touch->_widget->getTransform());
+            touch->_prevWorldPosition = touch->_worldPosition;        
+        
             touch->_widget->touchDownInternal( *touch );
             break;
         }
@@ -583,6 +590,14 @@ void Scene::touchMove( Touch* touch ) {
                                                    
         touch->_prevPosition = touch->_position;                                           
         touch->_position.set(isect);
+        
+        // for convenience, also store touch position in relation to the
+        // widget's world coordinates (this is the parent space)
+        touch->_prevWorldPosition = touch->_worldPosition;
+        touch->_worldPosition = 
+            osg::Matrixd::transform3x3(touch->_position, 
+                                       touch->_widget->getTransform());        
+        
         touch->_widget->touchMoveInternal( *touch );
     }
 }
@@ -627,7 +642,15 @@ void Scene::touchUp( Touch* touch ) {
 
         touch->_prevPosition = touch->_position;                                           
         touch->_position.set(isect);
-        touch->_widget->touchUpInternal( *touch );
+        
+        // for convenience, also store touch position in relation to the
+        // widget's world coordinates (this is the parent space)
+        touch->_prevWorldPosition = touch->_worldPosition;
+        touch->_worldPosition = 
+            osg::Matrixd::transform3x3(touch->_position, 
+                                       touch->_widget->getTransform());
+                                       
+        touch->_widget->touchUpInternal( *touch );                                                   
     }
 }
 void Scene::rawTouchLeave( int id, int x, int y, float magnitude ) {

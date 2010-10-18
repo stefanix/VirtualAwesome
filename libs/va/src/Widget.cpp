@@ -122,20 +122,18 @@ void Widget::setPosition( float x, float y, float z) {
 
 
 bool Widget::isDragging( Touch& touch ) {
-    if( _touchDownLocalPosition.find(&touch) != _touchDownLocalPosition.end() ) {    
+    if( _touchDownPosition.find(&touch) != _touchDownPosition.end() ) {    
         return true;
     } else {
         return false;
     }
 }
 const osg::Vec3& Widget::getDragDelta( Touch& touch ) {
-    _dragDelta = touch.getPosition() - _touchDownLocalPosition[&touch];   
+    _dragDelta = touch.getPosition() - _touchDownPosition[&touch];   
     return _dragDelta;
 }
 const osg::Vec3& Widget::getWorldDragDelta( Touch& touch ) {
-    osg::Matrix xformMat;
-    _xform->computeLocalToWorldMatrix(xformMat, NULL);
-    _worldDragDelta = osg::Matrixd::transform3x3(getDragDelta( touch ), xformMat);
+    _worldDragDelta = osg::Matrixd::transform3x3(getDragDelta( touch ), getTransform());
     return _worldDragDelta;
 }
 
@@ -163,7 +161,11 @@ void Widget::disableTouchEvents() {
 
 
 void Widget::touchDownInternal( Touch& touch ) {
-    _touchDownLocalPosition[&touch] = touch.getPosition();
+	_activeTouches.push_back(&touch);
+    _touchDownPosition[&touch] = touch.getPosition();
+    _touchDownWorldPosition[&touch] = 
+    	osg::Matrixd::transform3x3(touch.getPosition(), getTransform());
+    _touchDownScreenPosition[&touch] = touch.getScreenPosition();
     
     // Walk up the tree and focus parents.
     // This means two things: (1) bring each parent to the 
@@ -182,7 +184,16 @@ void Widget::touchMoveInternal( Touch& touch ) {
 }
 void Widget::touchUpInternal( Touch& touch ) {
     touchUp(touch);
-    _touchDownLocalPosition.erase(&touch);
+    _touchDownPosition.erase(&touch);
+    _touchDownWorldPosition.erase(&touch);    
+    _touchDownScreenPosition.erase(&touch);    
+
+	// delete from _activeTouches vector
+    for (unsigned int i=0; i<_activeTouches.size(); ++i) {
+    	if (_activeTouches[i] == &touch) {
+            _activeTouches.erase(_activeTouches.begin()+i);
+        }
+    }
 }
 
 

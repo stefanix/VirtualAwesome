@@ -23,16 +23,54 @@ Node::Node() {
     _geode = new osg::Geode();
     _geode->setUserData(this);
     _xform->addChild(_geode.get());
+    _bUseDualXforms = false;
 }
 
 
+void Node::enableDualXforms() {
+	// use this before adding children, does not handle children yet
+	if (!_bUseDualXforms) {
+        // add a second transform, for transforming
+        // independantly from the inital transform 
+        // new hierarchy: _xform / _xform2 / _geode / drawable
+        _xform2 = new osg::PositionAttitudeTransform();
+        _xform->removeChild(_geode.get());
+        _xform->addChild(_xform2);
+        _xform2->addChild(_geode.get());
+        _xform2->setUserData(this);
+        _bUseDualXforms = true;
+	}
+}
+void Node::disableDualXforms() {
+	// use this before adding children, does not handle children yet
+	if (_bUseDualXforms) {	
+        _xform->removeChild(_xform2);
+        _xform2->removeChild(_geode.get());
+        _xform->addChild(_geode.get());
+        _xform2->unref();
+        _bUseDualXforms = false;
+	}
+}
+        
 osg::Matrix Node::getTransform() {
     osg::Matrix mat;
-    _xform->computeLocalToWorldMatrix(mat, NULL);
+    if (_bUseDualXforms) {
+        osg::Matrix mat1;
+        osg::Matrix mat2;
+        _xform->computeLocalToWorldMatrix(mat1, NULL);
+        _xform2->computeLocalToWorldMatrix(mat2, NULL);
+        mat = mat2 * mat1;
+    } else {
+        _xform->computeLocalToWorldMatrix(mat, NULL);
+    }
     return mat;
 }
 osg::Matrix Node::getWorldTransform() {
     return _geode->getWorldMatrices()[0];
+}
+
+osg::Vec3f Node::getWorldFromLocal( const osg::Vec3f& local ) {
+	return osg::Matrixd::transform3x3(local, getTransform());
 }
 
 
@@ -120,7 +158,11 @@ void Node::disableAutoNormalization() {
 bool Node::addChild( Node* node ) {
 	bool ret = false;
     if( !node->hasParent() ){
-        ret = _xform->addChild(node->getOsgXForm().get());
+		if (_bUseDualXforms) {
+            ret = _xform2->addChild(node->getOsgXForm().get());
+        } else {
+            ret = _xform->addChild(node->getOsgXForm().get());
+        }
         if (ret) {
             node->setParent(this);
         }    	
@@ -132,7 +174,11 @@ bool Node::addChild( Node* node ) {
 bool Node::insertChild( unsigned int index, Node* node ) {
 	bool ret = false;
     if( !node->hasParent() ){
-    	ret = _xform->insertChild(index, node->getOsgXForm().get());
+		if (_bUseDualXforms) {
+            ret = _xform2->insertChild(index, node->getOsgXForm().get());
+        } else {
+            ret = _xform->insertChild(index, node->getOsgXForm().get());
+        }    
         if (ret) {
             node->setParent(this);
         }
@@ -142,14 +188,23 @@ bool Node::insertChild( unsigned int index, Node* node ) {
     return ret;
 }
 bool Node::removeChild( Node* node ) {
-	bool ret = _xform->removeChild(node->getOsgXForm().get());
+	bool ret;
+    if (_bUseDualXforms) {
+        ret = _xform2->removeChild(node->getOsgXForm().get());
+    } else {
+        ret = _xform->removeChild(node->getOsgXForm().get());
+    }    
 	if(ret) {node->removeParent();}
     return ret;
 }
 bool Node::replaceChild( Node* origNode, Node* newNode ) {    
 	bool ret = false;
     if( !newNode->hasParent() ){
-    	ret = _xform->replaceChild(origNode->getOsgXForm().get(), newNode->getOsgXForm().get());
+        if (_bUseDualXforms) {
+            ret = _xform2->replaceChild(origNode->getOsgXForm().get(), newNode->getOsgXForm().get());
+        } else {
+            ret = _xform->replaceChild(origNode->getOsgXForm().get(), newNode->getOsgXForm().get());
+        }       
         if (ret) {
             origNode->removeParent();
             newNode->setParent(this);
@@ -161,26 +216,48 @@ bool Node::replaceChild( Node* origNode, Node* newNode ) {
 }
 bool Node::bringChildToFront( Node* node ){
 	bool ret = false;
-    unsigned int pos = _xform->getChildIndex(node->getOsgXForm().get());
-    if(pos+1 < _xform->getNumChildren()){
-    	// valid pos AND not already in the "front"
-    	ret = _xform->removeChildren(pos,1) &&
-              _xform->addChild(node->getOsgXForm().get());
-    }
+    if (_bUseDualXforms) {
+        unsigned int pos = _xform2->getChildIndex(node->getOsgXForm().get());
+        if(pos+1 < _xform2->getNumChildren()){
+            // valid pos AND not already in the "front"
+            ret = _xform2->removeChildren(pos,1) &&
+                  _xform2->addChild(node->getOsgXForm().get());
+        }
+    } else {
+        unsigned int pos = _xform->getChildIndex(node->getOsgXForm().get());
+        if(pos+1 < _xform->getNumChildren()){
+            // valid pos AND not already in the "front"
+            ret = _xform->removeChildren(pos,1) &&
+                  _xform->addChild(node->getOsgXForm().get());
+        }
+    }    
     return ret;    
 }
 bool Node::sendChildToBack( Node* node ){
 	bool ret = false;
-    unsigned int pos = _xform->getChildIndex(node->getOsgXForm().get());
-    if(pos != 0 && pos != _xform->getNumChildren()){
-    	// valid pos AND not already in the "back"
-    	ret = _xform->removeChildren(pos,1) &&
-              _xform->insertChild(0,node->getOsgXForm().get());
-    }
+    if (_bUseDualXforms) {
+        unsigned int pos = _xform2->getChildIndex(node->getOsgXForm().get());
+        if(pos != 0 && pos != _xform2->getNumChildren()){
+            // valid pos AND not already in the "back"
+            ret = _xform2->removeChildren(pos,1) &&
+                  _xform2->insertChild(0,node->getOsgXForm().get());
+        }
+    } else {
+        unsigned int pos = _xform->getChildIndex(node->getOsgXForm().get());
+        if(pos != 0 && pos != _xform->getNumChildren()){
+            // valid pos AND not already in the "back"
+            ret = _xform->removeChildren(pos,1) &&
+                  _xform->insertChild(0,node->getOsgXForm().get());
+        }    }   
     return ret;
 }
 bool Node::removeChildren( unsigned int index, unsigned int numToRemove ){
-	bool ret = _xform->removeChildren(index,numToRemove);
+	bool ret;
+    if (_bUseDualXforms) {
+		ret = _xform2->removeChildren(index,numToRemove);
+    } else {
+		ret = _xform->removeChildren(index,numToRemove);
+    } 
     if (ret) {
         for(unsigned int i=index; i<index+numToRemove; ++i){
             getChild(i)->removeParent();
@@ -189,13 +266,21 @@ bool Node::removeChildren( unsigned int index, unsigned int numToRemove ){
     return ret;    
 }
 unsigned int Node::getNumChildren() {
-    return _xform->getNumChildren();
+    if (_bUseDualXforms) {
+		return _xform2->getNumChildren();
+    } else {
+		return _xform->getNumChildren();
+    } 
 }
 bool Node::setChild( unsigned int index, Node* node ) {
 	bool ret = false;
     if( !node->hasParent() ){
-    	Node* tempnode = getChild(index);
-    	ret = _xform->setChild(index, node->getOsgXForm().get());
+    	Node* tempnode = getChild(index);        
+        if (_bUseDualXforms) {
+            ret = _xform2->setChild(index, node->getOsgXForm().get());
+        } else {
+            ret = _xform->setChild(index, node->getOsgXForm().get());
+        }         
         if (ret) {
             tempnode->removeParent();
             node->setParent(this);
@@ -206,7 +291,12 @@ bool Node::setChild( unsigned int index, Node* node ) {
     return ret;                
 }
 Node* Node::getChild( unsigned int index ) {
-    osg::Node* node = _xform->getChild(index);
+	osg::Node* node;
+    if (_bUseDualXforms) {
+        node = _xform2->getChild(index);
+    } else {
+        node = _xform->getChild(index);
+    }         
     Node* vanode = dynamic_cast<Node*>(node->getUserData());
     if( !vanode ) {
         osg::notify(osg::WARN) << "in getChild, not a Node at index" << std::endl;
@@ -214,10 +304,18 @@ Node* Node::getChild( unsigned int index ) {
     return vanode;
 }
 bool Node::containsNode( Node* node ) {
-    return _xform->containsNode(node->getOsgXForm().get());
+    if (_bUseDualXforms) {
+        return _xform2->containsNode(node->getOsgXForm().get());
+    } else {
+        return _xform->containsNode(node->getOsgXForm().get());
+    } 
 }
 unsigned int Node::getChildIndex( Node* node ) {
-    return _xform->getChildIndex(node->getOsgXForm().get());
+    if (_bUseDualXforms) {
+        return _xform2->getChildIndex(node->getOsgXForm().get());
+    } else {
+        return _xform->getChildIndex(node->getOsgXForm().get());
+    }
 }
 
 bool Node::hasParent(){

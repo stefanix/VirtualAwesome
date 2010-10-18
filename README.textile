@@ -1,7 +1,7 @@
 Welcome to the VirtualAwesome framework.
 
 _va_ is a cross-platform framework that is continuously tested on Xcode (OSX),
-bode::blocks (Linux), Visual Studio 9 (Windows), and Makefiles (OSX, Linux). 
+Code::blocks (Linux), Visual Studio 9 (Windows), and Makefiles (OSX, Linux). 
 Each release comes with all necessary dependencies and is easy to build. If
 this is not the case and you run into issues please let us know on the
 discussion list: http://groups.google.com/group/va-users

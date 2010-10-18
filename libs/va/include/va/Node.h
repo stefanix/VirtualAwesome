@@ -44,8 +44,11 @@ class Node: public osg::NodeCallback {
         
         Node();
         
+        void enableDualXforms();
+        void disableDualXforms();
         osg::Matrix getTransform();
         osg::Matrix getWorldTransform();
+        osg::Vec3f getWorldFromLocal( const osg::Vec3f& local );
             
         // Resetting Transforms
         //
@@ -202,6 +205,8 @@ class Node: public osg::NodeCallback {
     protected:
         osg::ref_ptr<Node> _parent;
         osg::ref_ptr<osg::PositionAttitudeTransform> _xform;
+        bool _bUseDualXforms;
+        osg::ref_ptr<osg::PositionAttitudeTransform> _xform2;  // optional second xform for more flexibility, use enableDualXforms() to enable, primary use is in subclasses
         osg::ref_ptr<osg::Geode> _geode;
         
         WidgetTouchEventVisitor _widgetTouchEventVisitor;

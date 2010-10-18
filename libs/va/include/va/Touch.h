@@ -43,6 +43,8 @@ class Touch {
           : _id(id),
             _position(x,y,0.0f),
             _prevPosition(x,y,0.0f),
+            _worldPosition(x,y,0.0f),
+            _prevWorldPosition(x,y,0.0f),
             _screenPosition(x,y),
             _prevScreenPosition(x,y),
             _magnitude(magnitude),
@@ -60,7 +62,12 @@ class Touch {
         float getX() {return _position.x();}
         float getY() {return _position.y();}        
         const osg::Vec3& getPreviousPosition() {return _prevPosition;}
-                
+
+        const osg::Vec3& getWorldPosition() {return _worldPosition;}
+        float getWorldX() {return _worldPosition.x();}
+        float getWorldY() {return _worldPosition.y();}        
+        const osg::Vec3& getPreviousWorldPosition() {return _prevWorldPosition;}
+                        
         const osg::Vec2& getScreenPosition() {return _screenPosition;}
         float getScreenX() {return _screenPosition.x();}
         float getScreenY() {return _screenPosition.y();}
@@ -87,6 +94,8 @@ class Touch {
         int _id;
         osg::Vec3 _position;
         osg::Vec3 _prevPosition;        
+        osg::Vec3 _worldPosition;      //position in parent space
+        osg::Vec3 _prevWorldPosition;
         osg::Vec2 _screenPosition;
         osg::Vec2 _prevScreenPosition;
         float _magnitude;        
