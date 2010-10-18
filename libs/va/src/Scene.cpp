@@ -540,9 +540,7 @@ void Scene::touchDown( Touch* touch ) {
         if( touch->_widget->getTouchEventsEnabled()) {
             // for convenience, also store touch position in relation to the
             // widget's world coordinates (this is the parent space)
-            touch->_worldPosition = 
-                osg::Matrixd::transform3x3(touch->_position, 
-                                           touch->_widget->getTransform());
+            touch->_worldPosition = touch->_position * touch->_widget->getTransform();
             touch->_prevWorldPosition = touch->_worldPosition;        
         
             touch->_widget->touchDownInternal( *touch );
@@ -594,9 +592,7 @@ void Scene::touchMove( Touch* touch ) {
         // for convenience, also store touch position in relation to the
         // widget's world coordinates (this is the parent space)
         touch->_prevWorldPosition = touch->_worldPosition;
-        touch->_worldPosition = 
-            osg::Matrixd::transform3x3(touch->_position, 
-                                       touch->_widget->getTransform());        
+        touch->_worldPosition = touch->_position * touch->_widget->getTransform();        
         
         touch->_widget->touchMoveInternal( *touch );
     }
@@ -646,9 +642,7 @@ void Scene::touchUp( Touch* touch ) {
         // for convenience, also store touch position in relation to the
         // widget's world coordinates (this is the parent space)
         touch->_prevWorldPosition = touch->_worldPosition;
-        touch->_worldPosition = 
-            osg::Matrixd::transform3x3(touch->_position, 
-                                       touch->_widget->getTransform());
+        touch->_worldPosition = touch->_position * touch->_widget->getTransform();
                                        
         touch->_widget->touchUpInternal( *touch );                                                   
     }

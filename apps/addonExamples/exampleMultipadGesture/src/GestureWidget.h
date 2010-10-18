@@ -38,11 +38,13 @@ class GestureWidget : public Widget {
         
 	protected:
         
+        bool _bDraggingEnabled;  // single touch
+        bool _bTwoTouchMoveEnabled;
+        bool _bTwoTouchScaleEnabled;
+        bool _bTwoTouchRotateEnabled;
+        
         osg::Quat touchDownQuat;
         float touchDownScale;
-        
-        osg::ref_ptr<TouchShape>  _touchShapeMiddle;
-        osg::ref_ptr<TouchShape>  _touchShapeWorldMiddle;
         
         void init( float w, float h );
         
