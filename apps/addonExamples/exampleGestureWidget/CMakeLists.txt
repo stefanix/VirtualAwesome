@@ -3,7 +3,7 @@
 # NOTE: Also make sure you add this subdirectory to the end
 # of the master CMakeLists.txt in the root of VirtualAwesome
 #
-SET( EXAMPLE_NAME exampleMultipadGesture )
+SET( EXAMPLE_NAME exampleGestureWidget )
 SET( EXAMPLE_ROOT ${PROJECT_SOURCE_DIR}/apps/addonExamples/${EXAMPLE_NAME} )
 
 
@@ -13,8 +13,6 @@ ADD_EXECUTABLE( ${EXAMPLE_NAME}  ${EXECUTABLE_TYPE}
     ${EXAMPLE_ROOT}/src/main.cpp 
     ${EXAMPLE_ROOT}/src/MyApp.h 
     ${EXAMPLE_ROOT}/src/MyApp.cpp
-    ${EXAMPLE_ROOT}/src/GestureWidget.h 
-    ${EXAMPLE_ROOT}/src/GestureWidget.cpp
 )
 
 

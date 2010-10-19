@@ -262,6 +262,7 @@ ADD_LIBRARY( va STATIC
     ${VA_HEADER_DIRECTORY}/va/CircleShape.h
     ${VA_HEADER_DIRECTORY}/va/EllipseShape.h
     ${VA_HEADER_DIRECTORY}/va/EventHandlers.h
+    ${VA_HEADER_DIRECTORY}/va/GestureWidget.h
     ${VA_HEADER_DIRECTORY}/va/GuiEvents.h
     ${VA_HEADER_DIRECTORY}/va/ImageShape.h
     ${VA_HEADER_DIRECTORY}/va/Key.h
@@ -295,6 +296,7 @@ ADD_LIBRARY( va STATIC
     ${VA_SOURCE_DIRECTORY}/CircleShape.cpp
     ${VA_SOURCE_DIRECTORY}/Constants.cpp
     ${VA_SOURCE_DIRECTORY}/EllipseShape.cpp
+    ${VA_SOURCE_DIRECTORY}/GestureWidget.cpp
     ${VA_SOURCE_DIRECTORY}/GuiEvents.cpp
     ${VA_SOURCE_DIRECTORY}/ImageShape.cpp
     ${VA_SOURCE_DIRECTORY}/LineShape.cpp
@@ -390,7 +392,7 @@ IF( BUILD_VA_EXAMPLES )
 	IF( BUILD_ADDON_VA_MULTIPAD )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipad )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipadGamepad )
-		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipadGesture )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleGestureWidget )
 	ENDIF()
 
 	IF( BUILD_ADDON_VA_OPENAL )
