@@ -12,8 +12,8 @@
 *
 */
 
-#ifndef VANETWORK_ENDPOINT
-#define VANETWORK_ENDPOINT
+#ifndef VANETWORK_AWESOMESOCKET
+#define VANETWORK_AWESOMESOCKET
 
 #include <map>
 #include <vector>
@@ -28,7 +28,7 @@
 namespace vaNetwork {
 
 
-class Super : public va::UpdateHandler {
+class AwesomeSocket : public va::UpdateHandler {
   public :
 
     enum IpProtocol {
