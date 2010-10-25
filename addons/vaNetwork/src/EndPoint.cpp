@@ -22,7 +22,6 @@ EndPoint::EndPoint()
 	: _ipProtocol(IP_ANY),
       _isListener(false),
       _usePackets(false),
-      _running(false),
       _udpSocket(NULL),
       _tcpListener(NULL),
       _theBuffer(NULL),
@@ -32,11 +31,8 @@ EndPoint::EndPoint()
 }
 
 EndPoint::~EndPoint() {
-	if (isRunning()) {
-        _running = false;
-        join();		//wait for the thread to terminate
-    }    
-    
+	delete[] _theBuffer;
+
 	if (_tcpListener) {
         delete _tcpListener;
         _tcpListener = NULL;
@@ -47,12 +43,14 @@ EndPoint::~EndPoint() {
         _udpSocket = NULL;
     }
 
-    std::map<std::string,TcpSocket*>::iterator iter;
-    for (iter = _tcpSocketsByHost.begin(); iter != _tcpSocketsByHost.end(); ++iter ) {
+    std::map<std::string,TcpSocket*>::iterator iter = _tcpSocketsByHost.begin();
+    while (iter != _tcpSocketsByHost.end()) {
     	TcpSocket* sock = iter->second;
         if (sock) {
             delete sock;
-            _tcpSocketsByHost.erase(iter);
+            _tcpSocketsByHost.erase(iter++);
+        } else {
+            ++iter;
         }
     }
 }
@@ -74,8 +72,6 @@ void EndPoint::tcpListen( int port, bool usePackets ) {
             _ipProtocol = IP_TCP;      // make this a TCP end point
             _isListener = true;        // make this a listener
             _usePackets = usePackets;
-            _running = true;
-            start();
         } else {
             // clean up
             delete _tcpListener;
@@ -97,8 +93,6 @@ void EndPoint::tcpConnect( Host remoteHost ) {
         if (status == vaNetwork::Socket::Done) {
             _ipProtocol = IP_TCP;  // make this a TCP end point
             _tcpSocketsByHost[remoteHost.getHostString()] = sock;
-            _running = true;
-            start();
         } else {
             // clean up
             delete sock;
@@ -142,8 +136,6 @@ void EndPoint::udpListen( int port, bool usePackets ) {
             _ipProtocol = IP_UDP;     // make this a UDP end point
             _isListener = true;       // make this a listener
             _usePackets = usePackets;
-            _running = true;
-            start();
         } else {
             // clean up
             delete _udpSocket;
@@ -177,95 +169,49 @@ void EndPoint::addNetworkHandler( NetworkHandler* handler ){
 
 
 
-void EndPoint::run() {
-	while(_running) {
-        if (_ipProtocol == IP_TCP) {
-            // accept new connections
-            if (_isListener) {
-                TcpSocket* sock = new TcpSocket();
-                sock->SetBlocking(false);            
-                if (_tcpListener->Accept(*sock) == vaNetwork::Socket::Done) {
-                    // A new client just connected!            
-                    _theMessage.clear();
-                    _theMessage._remoteHost._address = sock->GetRemoteAddress().ToString();
-                    _theMessage._remoteHost._port = sock->GetRemotePort();
-                    _tcpSocketsByHost[_theMessage._remoteHost.getHostString()] = sock;
-                
-                    for (unsigned int i=0; i<_networkHandlers.size(); i++) {
-                        _networkHandlers[i]->networkConnect(_theMessage._remoteHost);
-                    }                  
-                } else {
-                    // clean up
-                    delete sock;
-                    sock = NULL;
-                }
-                             
-            }
-            
-            // receive on all TCP sockets and fire event handlers
-            std::map<std::string,TcpSocket*>::iterator iter = _tcpSocketsByHost.begin();
-            while (iter != _tcpSocketsByHost.end()) {
-            	bool iterGotIncremented = false;
-                TcpSocket* sock = iter->second;
-                Socket::Status status;
+void EndPoint::update() {
+    if (_ipProtocol == IP_TCP) {
+        // accept new connections
+        if (_isListener) {
+            TcpSocket* sock = new TcpSocket();
+            sock->SetBlocking(false);            
+            if (_tcpListener->Accept(*sock) == vaNetwork::Socket::Done) {
+                // A new client just connected!            
                 _theMessage.clear();
                 _theMessage._remoteHost._address = sock->GetRemoteAddress().ToString();
                 _theMessage._remoteHost._port = sock->GetRemotePort();
-                
-                if (_usePackets) {
-                    status = sock->Receive(_theMessage._packet);
-                    if (status == vaNetwork::Socket::Done) {
-                        _theMessage._usingPackets = true;
-                    }                
-                
-                } else {
-                    std::size_t numCharReceived = 0;
-                    status = sock->Receive(_theBuffer, _theBufferSize, numCharReceived);
-                    if (status == vaNetwork::Socket::Done) {
-                        _theMessage._text.insert(0, _theBuffer, numCharReceived);
-                    }
-                }
-                
-                // notify event handlers
-                //
-                if (status == vaNetwork::Socket::Done) {
-                    for (unsigned int i=0; i<_networkHandlers.size(); i++) {
-                        _networkHandlers[i]->networkReceive(_theMessage);
-                    }
-                } else if (status == vaNetwork::Socket::Disconnected) {
-                    delete sock;
-                    _tcpSocketsByHost.erase(iter++);
-                    iterGotIncremented = true;
-                    for (unsigned int i=0; i<_networkHandlers.size(); i++) {
-                        _networkHandlers[i]->networkDisconnect(_theMessage._remoteHost);
-                    }                    
-                }
-                
-                // increment iter
-                // this is done this awkward way because iter might have been
-                // invalidated by erase()
-                if (!iterGotIncremented) {
-                    ++iter;
-                }
-            }
+                _tcpSocketsByHost[_theMessage._remoteHost.getHostString()] = sock;
             
-        } else if (_ipProtocol == IP_UDP && _isListener) {
-            // receive on all UDP sockets and fire event handlers
+                for (unsigned int i=0; i<_networkHandlers.size(); i++) {
+                    _networkHandlers[i]->networkConnect(_theMessage._remoteHost);
+                }                  
+            } else {
+                // clean up
+                delete sock;
+                sock = NULL;
+            }
+                         
+        }
+        
+        // receive on all TCP sockets and fire event handlers
+        std::map<std::string,TcpSocket*>::iterator iter = _tcpSocketsByHost.begin();
+        while (iter != _tcpSocketsByHost.end()) {
+            bool iterGotIncremented = false;
+            TcpSocket* sock = iter->second;
             Socket::Status status;
-            vaNetwork::IpAddress sender;
-            unsigned short port;        
             _theMessage.clear();
-            _theMessage._isTcp = false;        
+            _theMessage._remoteHost._address = sock->GetRemoteAddress().ToString();
+            _theMessage._remoteHost._port = sock->GetRemotePort();
             
             if (_usePackets) {
-                status = _udpSocket->Receive(_theMessage._packet, sender, port);
+                status = sock->Receive(_theMessage._packet);
                 if (status == vaNetwork::Socket::Done) {
                     _theMessage._usingPackets = true;
                 }                
             
             } else {
                 std::size_t numCharReceived = 0;
-                status = _udpSocket->Receive(_theBuffer, _theBufferSize, numCharReceived, sender, port);
+                status = sock->Receive(_theBuffer, _theBufferSize, numCharReceived);
                 if (status == vaNetwork::Socket::Done) {
                     _theMessage._text.insert(0, _theBuffer, numCharReceived);
                 }
@@ -274,18 +220,60 @@ void EndPoint::run() {
             // notify event handlers
             //
             if (status == vaNetwork::Socket::Done) {
-                _theMessage._remoteHost._address = sender.ToString();
-                _theMessage._remoteHost._port = port;
-            
                 for (unsigned int i=0; i<_networkHandlers.size(); i++) {
                     _networkHandlers[i]->networkReceive(_theMessage);
                 }
+            } else if (status == vaNetwork::Socket::Disconnected) {
+                delete sock;
+                _tcpSocketsByHost.erase(iter++);
+                iterGotIncremented = true;
+                for (unsigned int i=0; i<_networkHandlers.size(); i++) {
+                    _networkHandlers[i]->networkDisconnect(_theMessage._remoteHost);
+                }                    
+            }
+            
+            // increment iter
+            // this is done this awkward way because iter might have been
+            // invalidated by erase()
+            if (!iterGotIncremented) {
+                ++iter;
             }
         }
-	
-    	//sleep a bit
-        microSleep(30000);  // 10ms
+        
+    } else if (_ipProtocol == IP_UDP && _isListener) {
+        // receive on all UDP sockets and fire event handlers
+        Socket::Status status;
+        vaNetwork::IpAddress sender;
+        unsigned short port;        
+        _theMessage.clear();
+        _theMessage._isTcp = false;        
+        
+        if (_usePackets) {
+            status = _udpSocket->Receive(_theMessage._packet, sender, port);
+            if (status == vaNetwork::Socket::Done) {
+                _theMessage._usingPackets = true;
+            }                
+        
+        } else {
+            std::size_t numCharReceived = 0;
+            status = _udpSocket->Receive(_theBuffer, _theBufferSize, numCharReceived, sender, port);
+            if (status == vaNetwork::Socket::Done) {
+                _theMessage._text.insert(0, _theBuffer, numCharReceived);
+            }
+        }
+        
+        // notify event handlers
+        //
+        if (status == vaNetwork::Socket::Done) {
+            _theMessage._remoteHost._address = sender.ToString();
+            _theMessage._remoteHost._port = port;
+        
+            for (unsigned int i=0; i<_networkHandlers.size(); i++) {
+                _networkHandlers[i]->networkReceive(_theMessage);
+            }
+        }
     }
+    
 }
 
 

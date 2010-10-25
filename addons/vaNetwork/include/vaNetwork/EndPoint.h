@@ -17,7 +17,6 @@
 
 #include <map>
 #include <vector>
-#include <OpenThreads/Thread>
 #include <osg/Notify>
 #include <vaNetwork/TcpSocket.h>
 #include <vaNetwork/UdpSocket.h>
@@ -28,7 +27,7 @@
 namespace vaNetwork {
 
 
-class EndPoint : public OpenThreads::Thread {
+class EndPoint {
   public :
 
     enum IpProtocol {
@@ -58,6 +57,8 @@ class EndPoint : public OpenThreads::Thread {
     
     void addNetworkHandler( NetworkHandler* handler );
     
+    // network polling function, call continously
+	void update();        
 
 
   protected:
@@ -65,7 +66,6 @@ class EndPoint : public OpenThreads::Thread {
     IpProtocol  _ipProtocol;       // is this a TCP or UDP end point?
     bool _isListener;              // is server (tcp), is receiver (udp)
     bool _usePackets;              // send/receive raw text or packets
-    bool _running;                 // worker thread running
             
     UdpSocket*                        _udpSocket;
     TcpListener*                      _tcpListener;
@@ -76,10 +76,7 @@ class EndPoint : public OpenThreads::Thread {
 	int           _theBufferSize;
     
     std::vector<NetworkHandler*> _networkHandlers;    
-    
-	// entry for thread
-	void run();    
-    
+        
 };
 
 

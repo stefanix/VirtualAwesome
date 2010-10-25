@@ -25,7 +25,7 @@ MyApp::~MyApp(){}
 
 
 void MyApp::update() {
-
+	server.update();
 }
 
 
