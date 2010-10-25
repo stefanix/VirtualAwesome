@@ -402,6 +402,9 @@ IF( BUILD_VA_EXAMPLES )
 
 	IF( BUILD_ADDON_VA_NETWORK )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleNetworkTcpServer )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleNetworkTcpClient )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleNetworkUdpSender )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleNetworkUdpReceiver )
 	ENDIF()
 
 	IF( BUILD_ADDON_VA_OPENAL )

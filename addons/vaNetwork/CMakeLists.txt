@@ -13,7 +13,7 @@ INCLUDE_DIRECTORIES( ${VA_NETWORK_INCLUDES} )
 # all source files
 SET( VA_NETWORK_SOURCE
 	${VA_NETWORK_ROOT}/include/vaNetwork/Config.h
-	${VA_NETWORK_ROOT}/include/vaNetwork/EndPoint.h
+	${VA_NETWORK_ROOT}/include/vaNetwork/AwesomeSocket.h
 	${VA_NETWORK_ROOT}/include/vaNetwork/EventHandlers.h
 	${VA_NETWORK_ROOT}/include/vaNetwork/Err.h
 	${VA_NETWORK_ROOT}/include/vaNetwork/Ftp.h
@@ -33,7 +33,7 @@ SET( VA_NETWORK_SOURCE
 	${VA_NETWORK_ROOT}/include/vaNetwork/UdpSocket.h
 	${VA_NETWORK_ROOT}/include/vaNetwork/Utf.h
 
-	${VA_NETWORK_ROOT}/src/EndPoint.cpp
+	${VA_NETWORK_ROOT}/src/AwesomeSocket.cpp
 	${VA_NETWORK_ROOT}/src/Err.cpp
 	${VA_NETWORK_ROOT}/src/Ftp.cpp
 	${VA_NETWORK_ROOT}/src/Http.cpp

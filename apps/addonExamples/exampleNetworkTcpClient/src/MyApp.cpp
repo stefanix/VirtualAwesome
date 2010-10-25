@@ -5,10 +5,10 @@
 
 MyApp::MyApp(){
     
-    server = new vaNetwork::AwesomeSocket();
-	server->tcpListen(4242);
-    server->addNetworkHandler(this);
-    scene->addUpdateHandler(server);
+    client = new vaNetwork::AwesomeSocket();
+	client->tcpConnect("127.0.0.1", 4242);
+    client->addNetworkHandler(this);
+    scene->addUpdateHandler(client);
     
     panel = new va::PanelWidget(600,240);
     panel->setPivot(300,70,0);
@@ -16,14 +16,27 @@ MyApp::MyApp(){
     scene->addChild(panel);
     
     textbox = new va::TextShape(600,240);
-    textbox->setText("Listening on port 4242. Clients are saying:\n");
+    textbox->setText("Connected to 127.0.0.1:4242. Server is saying:\n");
     textbox->setPadding(20.0f);
     panel->addChild(textbox);
+    
+    button1 = new va::ButtonWidget(200,40);
+    button1->setLabel("Send \"hi!\"");
+    button1->setPosition(0,-50,0);
+    button1->addEventHandler(this);
+    panel->addChild(button1);
     
 }
 
 MyApp::~MyApp(){
-	delete server;
+	delete client;
+}
+
+
+void MyApp::widget( va::ButtonWidget& button ) {
+	if (&button == button1) {
+     	client->send("hi!");   
+    }
 }
 
 
@@ -40,9 +53,8 @@ void MyApp::networkDisconnect( std::string ip, int port ) {
 }
 
 void MyApp::networkReceive( vaNetwork::Message message ) {
-    textbox->appendText(message.getText()).appendText("\n");
-    server->setRemoteHost(message.getIp(), message.getPort());
-    server->send("hi, to you too!");
+    textbox->appendText(message.getText());
+    textbox->appendText("\n");
 }
         
 

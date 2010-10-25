@@ -17,14 +17,16 @@ class MyApp : public va::App, public vaNetwork::NetworkHandler {
         MyApp();
         ~MyApp();
         
+        void widget( va::ButtonWidget& button );
         void networkConnect( std::string ip, int port );
         void networkDisconnect( std::string ip, int port );
         void networkReceive( vaNetwork::Message message );   
         
-        vaNetwork::AwesomeSocket* server;
+        vaNetwork::AwesomeSocket* client;
         
         va::PanelWidget* panel;
         va::TextShape* textbox;
+        va::ButtonWidget* button1;
 
 };
 

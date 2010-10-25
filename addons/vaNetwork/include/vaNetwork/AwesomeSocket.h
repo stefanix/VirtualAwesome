@@ -28,7 +28,7 @@
 namespace vaNetwork {
 
 
-class EndPoint : public va::UpdateHandler {
+class Super : public va::UpdateHandler {
   public :
 
     enum IpProtocol {
@@ -38,25 +38,28 @@ class EndPoint : public va::UpdateHandler {
     };
         
         
-    EndPoint();
-    ~EndPoint();
-    
+    AwesomeSocket();
+    ~AwesomeSocket();
+        
     // TCP related
     //
-    void tcpListen( int port, bool usePackets=false );
-    void tcpConnect( Host remoteHost );
-    void tcpDisconnect( Host remoteHost );
+    void tcpListen( int port );
+    void tcpConnect( std::string ip, int port, float timeout=3.0 );
+    void tcpDisconnect( std::string ip, int port );
 
 	// UDP related
     //
-    void udpListen( int port, bool usePackets=false );
+    void udpListen( int port );
 
     // both TCP and UDP
     //
-    int send( Host remoteHost, std::string );
-    int send( Host remoteHost, Packet packet );
+	void setRemoteHost( std::string ip, int port );
+    void send( std::string message );
+    void send( Packet packet );
     
-    void addNetworkHandler( NetworkHandler* handler );
+    void addNetworkHandler( NetworkHandler* handler );    
+    void enablePackets() {_usePackets = true;}
+    void disablePackets() {_usePackets = false;}
     
     // network polling function, call continously
 	void update();        
@@ -72,11 +75,16 @@ class EndPoint : public va::UpdateHandler {
     TcpListener*                      _tcpListener;
     std::map<std::string,TcpSocket*>  _tcpSocketsByHost;
     
+    std::string   _remoteIp;
+    int           _remotePort;
+    
     Message       _theMessage;    // used to assemble message
     char*         _theBuffer;     // before triggering event handlers
 	int           _theBufferSize;
     
-    std::vector<NetworkHandler*> _networkHandlers;    
+    std::vector<NetworkHandler*> _networkHandlers;
+    
+    std::string getHostString( std::string ip, int port );
         
 };
 

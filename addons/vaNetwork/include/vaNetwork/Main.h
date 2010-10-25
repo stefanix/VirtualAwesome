@@ -15,7 +15,7 @@
 #ifndef VANETWORK_MAIN
 #define VANETWORK_MAIN
 
-#include <vaNetwork/EndPoint.h>
+#include <vaNetwork/AwesomeSocket.h>
 #include <vaNetwork/EventHandlers.h>
 
 #endif

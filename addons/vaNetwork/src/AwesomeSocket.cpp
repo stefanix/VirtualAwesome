@@ -12,25 +12,27 @@
 * 
 */
 
-#include <vaNetwork/EndPoint.h>
+#include <vaNetwork/AwesomeSocket.h>
 
 
 namespace vaNetwork {
 
 
-EndPoint::EndPoint()
+AwesomeSocket::AwesomeSocket()
 	: _ipProtocol(IP_ANY),
       _isListener(false),
       _usePackets(false),
       _udpSocket(NULL),
       _tcpListener(NULL),
+      _remoteIp(""),
+      _remotePort(0),
       _theBuffer(NULL),
       _theBufferSize(65535)
 {
 	_theBuffer = new char[_theBufferSize];
 }
 
-EndPoint::~EndPoint() {
+AwesomeSocket::~AwesomeSocket() {
 	delete[] _theBuffer;
 
 	if (_tcpListener) {
@@ -61,17 +63,17 @@ EndPoint::~EndPoint() {
 // TCP related
 //
 
-void EndPoint::tcpListen( int port, bool usePackets ) {
+void AwesomeSocket::tcpListen( int port ) {
 	if (_ipProtocol == IP_ANY) {
         Socket::Status status;
         _tcpListener = new TcpListener();
-        _tcpListener->SetBlocking(false);
+        _tcpListener->SetBlocking(true);
         status = _tcpListener->Listen(port);
+        _tcpListener->SetBlocking(false);
         
         if (status == vaNetwork::Socket::Done) {
             _ipProtocol = IP_TCP;      // make this a TCP end point
             _isListener = true;        // make this a listener
-            _usePackets = usePackets;
         } else {
             // clean up
             delete _tcpListener;
@@ -84,15 +86,18 @@ void EndPoint::tcpListen( int port, bool usePackets ) {
     }
 }
 
-void EndPoint::tcpConnect( Host remoteHost ) {
+void AwesomeSocket::tcpConnect( std::string ip, int port, float timeout ) {
 	if (_ipProtocol == IP_ANY) {
         Socket::Status status;
         TcpSocket* sock = new TcpSocket();
-        sock->SetBlocking(false);
-        status = sock->Connect(IpAddress(remoteHost.getAddress()), remoteHost.getPort());
+        sock->SetBlocking(true);
+        status = sock->Connect(IpAddress(ip), port, timeout);
         if (status == vaNetwork::Socket::Done) {
             _ipProtocol = IP_TCP;  // make this a TCP end point
-            _tcpSocketsByHost[remoteHost.getHostString()] = sock;
+            sock->SetBlocking(false);
+            _tcpSocketsByHost[getHostString(ip,port)] = sock;
+            _remoteIp = ip;
+            _remotePort = port;             
         } else {
             // clean up
             delete sock;
@@ -104,10 +109,10 @@ void EndPoint::tcpConnect( Host remoteHost ) {
     }
 }
 
-void EndPoint::tcpDisconnect( Host remoteHost ) {
+void AwesomeSocket::tcpDisconnect( std::string ip, int port ) {
 	if (_ipProtocol == IP_TCP) {        
         std::map<std::string,TcpSocket*>::iterator iter 
-                        = _tcpSocketsByHost.find(remoteHost.getHostString());
+                        = _tcpSocketsByHost.find(getHostString(ip,port));
         if( iter != _tcpSocketsByHost.end() ) {
             delete iter->second;
             _tcpSocketsByHost.erase(iter);
@@ -124,18 +129,18 @@ void EndPoint::tcpDisconnect( Host remoteHost ) {
 // UDP related
 //
 
-void EndPoint::udpListen( int port, bool usePackets ) {
+void AwesomeSocket::udpListen( int port ) {
 	if (_ipProtocol == IP_ANY) {
         Socket::Status status;    	
         
         _udpSocket = new UdpSocket();
-        _udpSocket->SetBlocking(false);
+        _udpSocket->SetBlocking(true);
         status = _udpSocket->Bind(port);
+        _udpSocket->SetBlocking(false);
         
         if (status == vaNetwork::Socket::Done) {
             _ipProtocol = IP_UDP;     // make this a UDP end point
             _isListener = true;       // make this a listener
-            _usePackets = usePackets;
         } else {
             // clean up
             delete _udpSocket;
@@ -148,42 +153,95 @@ void EndPoint::udpListen( int port, bool usePackets ) {
     }
 }
 
+void AwesomeSocket::setRemoteHost( std::string ip, int port ) {
+	if (_ipProtocol == IP_ANY) {
+        // assume we want to send UDP
+        _ipProtocol = IP_UDP;
+        _udpSocket = new UdpSocket();
+        _udpSocket->SetBlocking(false);
+        _remoteIp = ip;
+        _remotePort = port;        
+    } else if (_ipProtocol == IP_TCP) {
+    	// assume we want to change the remote host for TCP
+        // only hosts that are already connected are valid
+        std::map<std::string,TcpSocket*>::iterator iter 
+                        = _tcpSocketsByHost.find(getHostString(ip,port));
+        if( iter != _tcpSocketsByHost.end() ) {
+        	_remoteIp = ip;
+            _remotePort = port;
+        } else {
+            osg::notify(osg::WARN) << "in setRemoteHost, this host is not connected" << std::endl;
+        }
+    } else if (_ipProtocol == IP_UDP) {
+    	// assume we want to change the remote host for UDP
+        _remoteIp = ip;
+        _remotePort = port;
+    }
+}
 
 
 
 // both TCP and UDP
 //
 
-int EndPoint::send( Host remoteHost, std::string ) {
-
+void AwesomeSocket::send( std::string message ) {
+	if (_ipProtocol == IP_TCP) {        
+        std::map<std::string,TcpSocket*>::iterator iter 
+                        = _tcpSocketsByHost.find(getHostString(_remoteIp,_remotePort));
+        if( iter != _tcpSocketsByHost.end() ) {
+            iter->second->Send(message.c_str(), message.size() + 1);
+        } else {
+            osg::notify(osg::WARN) << "in send, this host is not connected" << std::endl;
+        }
+    } else if (_ipProtocol == IP_UDP) {
+    	if(!_udpSocket) { 
+            _udpSocket = new UdpSocket();
+            _udpSocket->SetBlocking(false);
+        }
+        _udpSocket->Send(message.c_str(), message.size() + 1, 
+        			IpAddress(_remoteIp), _remotePort);
+    } else {
+        osg::notify(osg::WARN) << "in send, not ready for sending" << std::endl;
+    }
 }
-int EndPoint::send( Host remoteHost, Packet packet ) {
-
+void AwesomeSocket::send( Packet packet ) {
+	if (_ipProtocol == IP_TCP) {        
+        std::map<std::string,TcpSocket*>::iterator iter 
+                        = _tcpSocketsByHost.find(getHostString(_remoteIp,_remotePort));
+        if( iter != _tcpSocketsByHost.end() ) {
+            iter->second->Send(packet);
+        } else {
+            osg::notify(osg::WARN) << "in send, this host is not connected" << std::endl;
+        }
+    } else if (_ipProtocol == IP_UDP) {
+        _udpSocket->Send(packet, IpAddress(_remoteIp), _remotePort);
+    } else {
+        osg::notify(osg::WARN) << "in send, not ready for sending" << std::endl;
+    }
 }
 
 
 
-void EndPoint::addNetworkHandler( NetworkHandler* handler ){
+void AwesomeSocket::addNetworkHandler( NetworkHandler* handler ){
 	_networkHandlers.push_back(handler);
 }
 
 
 
-void EndPoint::update() {
+void AwesomeSocket::update() {
     if (_ipProtocol == IP_TCP) {
         // accept new connections
         if (_isListener) {
             TcpSocket* sock = new TcpSocket();
             sock->SetBlocking(false);            
             if (_tcpListener->Accept(*sock) == vaNetwork::Socket::Done) {
-                // A new client just connected!            
-                _theMessage.clear();
-                _theMessage._remoteHost._address = sock->GetRemoteAddress().ToString();
-                _theMessage._remoteHost._port = sock->GetRemotePort();
-                _tcpSocketsByHost[_theMessage._remoteHost.getHostString()] = sock;
+                // A new client just connected!
+                std::string remoteIp = sock->GetRemoteAddress().ToString();
+                int remotePort = sock->GetRemotePort();
+                _tcpSocketsByHost[getHostString(remoteIp,remotePort)] = sock;
             
                 for (unsigned int i=0; i<_networkHandlers.size(); i++) {
-                    _networkHandlers[i]->networkConnect(_theMessage._remoteHost);
+                    _networkHandlers[i]->networkConnect(remoteIp,remotePort);
                 }                  
             } else {
                 // clean up
@@ -200,8 +258,8 @@ void EndPoint::update() {
             TcpSocket* sock = iter->second;
             Socket::Status status;
             _theMessage.clear();
-            _theMessage._remoteHost._address = sock->GetRemoteAddress().ToString();
-            _theMessage._remoteHost._port = sock->GetRemotePort();
+            _theMessage._ip = sock->GetRemoteAddress().ToString();
+            _theMessage._port = sock->GetRemotePort();
             
             if (_usePackets) {
                 status = sock->Receive(_theMessage._packet);
@@ -228,7 +286,7 @@ void EndPoint::update() {
                 _tcpSocketsByHost.erase(iter++);
                 iterGotIncremented = true;
                 for (unsigned int i=0; i<_networkHandlers.size(); i++) {
-                    _networkHandlers[i]->networkDisconnect(_theMessage._remoteHost);
+                    _networkHandlers[i]->networkDisconnect(_theMessage._ip, _theMessage._port);
                 }                    
             }
             
@@ -265,8 +323,8 @@ void EndPoint::update() {
         // notify event handlers
         //
         if (status == vaNetwork::Socket::Done) {
-            _theMessage._remoteHost._address = sender.ToString();
-            _theMessage._remoteHost._port = port;
+            _theMessage._ip = sender.ToString();
+            _theMessage._port = port;
         
             for (unsigned int i=0; i<_networkHandlers.size(); i++) {
                 _networkHandlers[i]->networkReceive(_theMessage);
@@ -277,6 +335,13 @@ void EndPoint::update() {
 }
 
 
+
+
+std::string AwesomeSocket::getHostString( std::string ip, int port ) {
+    std::ostringstream ss;
+    ss << ip << ":" << port;
+    return ss.str();		    
+}
 
 
 
