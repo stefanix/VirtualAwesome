@@ -78,13 +78,13 @@ public :
     static bool IsFileSupported(const char* Data, std::size_t SizeInBytes);
 
     ////////////////////////////////////////////////////////////
-    /// /see sf::SoundFile::Read
+    /// /see vaOpenal::SoundFile::Read
     ///
     ////////////////////////////////////////////////////////////
     virtual std::size_t Read(Int16* Data, std::size_t NbSamples);
 
     ////////////////////////////////////////////////////////////
-    /// /see sf::SoundFile::Write
+    /// /see vaOpenal::SoundFile::Write
     ///
     ////////////////////////////////////////////////////////////
     virtual void Write(const Int16* Data, std::size_t NbSamples);
@@ -92,19 +92,19 @@ public :
 private :
 
     ////////////////////////////////////////////////////////////
-    /// /see sf::SoundFile::OpenRead
+    /// /see vaOpenal::SoundFile::OpenRead
     ///
     ////////////////////////////////////////////////////////////
     virtual bool OpenRead(const std::string& Filename, std::size_t& NbSamples, unsigned int& ChannelsCount, unsigned int& SampleRate);
 
     ////////////////////////////////////////////////////////////
-    /// /see sf::SoundFile::OpenRead
+    /// /see vaOpenal::SoundFile::OpenRead
     ///
     ////////////////////////////////////////////////////////////
     virtual bool OpenRead(const char* Data, std::size_t SizeInBytes, std::size_t& NbSamples, unsigned int& ChannelsCount, unsigned int& SampleRate);
 
     ////////////////////////////////////////////////////////////
-    /// /see sf::SoundFile::OpenWrite
+    /// /see vaOpenal::SoundFile::OpenWrite
     ///
     ////////////////////////////////////////////////////////////
     virtual bool OpenWrite(const std::string& Filename, unsigned int ChannelsCount, unsigned int SampleRate);

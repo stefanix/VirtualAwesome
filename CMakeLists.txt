@@ -344,6 +344,11 @@ IF(APPLE)
 	ENDIF()
 ENDIF()
 
+OPTION( BUILD_ADDON_VA_NETWORK "Build the vaNetwork addon." ON)
+IF( BUILD_ADDON_VA_NETWORK )
+	ADD_SUBDIRECTORY( addons/vaNetwork )
+ENDIF()
+
 OPTION( BUILD_ADDON_VA_OPENAL "Build the vaOpenal addon." ON)
 IF( BUILD_ADDON_VA_OPENAL )
 	ADD_SUBDIRECTORY( addons/vaOpenal )
@@ -393,6 +398,10 @@ IF( BUILD_VA_EXAMPLES )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipad )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleMultipadGamepad )
 		ADD_SUBDIRECTORY( apps/addonExamples/exampleGestureWidget )
+	ENDIF()
+
+	IF( BUILD_ADDON_VA_NETWORK )
+		ADD_SUBDIRECTORY( apps/addonExamples/exampleNetworkTcpServer )
 	ENDIF()
 
 	IF( BUILD_ADDON_VA_OPENAL )

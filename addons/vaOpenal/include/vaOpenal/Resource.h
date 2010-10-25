@@ -174,7 +174,7 @@ void Resource<T>::Disconnect(ResourcePtr<T>& Observer) const
 
 
 ////////////////////////////////////////////////////////////
-/// Safe pointer to a T resource (inheriting from sf::Resource<T>),
+/// Safe pointer to a T resource (inheriting from vaOpenal::Resource<T>),
 /// its pointer is automatically reseted when the resource is destroyed
 ////////////////////////////////////////////////////////////
 template <typename T>

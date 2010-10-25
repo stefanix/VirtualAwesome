@@ -162,7 +162,7 @@ bool SoundFileDefault::OpenRead(const std::string& Filename, std::size_t& NbSamp
 
 
 ////////////////////////////////////////////////////////////
-/// /see sf::SoundFile::OpenRead
+/// /see vaOpenal::SoundFile::OpenRead
 ////////////////////////////////////////////////////////////
 bool SoundFileDefault::OpenRead(const char* Data, std::size_t SizeInBytes, std::size_t& NbSamples, unsigned int& ChannelsCount, unsigned int& SampleRate)
 {

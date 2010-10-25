@@ -22,89 +22,87 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef VAOPENAL_SOUNDFILEOGG
-#define VAOPENAL_SOUNDFILEOGG
+#ifndef VANETWORK_SOCKETIMPLUNIX
+#define VANETWORK_SOCKETIMPLUNIX
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <vaOpenal/SoundFile.h>
+#include <vaNetwork/Socket.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <unistd.h>
 
-struct stb_vorbis;
+namespace vaNetwork {
 
 
-namespace vaOpenal {
-
+namespace priv
+{
 ////////////////////////////////////////////////////////////
-/// Specialization of SoundFile that handles ogg-vorbis files (.ogg)
-/// (does not support variable bitrate / channels and writing)
+/// \brief Helper class implementing all the non-portable
+///        socket stuff; this is the Unix version
+///
 ////////////////////////////////////////////////////////////
-class SoundFileOgg : public SoundFile
+class SocketImpl
 {
 public :
 
     ////////////////////////////////////////////////////////////
-    /// Default constructor
-    ///
+    // Types
     ////////////////////////////////////////////////////////////
-    SoundFileOgg();
+    typedef socklen_t AddrLength;
 
     ////////////////////////////////////////////////////////////
-    /// Destructor
+    /// \brief Create an internal sockaddr_in address
+    ///
+    /// \param address Target address
+    /// \param port    Target port
+    ///
+    /// \return sockaddr_in ready to be used by socket functions
     ///
     ////////////////////////////////////////////////////////////
-    ~SoundFileOgg();
+    static sockaddr_in CreateAddress(unsigned long address, unsigned short port);
 
     ////////////////////////////////////////////////////////////
-    /// Check if a given file is supported by this loader
+    /// \brief Return the value of the invalid socket
     ///
-    /// \param Filename : Path of the file to check
-    /// \param Read :     Is the file opened for reading or writing ?
-    ///
-    /// \param return True if the loader can handle this file
+    /// \return Special value of the invalid socket
     ///
     ////////////////////////////////////////////////////////////
-    static bool IsFileSupported(const std::string& Filename, bool Read);
+    static SocketHandle InvalidSocket();
 
     ////////////////////////////////////////////////////////////
-    /// Check if a given file in memory is supported by this loader
+    /// \brief Close and destroy a socket
     ///
-    /// \param Data :        Pointer to the file data in memory
-    /// \param SizeInBytes : Size of the data to load, in bytes
-    ///
-    /// \param return True if the loader can handle this file
+    /// \param sock Handle of the socket to close
     ///
     ////////////////////////////////////////////////////////////
-    static bool IsFileSupported(const char* Data, std::size_t SizeInBytes);
+    static void Close(SocketHandle sock);
 
     ////////////////////////////////////////////////////////////
-    /// /see vaOpenal::SoundFile::Read
+    /// \brief Set a socket as blocking or non-blocking
+    ///
+    /// \param sock  Handle of the socket
+    /// \param block New blocking state of the socket
     ///
     ////////////////////////////////////////////////////////////
-    virtual std::size_t Read(Int16* Data, std::size_t NbSamples);
-
-private :
+    static void SetBlocking(SocketHandle sock, bool block);
 
     ////////////////////////////////////////////////////////////
-    /// /see vaOpenal::SoundFile::OpenRead
+    /// Get the last socket error status
+    ///
+    /// \return Status corresponding to the last socket error
     ///
     ////////////////////////////////////////////////////////////
-    virtual bool OpenRead(const std::string& Filename, std::size_t& NbSamples, unsigned int& ChannelsCount, unsigned int& SampleRate);
-
-    ////////////////////////////////////////////////////////////
-    /// /see vaOpenal::SoundFile::OpenRead
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual bool OpenRead(const char* Data, std::size_t SizeInBytes, std::size_t& NbSamples, unsigned int& ChannelsCount, unsigned int& SampleRate);
-
-    ////////////////////////////////////////////////////////////
-    // Member data
-    ////////////////////////////////////////////////////////////
-    stb_vorbis*  myStream;        ///< Vorbis stream
-    unsigned int myChannelsCount; ///< Number of channels (1 = mono, 2 = stereo)
+    static Socket::Status GetErrorStatus();
 };
 
+} // namespace priv
 
 
-}
+} 
 #endif
