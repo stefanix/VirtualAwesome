@@ -18,6 +18,7 @@
 #include <map>
 #include <vector>
 #include <osg/Notify>
+#include <va/EventHandlers.h>
 #include <vaNetwork/TcpSocket.h>
 #include <vaNetwork/UdpSocket.h>
 #include <vaNetwork/TcpListener.h>
@@ -27,7 +28,7 @@
 namespace vaNetwork {
 
 
-class EndPoint {
+class EndPoint : public va::UpdateHandler {
   public :
 
     enum IpProtocol {

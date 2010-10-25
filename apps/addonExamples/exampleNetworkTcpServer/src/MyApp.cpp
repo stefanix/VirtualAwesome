@@ -7,7 +7,7 @@ MyApp::MyApp(){
     
 	server.tcpListen(4242);
     server.addNetworkHandler(this);
-    std::cout << "listening for TCP on port 4242" << std::endl;
+    scene->addUpdateHandler(&server);
     
     panel = new va::PanelWidget(600,240);
     panel->setPivot(300,70,0);
@@ -25,7 +25,7 @@ MyApp::~MyApp(){}
 
 
 void MyApp::update() {
-	server.update();
+	//server.update();
 }
 
 
