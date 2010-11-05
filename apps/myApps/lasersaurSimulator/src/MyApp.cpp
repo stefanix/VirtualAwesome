@@ -5,8 +5,8 @@
 
 MyApp::MyApp(){
     
-    server = new vaNetwork::AwesomeSocket();
-	server->tcpListen(4242);
+    server = new vaNetwork::HttpRpcServer();
+	server->listen(4242);
     server->addNetworkHandler(this);
     scene->addUpdateHandler(server);
     

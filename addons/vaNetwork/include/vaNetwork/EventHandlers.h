@@ -38,10 +38,15 @@ class Message {
     }
 
     bool usingPackets() {return _usingPackets;}
+    
+    void setText(char* chars, int numChars) {_text.insert(0, chars, numChars);}
 	std::string getText() {return _text;}
 	Packet getPacket() {return _packet;}   // to use call AwesomeSocket::enablePackets()
 
+	void setIp( std::string ip ) {_ip = ip;}
 	std::string getIp() {return _ip;}
+    
+	void setPort( int port ) {_port = port;}    
 	int getPort() {return _port;}
 
     bool isTcpMessage() {return _isTcp;}

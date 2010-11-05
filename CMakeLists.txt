@@ -434,4 +434,5 @@ ENDIF()
 
 ADD_SUBDIRECTORY( apps/myApps/storm )
 ADD_SUBDIRECTORY( apps/myApps/gridderTest )
+ADD_SUBDIRECTORY( apps/myApps/lasersaurSimulator )
 
