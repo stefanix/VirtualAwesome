@@ -738,6 +738,15 @@ project "exampleSoundInstrument"
   configuration "Release"
     targetdir "apps/addonExamples/exampleSoundInstrument/bin/release"
 
+  configuration { "macosx" }
+		defines { "__MACOSX_CORE__", "__LITTLE_ENDIAN__" }
+
+  configuration { "linux" }
+		defines { "__LINUX_ALSA__", "__LINUX_ALSASEQ__", "__LITTLE_ENDIAN__" }
+		
+  configuration { "windows" }
+		defines { "__WINDOWS_DS__", "__WINDOWS_MM__", "__LITTLE_ENDIAN__" }
+		
 
 project "exampleSoundSine"
 	kind "WindowedApp"
@@ -778,15 +787,6 @@ project "exampleTouchkitSimple"
  
   configuration "Release"
     targetdir "apps/addonExamples/exampleTouchkitSimple/bin/release"
-
-  configuration { "macosx" }
-		defines { "__MACOSX_CORE__", "__LITTLE_ENDIAN__" }
-
-  configuration { "linux" }
-		defines { "__LINUX_ALSA__", "__LINUX_ALSASEQ__", "__LITTLE_ENDIAN__" }
-		
-  configuration { "windows" }
-		defines { "__WINDOWS_DS__", "__WINDOWS_MM__", "__LITTLE_ENDIAN__" }
 		
 
 if _ACTION == "clean" then
@@ -863,3 +863,97 @@ end
 
 -- ----------------------------------------------------------------------------
 -- ------ addons examples end -------------------------------------------------
+
+
+
+-- ------ myApps --------------------------------------------------------------
+-- ----------------------------------------------------------------------------
+
+project "gridderTest"
+	kind "WindowedApp"
+	location "apps/myApps/gridderTest"
+	files { "apps/myApps/gridderTest/src/*.h", "apps/myApps/gridderTest/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_opencv_include_dirs, va_touchkit_include_dirs }
+	libdirs { va_link_dirs, va_opencv_link_dirs, va_touchkit_link_dirs }
+	links { "va", va_link_libs, "vaOpencv", va_opencv_link_libs, "vaTouchkit", va_touchkit_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/myApps/gridderTest/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/myApps/gridderTest/bin/release"
+
+
+project "lasersaurSimulator"
+	kind "WindowedApp"
+	location "apps/myApps/lasersaurSimulator"
+	files { "apps/myApps/lasersaurSimulator/src/*.h", "apps/myApps/lasersaurSimulator/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_network_include_dirs }
+	libdirs { va_link_dirs, va_network_link_dirs }
+	links { "va", va_link_libs, "vaNetwork", va_network_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/myApps/lasersaurSimulator/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/myApps/lasersaurSimulator/bin/release"
+
+
+project "storm"
+	kind "WindowedApp"
+	location "apps/myApps/storm"
+	files { "apps/myApps/storm/src/*.h", "apps/myApps/storm/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_opencv_include_dirs, va_touchkit_include_dirs }
+	libdirs { va_link_dirs, va_opencv_link_dirs, va_touchkit_link_dirs }
+	links { "va", va_link_libs, "vaOpencv", va_opencv_link_libs, "vaTouchkit", va_touchkit_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/myApps/storm/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/myApps/storm/bin/release"
+
+
+project "osgmovie"
+	kind "WindowedApp"
+	location "apps/osgExamples/osgmovie"
+	files { "apps/osgExamples/osgmovie/src/*.h", "apps/osgExamples/osgmovie/src/*.cpp" }
+	
+	includedirs { va_include_dirs }	
+	libdirs { va_link_dirs }
+	links { va_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/osgExamples/osgmovie/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/osgExamples/osgmovie/bin/release"
+
+
+if _ACTION == "clean" then
+  os.rmdir("apps/myApps/gridderTest/bin")
+  os.rmdir("apps/myApps/gridderTest/obj")
+	os.rmdir("apps/myApps/gridderTest/gridderTest.xcodeproj")
+	os.rmdir("apps/myApps/gridderTest/gridderTest.vcproj")
+
+  os.rmdir("apps/myApps/lasersaurSimulator/bin")
+  os.rmdir("apps/myApps/lasersaurSimulator/obj")
+	os.rmdir("apps/myApps/lasersaurSimulator/lasersaurSimulator.xcodeproj")
+	os.rmdir("apps/myApps/lasersaurSimulator/lasersaurSimulator.vcproj")
+	
+  os.rmdir("apps/myApps/storm/bin")
+  os.rmdir("apps/myApps/storm/obj")
+	os.rmdir("apps/myApps/storm/storm.xcodeproj")
+	os.rmdir("apps/myApps/storm/storm.vcproj")
+
+  os.rmdir("apps/osgExamples/osgmovie/bin")
+  os.rmdir("apps/osgExamples/osgmovie/obj")
+	os.rmdir("apps/osgExamples/osgmovie/osgmovie.xcodeproj")
+	os.rmdir("apps/osgExamples/osgmovie/osgmovie.vcproj")	
+end
+
+-- ----------------------------------------------------------------------------
+-- ------ myApps end ----------------------------------------------------------

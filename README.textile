@@ -41,6 +41,9 @@ h4. RELEASE 0.4.4 - in progress
 *   premake todo: on windows, ref both debug and release link libraries
 *   premake todo: dll copy build phase
 *   premake todo: clean also code::blocks files, Makefile
+*   TODO: use of global data dir
+*   TODO: osgExamples need cleanup
+
 
 
 h4. RELEASE 0.4.3
