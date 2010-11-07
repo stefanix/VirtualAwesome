@@ -32,6 +32,16 @@ Core Team
 
 h2. CHANGELOG
 
+h4. RELEASE 0.4.4 - in progress
+* ~ new build tool. dropped cmake for premake. the cool thing about the new 
+    one is that it generates distributable project files. all referencing 
+    is relative. it's less feature-rich but also much cleaner.
+*   premake todo: trouble finding the MultitouchSupport.framework because
+    it is not in the main framework path
+*   premake todo: on windows, ref both debug and release link libraries
+*   premake todo: dll copy build phase
+*   premake todo: clean also code::blocks files, Makefile
+
 
 h4. RELEASE 0.4.3
 * + vaOsc addon

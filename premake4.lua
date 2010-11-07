@@ -22,10 +22,10 @@ solution "VirtualAwesome"
 			"-fvisibility-inlines-hidden"
 		}
 
-	-- configuration { "linux" }
+	-- configuration { "linux" }	
 
 	configuration { "windows" }
-		defines "WIN32"
+		defines { "WIN32", "TARGET_WIN32" }
 
 
 if _ACTION == "clean" then
@@ -104,6 +104,131 @@ if _ACTION == "clean" then
 end
 
 -- ------ va end --------------------------------------------------------------
+
+
+
+-- ------ vaMice --------------------------------------------------------------
+
+va_mice_include_dirs = { "addons/vaMice/include", "addons/vaMice/libs/manymouse" }
+va_mice_link_dirs = { }
+va_mice_link_libs = { }
+
+		
+project "vaMice"
+	kind "StaticLib"
+	location "addons/vaMice"
+	files { 
+		"addons/vaMice/include/vaMice/*.h", 
+		"addons/vaMice/src/*.cpp", 
+		"addons/vaMice/libs/manymouse/*.h",
+		"addons/vaMice/libs/manymouse/*.c"
+	}
+	includedirs { va_include_dirs, va_mice_include_dirs }
+	
+  configuration "Debug"
+    targetdir "addons/vaMice/bin/debug"
+ 
+  configuration "Release"
+    targetdir "addons/vaMice/bin/release"	
+
+
+if _ACTION == "clean" then
+  os.rmdir("addons/vaMice/bin")
+  os.rmdir("addons/vaMice/obj")
+	os.rmdir("addons/vaMice/vaMice.xcodeproj")
+	os.rmdir("addons/vaMice/vaMice.vcproj")
+end
+
+-- ------ vaMice end ----------------------------------------------------------
+
+
+
+-- ------ vaMultipad ----------------------------------------------------------
+
+if os.is("macosx") then
+	va_multipad_include_dirs = { "addons/vaMultipad/include" }
+	va_multipad_link_dirs = { }
+	-- va_multipad_link_dirs = { os.findlib("MultitouchSupport") }
+	va_multipad_link_libs = { "/System/Library/PrivateFrameworks/MultitouchSupport.framework" }
+
+		
+	project "vaMultipad"
+		kind "StaticLib"
+		location "addons/vaMultipad"
+		files { "addons/vaMultipad/include/vaMultipad/*.h", "addons/vaMultipad/src/*.cpp" }
+		includedirs { va_include_dirs, va_multipad_include_dirs }
+	
+	  configuration "Debug"
+	    targetdir "addons/vaMultipad/bin/debug"
+ 
+	  configuration "Release"
+	    targetdir "addons/vaMultipad/bin/release"	
+end
+
+
+if _ACTION == "clean" then
+  os.rmdir("addons/vaMultipad/bin")
+  os.rmdir("addons/vaMultipad/obj")
+	os.rmdir("addons/vaMultipad/vaMultipad.xcodeproj")
+	os.rmdir("addons/vaMultipad/vaMultipad.vcproj")
+end
+
+-- ------ vaMultipad end ------------------------------------------------------
+
+
+
+-- ------ vaNetwork -----------------------------------------------------------
+
+va_network_include_dirs = { "addons/vaNetwork/include" }
+
+if os.is("macosx") or os.is("linux") then
+	va_network_link_dirs = { }
+  va_network_link_libs = { }
+end
+	
+if os.is("windows") then
+	va_network_link_dirs = { }				
+  va_network_link_libs = { "ws2_32" }
+end
+		
+		
+project "vaNetwork"
+	kind "StaticLib"
+	location "addons/vaNetwork"
+	files { 
+		"addons/vaNetwork/include/vaNetwork/*.h",
+		"addons/vaNetwork/src/*.cpp",
+		"addons/vaNetwork/include/vaNetwork/Utf.inl"
+	}
+	includedirs { va_include_dirs, va_network_include_dirs }
+	
+  configuration { "macosx or linux" }
+		excludes { 
+			"addons/vaNetwork/include/vaNetwork/SocketImplWin32.h", 
+			"addons/vaNetwork/src/SocketImplWin32.cpp"
+		}
+		
+  configuration { "windows" }
+		excludes { 
+			"addons/vaNetwork/include/vaNetwork/SocketImplUnix.h", 
+			"addons/vaNetwork/src/SocketImplUnix.cpp"
+		}
+	
+  configuration "Debug"
+    targetdir "addons/vaNetwork/bin/debug"
+ 
+  configuration "Release"
+    targetdir "addons/vaNetwork/bin/release"	
+
+
+if _ACTION == "clean" then
+  os.rmdir("addons/vaNetwork/bin")
+  os.rmdir("addons/vaNetwork/obj")
+	os.rmdir("addons/vaNetwork/vaNetwork.xcodeproj")
+	os.rmdir("addons/vaNetwork/vaNetwork.vcproj")
+end
+
+-- ------ vaNetwork end -------------------------------------------------------
 
 
 
@@ -196,6 +321,111 @@ end
 -- ------ vaOpencv end --------------------------------------------------------
 
 
+
+-- ------ vaOsc ---------------------------------------------------------------
+
+va_osc_include_dirs = { "addons/vaOsc/include", "addons/vaOsc/libs/oscpack/include" }
+
+if os.is("macosx") or os.is("linux") then
+	va_osc_link_dirs = { }
+  va_osc_link_libs = { }
+end
+	
+if os.is("windows") then
+	va_osc_link_dirs = { }				
+  va_osc_link_libs = { "ws2_32.lib", "winmm.lib" }
+end
+		
+		
+project "vaOsc"
+	kind "StaticLib"
+	location "addons/vaOsc"
+	files { 
+		"addons/vaOsc/include/vaOsc/*.h",
+		"addons/vaOsc/src/*.cpp",
+		"addons/vaOsc/libs/oscpack/include/oscpack/*.h",
+		"addons/vaOsc/libs/oscpack/src/*.cpp"
+	}
+	includedirs { va_include_dirs, va_osc_include_dirs }
+	
+  configuration "Debug"
+    targetdir "addons/vaOsc/bin/debug"
+ 
+  configuration "Release"
+    targetdir "addons/vaOsc/bin/release"	
+
+
+if _ACTION == "clean" then
+  os.rmdir("addons/vaOsc/bin")
+  os.rmdir("addons/vaOsc/obj")
+	os.rmdir("addons/vaOsc/vaOsc.xcodeproj")
+	os.rmdir("addons/vaOsc/vaOsc.vcproj")
+end
+
+-- ------ vaOsc end -----------------------------------------------------------
+
+
+
+-- ------ vaSound -------------------------------------------------------------
+
+va_sound_include_dirs = { "addons/vaSound/include", "addons/vaSound/libs/stk/include" }
+
+if os.is("macosx") then
+	va_sound_link_dirs = { }
+  va_sound_link_libs = { "CoreMidi.framework" }
+end
+
+if os.is("linux") then
+	va_sound_link_dirs = { }
+  va_sound_link_libs = { "asound" }
+end
+	
+if os.is("windows") then
+	va_sound_link_dirs = { }				
+  va_sound_link_libs = { "ws2_32.lib", "winmm.lib" }
+end
+		
+		
+project "vaSound"
+	kind "StaticLib"
+	location "addons/vaSound"
+	files { 
+		"addons/vaSound/include/vaSound/*.h",
+		"addons/vaSound/src/*.cpp",
+		"addons/vaSound/libs/stk/include/stk/*.h",
+		"addons/vaSound/libs/stk/include/stk/*.msg",
+		"addons/vaSound/libs/stk/include/stk/*.tbl",
+		"addons/vaSound/libs/stk/src/*.cpp"
+	}
+	includedirs { va_include_dirs, va_sound_include_dirs }
+	
+  configuration "Debug"
+    targetdir "addons/vaSound/bin/debug"
+ 
+  configuration "Release"
+    targetdir "addons/vaSound/bin/release"
+
+  configuration { "macosx" }
+		defines { "__MACOSX_CORE__", "__LITTLE_ENDIAN__" }
+
+  configuration { "linux" }
+		defines { "__LINUX_ALSA__", "__LINUX_ALSASEQ__", "__LITTLE_ENDIAN__" }
+		
+  configuration { "windows" }
+		defines { "__WINDOWS_DS__", "__WINDOWS_MM__", "__LITTLE_ENDIAN__" }
+
+
+if _ACTION == "clean" then
+  os.rmdir("addons/vaSound/bin")
+  os.rmdir("addons/vaSound/obj")
+	os.rmdir("addons/vaSound/vaSound.xcodeproj")
+	os.rmdir("addons/vaSound/vaSound.vcproj")
+end
+
+-- ------ vaSound end ---------------------------------------------------------
+
+
+
 -- ------ vaTouchkit ----------------------------------------------------------
 
 if os.is("macosx") then
@@ -241,13 +471,209 @@ end
 
 
 
-include "apps/examples/exampleKeymouse"
-include "apps/examples/exampleShapes"
-include "apps/examples/exampleWidget"
+-- ------ examples ------------------------------------------------------------
+-- ----------------------------------------------------------------------------
+
+project "exampleKeymouse"
+	kind "WindowedApp"
+	location "apps/examples/exampleKeymouse"
+	files { "apps/examples/exampleKeymouse/src/*.h", "apps/examples/exampleKeymouse/src/*.cpp" }
+	
+	includedirs { va_include_dirs }
+	libdirs { va_link_dirs }
+	links { "va", va_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/examples/exampleKeymouse/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/examples/exampleKeymouse/bin/release"
+
+
+project "exampleShapes"
+	kind "WindowedApp"
+	location "apps/examples/exampleShapes"
+	files { "apps/examples/exampleShapes/src/*.h", "apps/examples/exampleShapes/src/*.cpp" }
+	
+	includedirs { va_include_dirs }
+	libdirs { va_link_dirs }
+	links { "va", va_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/examples/exampleShapes/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/examples/exampleShapes/bin/release"
+
+
+project "exampleWidget"
+	kind "WindowedApp"
+	location "apps/examples/exampleWidget"
+	files { "apps/examples/exampleWidget/src/*.h", "apps/examples/exampleWidget/src/*.cpp" }
+	
+	includedirs { va_include_dirs }
+	libdirs { va_link_dirs }
+	links { "va", va_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/examples/exampleWidget/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/examples/exampleWidget/bin/release"
+
+
+if _ACTION == "clean" then
+  os.rmdir("apps/examples/exampleKeymouse/bin")
+  os.rmdir("apps/examples/exampleKeymouse/obj")
+	os.rmdir("apps/examples/exampleKeymouse/exampleKeymouse.xcodeproj")
+	os.rmdir("apps/examples/exampleKeymouse/exampleKeymouse.vcproj")
+
+  os.rmdir("apps/examples/exampleShapes/bin")
+  os.rmdir("apps/examples/exampleShapes/obj")
+	os.rmdir("apps/examples/exampleShapes/exampleShapes.xcodeproj")
+	os.rmdir("apps/examples/exampleShapes/exampleShapes.vcproj")
+
+  os.rmdir("apps/examples/exampleWidget/bin")
+  os.rmdir("apps/examples/exampleWidget/obj")
+	os.rmdir("apps/examples/exampleWidget/exampleWidget.xcodeproj")
+	os.rmdir("apps/examples/exampleWidget/exampleWidget.vcproj")
+end
+
+-- ----------------------------------------------------------------------------
+-- ------ examples end --------------------------------------------------------
+
 
 
 -- ------ addons examples -----------------------------------------------------
 -- ----------------------------------------------------------------------------
+
+project "exampleGestureWidget"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleGestureWidget"
+	files { "apps/addonExamples/exampleGestureWidget/src/*.h", "apps/addonExamples/exampleGestureWidget/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_multipad_include_dirs }
+	libdirs { va_link_dirs, va_multipad_link_dirs }
+	links { "va", va_link_libs, "vaMultipad", va_multipad_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleGestureWidget/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleGestureWidget/bin/release"
+
+
+project "exampleMice"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleMice"
+	files { "apps/addonExamples/exampleMice/src/*.h", "apps/addonExamples/exampleMice/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_mice_include_dirs }
+	libdirs { va_link_dirs, va_mice_link_dirs }
+	links { "va", va_link_libs, "vaMice", va_mice_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleMice/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleMice/bin/release"
+
+
+project "exampleMultipad"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleMultipad"
+	files { "apps/addonExamples/exampleMultipad/src/*.h", "apps/addonExamples/exampleMultipad/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_multipad_include_dirs }
+	libdirs { va_link_dirs, va_multipad_link_dirs }
+	links { "va", va_link_libs, "vaMultipad", va_multipad_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleMultipad/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleMultipad/bin/release"
+
+
+project "exampleMultipadGamepad"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleMultipadGamepad"
+	files { "apps/addonExamples/exampleMultipadGamepad/src/*.h", "apps/addonExamples/exampleMultipadGamepad/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_multipad_include_dirs }
+	libdirs { va_link_dirs, va_multipad_link_dirs }
+	links { "va", va_link_libs, "vaMultipad", va_multipad_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleMultipadGamepad/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleMultipadGamepad/bin/release"
+
+
+project "exampleNetworkTcpClient"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleNetworkTcpClient"
+	files { "apps/addonExamples/exampleNetworkTcpClient/src/*.h", "apps/addonExamples/exampleNetworkTcpClient/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_network_include_dirs }
+	libdirs { va_link_dirs, va_network_link_dirs }
+	links { "va", va_link_libs, "vaNetwork", va_network_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleNetworkTcpClient/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleNetworkTcpClient/bin/release"
+
+
+project "exampleNetworkTcpServer"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleNetworkTcpServer"
+	files { "apps/addonExamples/exampleNetworkTcpServer/src/*.h", "apps/addonExamples/exampleNetworkTcpServer/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_network_include_dirs }
+	libdirs { va_link_dirs, va_network_link_dirs }
+	links { "va", va_link_libs, "vaNetwork", va_network_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleNetworkTcpServer/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleNetworkTcpServer/bin/release"
+
+
+project "exampleNetworkUdpReceiver"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleNetworkUdpReceiver"
+	files { "apps/addonExamples/exampleNetworkUdpReceiver/src/*.h", "apps/addonExamples/exampleNetworkUdpReceiver/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_network_include_dirs }
+	libdirs { va_link_dirs, va_network_link_dirs }
+	links { "va", va_link_libs, "vaNetwork", va_network_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleNetworkUdpReceiver/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleNetworkUdpReceiver/bin/release"
+
+
+project "exampleNetworkUdpSender"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleNetworkUdpSender"
+	files { "apps/addonExamples/exampleNetworkUdpSender/src/*.h", "apps/addonExamples/exampleNetworkUdpSender/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_network_include_dirs }
+	libdirs { va_link_dirs, va_network_link_dirs }
+	links { "va", va_link_libs, "vaNetwork", va_network_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleNetworkUdpSender/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleNetworkUdpSender/bin/release"
+
 
 project "exampleOpenal"
 	kind "WindowedApp"
@@ -265,6 +691,79 @@ project "exampleOpenal"
     targetdir "apps/addonExamples/exampleOpenal/bin/release"
 
 
+project "exampleOscReceiver"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleOscReceiver"
+	files { "apps/addonExamples/exampleOscReceiver/src/*.h", "apps/addonExamples/exampleOscReceiver/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_osc_include_dirs }
+	libdirs { va_link_dirs, va_osc_link_dirs }
+	links { "va", va_link_libs, "vaOsc", va_osc_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleOscReceiver/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleOscReceiver/bin/release"
+
+
+project "exampleOscSender"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleOscSender"
+	files { "apps/addonExamples/exampleOscSender/src/*.h", "apps/addonExamples/exampleOscSender/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_osc_include_dirs }
+	libdirs { va_link_dirs, va_osc_link_dirs }
+	links { "va", va_link_libs, "vaOsc", va_osc_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleOscSender/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleOscSender/bin/release"
+
+
+project "exampleSoundInstrument"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleSoundInstrument"
+	files { "apps/addonExamples/exampleSoundInstrument/src/*.h", "apps/addonExamples/exampleSoundInstrument/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_sound_include_dirs }
+	libdirs { va_link_dirs, va_sound_link_dirs }
+	links { "va", va_link_libs, "vaSound", va_sound_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleSoundInstrument/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleSoundInstrument/bin/release"
+
+
+project "exampleSoundSine"
+	kind "WindowedApp"
+	location "apps/addonExamples/exampleSoundSine"
+	files { "apps/addonExamples/exampleSoundSine/src/*.h", "apps/addonExamples/exampleSoundSine/src/*.cpp" }
+	
+	includedirs { va_include_dirs, va_sound_include_dirs }
+	libdirs { va_link_dirs, va_sound_link_dirs }
+	links { "va", va_link_libs, "vaSound", va_sound_link_libs }	
+	
+  configuration "Debug"
+    targetdir "apps/addonExamples/exampleSoundSine/bin/debug"
+ 
+  configuration "Release"
+    targetdir "apps/addonExamples/exampleSoundSine/bin/release"
+
+  configuration { "macosx" }
+		defines { "__MACOSX_CORE__", "__LITTLE_ENDIAN__" }
+
+  configuration { "linux" }
+		defines { "__LINUX_ALSA__", "__LINUX_ALSASEQ__", "__LITTLE_ENDIAN__" }
+		
+  configuration { "windows" }
+		defines { "__WINDOWS_DS__", "__WINDOWS_MM__", "__LITTLE_ENDIAN__" }
+		
+
 project "exampleTouchkitSimple"
 	kind "WindowedApp"
 	location "apps/addonExamples/exampleTouchkitSimple"
@@ -280,12 +779,81 @@ project "exampleTouchkitSimple"
   configuration "Release"
     targetdir "apps/addonExamples/exampleTouchkitSimple/bin/release"
 
+  configuration { "macosx" }
+		defines { "__MACOSX_CORE__", "__LITTLE_ENDIAN__" }
+
+  configuration { "linux" }
+		defines { "__LINUX_ALSA__", "__LINUX_ALSASEQ__", "__LITTLE_ENDIAN__" }
+		
+  configuration { "windows" }
+		defines { "__WINDOWS_DS__", "__WINDOWS_MM__", "__LITTLE_ENDIAN__" }
+		
 
 if _ACTION == "clean" then
+  os.rmdir("apps/addonExamples/exampleGestureWidget/bin")
+  os.rmdir("apps/addonExamples/exampleGestureWidget/obj")
+	os.rmdir("apps/addonExamples/exampleGestureWidget/exampleGestureWidget.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleGestureWidget/exampleGestureWidget.vcproj")
+
+  os.rmdir("apps/addonExamples/exampleMice/bin")
+  os.rmdir("apps/addonExamples/exampleMice/obj")
+	os.rmdir("apps/addonExamples/exampleMice/exampleMice.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleMice/exampleMice.vcproj")
+	
+  os.rmdir("apps/addonExamples/exampleMultipad/bin")
+  os.rmdir("apps/addonExamples/exampleMultipad/obj")
+	os.rmdir("apps/addonExamples/exampleMultipad/exampleMultipad.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleMultipad/exampleMultipad.vcproj")
+	
+  os.rmdir("apps/addonExamples/exampleMultipadGamepad/bin")
+  os.rmdir("apps/addonExamples/exampleMultipadGamepad/obj")
+	os.rmdir("apps/addonExamples/exampleMultipadGamepad/exampleMultipadGamepad.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleMultipadGamepad/exampleMultipadGamepad.vcproj")
+
+  os.rmdir("apps/addonExamples/exampleNetworkTcpClient/bin")
+  os.rmdir("apps/addonExamples/exampleNetworkTcpClient/obj")
+	os.rmdir("apps/addonExamples/exampleNetworkTcpClient/exampleNetworkTcpClient.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleNetworkTcpClient/exampleNetworkTcpClient.vcproj")
+			
+  os.rmdir("apps/addonExamples/exampleNetworkTcpServer/bin")
+  os.rmdir("apps/addonExamples/exampleNetworkTcpServer/obj")
+	os.rmdir("apps/addonExamples/exampleNetworkTcpServer/exampleNetworkTcpServer.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleNetworkTcpServer/exampleNetworkTcpServer.vcproj")
+			
+  os.rmdir("apps/addonExamples/exampleNetworkUdpReceiver/bin")
+  os.rmdir("apps/addonExamples/exampleNetworkUdpReceiver/obj")
+	os.rmdir("apps/addonExamples/exampleNetworkUdpReceiver/exampleNetworkUdpReceiver.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleNetworkUdpReceiver/exampleNetworkUdpReceiver.vcproj")
+			
+  os.rmdir("apps/addonExamples/exampleNetworkUdpSender/bin")
+  os.rmdir("apps/addonExamples/exampleNetworkUdpSender/obj")
+	os.rmdir("apps/addonExamples/exampleNetworkUdpSender/exampleNetworkUdpSender.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleNetworkUdpSender/exampleNetworkUdpSender.vcproj")
+			
   os.rmdir("apps/addonExamples/exampleOpenal/bin")
   os.rmdir("apps/addonExamples/exampleOpenal/obj")
 	os.rmdir("apps/addonExamples/exampleOpenal/exampleOpenal.xcodeproj")
 	os.rmdir("apps/addonExamples/exampleOpenal/exampleOpenal.vcproj")
+
+  os.rmdir("apps/addonExamples/exampleOscReceiver/bin")
+  os.rmdir("apps/addonExamples/exampleOscReceiver/obj")
+	os.rmdir("apps/addonExamples/exampleOscReceiver/exampleOscReceiver.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleOscReceiver/exampleOscReceiver.vcproj")
+	
+  os.rmdir("apps/addonExamples/exampleOscSender/bin")
+  os.rmdir("apps/addonExamples/exampleOscSender/obj")
+	os.rmdir("apps/addonExamples/exampleOscSender/exampleOscSender.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleOscSender/exampleOscSender.vcproj")	
+
+  os.rmdir("apps/addonExamples/exampleSoundInstrument/bin")
+  os.rmdir("apps/addonExamples/exampleSoundInstrument/obj")
+	os.rmdir("apps/addonExamples/exampleSoundInstrument/exampleSoundInstrument.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleSoundInstrument/exampleSoundInstrument.vcproj")	
+
+  os.rmdir("apps/addonExamples/exampleSoundSine/bin")
+  os.rmdir("apps/addonExamples/exampleSoundSine/obj")
+	os.rmdir("apps/addonExamples/exampleSoundSine/exampleSoundSine.xcodeproj")
+	os.rmdir("apps/addonExamples/exampleSoundSine/exampleSoundSine.vcproj")	
 
   os.rmdir("apps/addonExamples/exampleTouchkitSimple/bin")
   os.rmdir("apps/addonExamples/exampleTouchkitSimple/obj")
