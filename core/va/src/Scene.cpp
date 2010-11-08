@@ -97,6 +97,9 @@ Scene::Scene() {
     dataFilePathList.push_back("data/");
     dataFilePathList.push_back("../data/");
     dataFilePathList.push_back("../../../data/");
+    dataFilePathList.push_back("../../../../data/");       // global
+    dataFilePathList.push_back("../../../../../data/");    // global, OSX cmake bundle, VS9
+    dataFilePathList.push_back("../../../../../../data/"); // global
     osgDB::setDataFilePathList(dataFilePathList);
     //std::cout << "dataFilePathList" << std::endl;
     //for( unsigned int i=0; i<dataFilePathList.size(); i++ ) {
